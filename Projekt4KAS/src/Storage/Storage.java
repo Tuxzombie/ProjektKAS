@@ -25,7 +25,7 @@ public class Storage
 	}
 	
 	public static ArrayList<Hotel> getHoteller() {
-		return hoteller;
+		return new ArrayList<>(hoteller);
 	}
 	
 	//-----------------------------------------
