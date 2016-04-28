@@ -53,7 +53,7 @@ public class Storage
 	}
 	
 	public static ArrayList<Firma> getFirmaer() {
-		return firmaer;
+		return  new ArrayList<>(firmaer);
 	}
 	
 	//-----------------------------------------
@@ -67,6 +67,6 @@ public class Storage
 	}
 	
 	public static ArrayList<Deltager> getDeltagere() {
-		return deltagere;
+		return new ArrayList<>(deltagere);
 	}
 }
