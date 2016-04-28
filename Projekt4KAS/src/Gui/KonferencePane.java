@@ -84,6 +84,7 @@ public class KonferencePane extends GridPane {
         txaAdresse = new TextArea();
         txaAdresse.setMaxSize(FIELD_WIDTH, 80);
         txaAdresse.setMinSize(FIELD_WIDTH, 80);
+        txaAdresse.setEditable(false);
         this.add(txaAdresse, 2, 5);
         
         Label lblDeltagere = new Label("Deltagere:");
@@ -92,6 +93,7 @@ public class KonferencePane extends GridPane {
         txaDeltagere = new TextArea();
         txaDeltagere.setMaxSize(FIELD_WIDTH, 80);
         txaDeltagere.setMinSize(FIELD_WIDTH, 80);
+        txaDeltagere.setEditable(false);
         this.add(txaDeltagere, 2, 6);
         
         HBox hbxButtons = new HBox(40);
@@ -166,9 +168,9 @@ public class KonferencePane extends GridPane {
 
         Stage owner = (Stage) this.getScene().getWindow();
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Delete Employee");
+        alert.setTitle("Slet Miljøkonference");
         alert.initOwner(owner);
-        alert.setHeaderText("Are you sure?");
+        alert.setHeaderText("Er du sikker?");
 
         // Wait for the modal dialog to close
         Optional<ButtonType> result = alert.showAndWait();
@@ -192,34 +194,21 @@ public class KonferencePane extends GridPane {
         	txfTema.setText(konference.getTema());
         	txfStartDato.setText(konference.getStartDato().toString());
         	txfSlutDato.setText(konference.getSlutDato().toString());
-//        	txfInput[4].setText(konference.getAdresse().getVej());
-//        	txfInput[5].setText(""+konference.getAdresse().getNr());
-//        	txfInput[6].setText(konference.getAdresse().getEtage());
-//        	txfInput[7].setText(""+konference.getAdresse().getPostNr());
-//        	txfInput[8].setText(konference.getAdresse().getLand());
         	txaAdresse.setText(konference.getAdresse().toString());
         	
             StringBuilder sb = new StringBuilder();
             for (Tilmelding delt : konference.getTilmeldingliste()) {
-                sb.append(delt.getDeltager() + "\n");
+                sb.append(delt.getDeltager().getNavn() + "\n");
             }
             txaDeltagere.setText(sb.toString());
 
-//            if (konference.getCompany() != null) {
-//                txfCompany.setText("" + konference.getCompany());
-//                txfSalary.setText("kr " + konference.weeklySalary());
-//                txfEmploymentYear.setText(""+konference.getEmploymentYear());
-//            } else {
-//                txfCompany.clear();
-//                txfSalary.clear();
-//                txfEmploymentYear.clear();
-//            }
         } else {
         	txfTitel.clear();
         	txfTema.clear();
         	txfStartDato.clear();
         	txfSlutDato.clear();
         	txaAdresse.clear();
+        	txaDeltagere.clear();
         }
     }
 
