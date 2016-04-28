@@ -199,6 +199,12 @@ public class KonferencePane extends GridPane {
 //        	txfInput[8].setText(konference.getAdresse().getLand());
         	txaAdresse.setText(konference.getAdresse().toString());
         	
+            StringBuilder sb = new StringBuilder();
+            for (Tilmelding delt : konference.getTilmeldingliste()) {
+                sb.append(delt.getDeltager() + "\n");
+            }
+            txaDeltagere.setText(sb.toString());
+
 //            if (konference.getCompany() != null) {
 //                txfCompany.setText("" + konference.getCompany());
 //                txfSalary.setText("kr " + konference.weeklySalary());
