@@ -10,7 +10,11 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.time.LocalDate;
+
 import Model.*;
+import Service.*;
 
 public class KonferenceWindow extends Stage {
     private Miljøkonference konference;
@@ -50,7 +54,7 @@ public class KonferenceWindow extends Stage {
         pane.setGridLinesVisible(false);
 
         lblNames = new String[]{"Titel:", "Tema:", "Start Dato:", "Slut Dato:",  "Vej:", "Nr:", "Etage:"
-				, "Postnr:", "Land:"};
+				, "Postnr:", "By", "Land:"};
 		txfInput = new TextField[lblNames.length];
 		lblInput = new Label[lblNames.length];
 		
@@ -105,7 +109,8 @@ public class KonferenceWindow extends Stage {
         	txfInput[5].setText(""+konference.getAdresse().getNr());
         	txfInput[6].setText(konference.getAdresse().getEtage());
         	txfInput[7].setText(""+konference.getAdresse().getPostNr());
-        	txfInput[8].setText(konference.getAdresse().getLand());      	
+        	txfInput[8].setText(konference.getAdresse().getBy());
+        	txfInput[9].setText(konference.getAdresse().getLand());      	
         	
 
         } else {
@@ -119,6 +124,7 @@ public class KonferenceWindow extends Stage {
         	txfInput[6].clear();
         	txfInput[7].clear();
         	txfInput[8].clear();
+        	txfInput[9].clear();
         }
     }
 
@@ -129,29 +135,101 @@ public class KonferenceWindow extends Stage {
     }
 
     private void okAction() {
-        String name = txfName.getText().trim();
-        if (name.length() == 0) {
-            lblError.setText("Name is empty");
-            return;
-        }
+    	
+    	String titel = txfInput[0].getText().trim();
+    	String tema = txfInput[1].getText().trim();
+    	
+    	LocalDate startDato = null;
+    	try
+		{
+        	startDato = LocalDate.parse(txfInput[2].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+    	
+    	LocalDate slutDato = null;
+    	try
+		{
+        	slutDato = LocalDate.parse(txfInput[3].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
 
-        int hours = -1;
-        try {
-            hours = Integer.parseInt(txfHours.getText().trim());
-        } catch (NumberFormatException ex) {
-            // do nothing
-        }
-        if (hours < 0) {
-            lblError.setText("Hours is not a positive number");
+
+    	String vej = txfInput[4].getText().trim();
+    	
+    	int nr = -1;
+    	try
+		{
+        	nr = Integer.parseInt(txfInput[5].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+
+    	String etage = txfInput[6].getText().trim();
+    	
+    	int postNr = -1;
+    	try
+		{
+        	postNr = Integer.parseInt(txfInput[7].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+
+    	String by = txfInput[8].getText().trim(); 
+    	String land = txfInput[9].getText().trim();
+
+        if (titel.length() == 0) {
+            lblError.setText("Titel er tom");
             return;
         }
+        else if (tema.length() == 0)
+		{
+			lblError.setText("Tema er tom");
+			return;
+		}
+        else if (startDato == null)
+ 		{
+ 			lblError.setText("Start Dato er tom");
+ 			return;
+ 		}
+        else if (slutDato == null)
+		{
+			lblError.setText("Slut Dato er tom");
+			return;
+		}
+        else if (vej.length() == 0)
+		{
+			lblError.setText("Vej er tom");
+			return;
+		}
+        else if (postNr <=0)
+		{
+			lblError.setText("Post Nr er ugyldigt");
+			return;
+		}
+        else if (by.length() == 0)
+		{
+			lblError.setText("By er ugyldigt");
+			return;
+		}
+        else if (land.length() == 0)
+		{
+			lblError.setText("Land er tom");
+			return;
+		}
+        
 
         // Call service methods
-//        if (company != null) {
-//            Service.updateCompany(company, name, hours);
-//        } else {
-//            Service.createCompany(name, hours);
-//        }
+        if (konference != null) {
+            Service.updateMiljøkonference(konference, titel, tema, startDato, slutDato, vej, nr, etage, postNr, by, land);
+        } else {
+            Service.createMiljøkonference(titel, tema, startDato, slutDato, vej, nr, etage, postNr, by, land);
+        }
 
         this.hide();
     }

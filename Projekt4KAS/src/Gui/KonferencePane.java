@@ -44,7 +44,7 @@ public class KonferencePane extends GridPane {
         this.add(lvwKonference, 0, 1, 1, 6);
         lvwKonference.setMinSize(200, 330);
         lvwKonference.setMaxSize(200, 330);
-        lvwKonference.getItems().setAll(this.initAllKonfList());
+        lvwKonference.getItems().setAll(Service.getMiljøkonferencer());
         ChangeListener<Miljøkonference> listener =
             (ov, oldMiljøkonference, newMiljøkonference) -> this.selectedKonferenceChanged();
         lvwKonference.getSelectionModel().selectedItemProperty().addListener(listener);

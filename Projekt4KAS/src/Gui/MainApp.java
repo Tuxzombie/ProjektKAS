@@ -27,6 +27,13 @@ public class MainApp extends Application
 	{
 		Application.launch(args);
 	}
+	
+    @Override
+    public void init() {
+		Service.createMiljøkonference("Pikkens glæder", "Piknusning",
+				LocalDate.now(), LocalDate.now().plusDays(10), "SmåVænget",
+				13, null, 8000, "Århus", "Danmark");
+    }
 
 	@Override
 	public void start(Stage stage)
@@ -43,11 +50,6 @@ public class MainApp extends Application
 		
 		stageClone = stage;
 		
-		Service.createMiljøkonference("Pikkens glæder", "Piknusning",
-				LocalDate.now(), LocalDate.now().plusDays(10), "SmåVænget",
-				13, null, 8000, "Århus", "Danmark");
-		
-
 	}
 
 	// -------------------------------------------------------------------------

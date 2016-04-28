@@ -19,7 +19,7 @@ public class Adresse {
 	 * @param land
 	 * @param by
 	 */
-	public Adresse(String vej, int nr, String etage, int postNr, String land, String by)
+	public Adresse(String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		this.vej = vej;
 		this.nr = nr;
