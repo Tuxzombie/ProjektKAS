@@ -93,7 +93,7 @@ public class Service {
 		indkvartering.setHotelbooking(null);
 	}
 	
-	public ArrayList<Miljøkonference> getMiljøkonferencer() {
+	public static ArrayList<Miljøkonference> getMiljøkonferencer() {
 		return Storage.getMiljøkonferencer();
-	}
+	} 
 }
