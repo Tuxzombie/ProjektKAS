@@ -233,15 +233,15 @@ public class DeltagerPane extends GridPane
 
 		Stage owner = (Stage) this.getScene().getWindow();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete Employee");
+		alert.setTitle("Slet Deltager");
 		alert.initOwner(owner);
-		alert.setHeaderText("Are you sure?");
+		alert.setHeaderText("Er du sikker?");
 
 		// Wait for the modal dialog to close
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.isPresent() && result.get() == ButtonType.OK)
 		{
-			// Service.deleteDeltager(deltager);
+			Service.deleteDeltager(deltager);
 			lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
 			this.updateControls();
 		}

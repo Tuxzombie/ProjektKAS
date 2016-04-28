@@ -151,7 +151,7 @@ public class KonferencePane extends GridPane {
         if (konference == null)
             return;
 
-        KonferenceWindow dia = new KonferenceWindow("Update Employee", konference);
+        KonferenceWindow dia = new KonferenceWindow("Opdater Miljøkonference", konference);
         dia.showAndWait();
 
         // Wait for the modal dialog to close
