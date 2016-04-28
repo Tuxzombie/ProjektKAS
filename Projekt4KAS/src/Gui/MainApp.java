@@ -41,7 +41,6 @@ public class MainApp extends Application
 		
 		stageClone = stage;
 		
-		Service.createDeltager();
 
 	}
 
