@@ -3,6 +3,7 @@ package Gui;
 
 import Model.Adresse;
 import Model.Deltager;
+import Model.Prisgruppe;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -47,20 +48,16 @@ public class DeltagerWindow extends Stage
     private Label[] lblInput;
     private String[] lblNames;
 
-    //private Movie actualMovie = null;
-    
-    // -------------------------------------------------------------------------
+     // -------------------------------------------------------------------------
     private void initContent(GridPane pane) {
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(20));
         pane.setHgap(10);
         pane.setVgap(10);
         
-
-        lblNames = new String[]{"Deltagernavn:", "Adresse:", "Vej:", "Nr:", "Etage:"
-        				, "Postnr:", "Land:", "Ankomstdato:" , "Firmanavn:"
-        				, "Foredragsholder:", "Tlf.nr.:", "Afrejsedato:"
-        				, "Firma tlf.nr.:"};
+        lblNames = new String[]{"Deltagernavn:", "Vej:", "Nr:", "Etage:"
+        				, "Postnr:", "Land:", "Ankomstdato:", "Afrejsedato:" , "Firmanavn:"
+        				, "Foredragsholder:", "Tlf.nr.:", "Firma tlf.nr.:"};
         txfInput = new TextField[lblNames.length];
         lblInput = new Label[lblNames.length];
         
