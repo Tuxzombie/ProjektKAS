@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
+import java.util.IllegalFormatException;
 
 import Model.*;
 import Service.*;
@@ -92,7 +93,7 @@ public class KonferenceWindow extends Stage {
 
 
         lblError = new Label();
-        pane.add(lblError, 0, 5);
+        pane.add(lblError, 0, MAX_ROWS+2, 2, 1);
         lblError.setStyle("-fx-text-fill: red");
 
         this.initControls();
@@ -168,7 +169,7 @@ public class KonferenceWindow extends Stage {
 		{
 			// do nothing
 		}
-
+    	
     	String etage = txfInput[6].getText().trim();
     	
     	int postNr = -1;
