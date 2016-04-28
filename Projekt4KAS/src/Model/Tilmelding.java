@@ -90,7 +90,7 @@ public class Tilmelding {
 	 * @return samletPris
 	 */
 	public double udregnSamletPris() {
-		double samletPris = deltager.getPrisgruppe().getPris() + getIndkvartering().getHotelbooking().udregnHotelPris();
+		double samletPris = deltager.getPrisgruppe().getPris() * this.getPeriode() + getIndkvartering().getHotelbooking().udregnHotelPris();
 		return samletPris;
 	}
 

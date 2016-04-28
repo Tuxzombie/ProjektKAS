@@ -125,8 +125,8 @@ public class Service {
 		miljøkonference.getAdresse().setBy(by);
 		miljøkonference.getAdresse().setEtage(etage);
 		miljøkonference.getAdresse().setLand(land);
-		miljøkonference.getAdresse().setNr(postNr);
 		miljøkonference.getAdresse().setPostNr(postNr);
+		miljøkonference.getAdresse().setNr(nr);
 		miljøkonference.getAdresse().setVej(vej);
 	}
 	
