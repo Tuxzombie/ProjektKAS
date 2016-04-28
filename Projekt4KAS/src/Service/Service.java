@@ -246,6 +246,21 @@ public class Service
 
 	public static void initStorage()
 	{
+		String[] randomNames = {"Birger Alexandersen", "Adam Petersen", "Gregers Lange",
+								"Gudmund Ludvigsen", "Jan Øster", "Anika Kristoffersen",
+								"Tine Carlsen", "Theresa Clausen", "Lisa Karstensen",
+								"Kathrine Andersen"};
+		
+		int[] randomPhoneNumbers = {18555528, 34257565, 36274267, 19076495, 3297775, 20994117,
+								30008293, 37850838, 26610540, 15630569, 4494637};
+		
+		String[] randomVej = { "A.N. Hansens Alle", "Richelieus Alle", "Hambros Alle",
+								"Lærkevej", "Engvej", "Møllevej", "Vibevej", "Vinkelvej",
+								"Kirkevej", "Strandvejen"};
+		
+		int[] randomPostNr = {7019, 8309, 4472, 6766, 3476, 3132, 2555, 5124, 5764, 6979};
+//		Service.createDeltager(randomNames[i], randomPhoneNumbers[], prisgruppe, vej, nr, etage, randomPostNr[i], by, land)
+	
 		Hotel hotelDenHvideSvane = Service.createHotel("Den Hvide Svane", 100, 150, "Vestergade", 2, "", 9000, "Danmark", "Aalborg");
 		Miljøkonference miljøkonference = Service.createMiljøkonference("Hav og himmel", "Havet", LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), "Hovedgaden", 12, "1. th.", 8200, "Aarhus N", "Danmark");
 		Miljøkonference miljøkonference1 = Service.createMiljøkonference("Ib's Mågehjælp", "Min fod", LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), "Over Skuderen", 102, "", 8000, "Aarhus C", "Danmark");
