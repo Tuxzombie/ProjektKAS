@@ -35,7 +35,11 @@ public class KonferenceWindow extends Stage {
     }
 
     // -------------------------------------------------------------------------
+    private TextField[] txfInput;
+    private Label[] lblInput;
+    private String[] lblNames;
 
+    //--------------------------------------------------------------------------
     private TextField txfName, txfHours;
     private Label lblError;
 
@@ -45,28 +49,43 @@ public class KonferenceWindow extends Stage {
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
 
-        Label lblName = new Label("Name");
-        pane.add(lblName, 0, 0);
+        lblNames = new String[]{"Titel:", "Tema:", "Start Dato:", "Slut Dato:",  "Vej:", "Nr:", "Etage:"
+				, "Postnr:", "Land:"};
+		txfInput = new TextField[lblNames.length];
+		lblInput = new Label[lblNames.length];
+		
+		final int MAX_ROWS = 6;
+		
+		for (int i = 0; i < lblNames.length; i++)
+		{
+			if (i < MAX_ROWS)
+			{
+				lblInput[i] = new Label(lblNames[i]);
+				pane.add(lblInput[i], 0, i);
+				
+				txfInput[i] = new TextField();
+				pane.add(txfInput[i], 1, i);
+			}
+			else
+			{
+				lblInput[i] = new Label(lblNames[i]);
+				pane.add(lblInput[i], 2, i-MAX_ROWS);
+				
+				txfInput[i] = new TextField();
+				pane.add(txfInput[i], 3, i-MAX_ROWS);
+				
+			}
+		
+		}
+		
+		Button btnOK = new Button("OK");
+		pane.add(btnOK, 0, MAX_ROWS+1);
+		btnOK.setOnAction(event -> this.okAction());
+		
+		Button btnCancel = new Button("Cancel");
+		pane.add(btnCancel, 1, MAX_ROWS+1);
+		btnCancel.setOnAction(event -> this.cancelAction());
 
-        txfName = new TextField();
-        pane.add(txfName, 0, 1);
-        txfName.setPrefWidth(200);
-
-        Label lblHours = new Label("Weekly Hours");
-        pane.add(lblHours, 0, 2);
-
-        txfHours = new TextField();
-        pane.add(txfHours, 0, 3);
-
-        Button btnCancel = new Button("Cancel");
-        pane.add(btnCancel, 0, 4);
-        GridPane.setHalignment(btnCancel, HPos.LEFT);
-        btnCancel.setOnAction(event -> this.cancelAction());
-
-        Button btnOK = new Button("OK");
-        pane.add(btnOK, 0, 4);
-        GridPane.setHalignment(btnOK, HPos.RIGHT);
-        btnOK.setOnAction(event -> this.okAction());
 
         lblError = new Label();
         pane.add(lblError, 0, 5);
@@ -76,13 +95,31 @@ public class KonferenceWindow extends Stage {
     }
 
     private void initControls() {
-//        if (company != null) {
-//            txfName.setText(company.getName());
-//            txfHours.setText("" + company.getHours());
-//        } else {
-//            txfName.clear();
-//            txfHours.clear();
-//        }
+        if (konference != null) {
+        	
+        	txfInput[0].setText(konference.getTitel());
+        	txfInput[1].setText(konference.getTema());
+        	txfInput[2].setText(konference.getStartDato().toString());
+        	txfInput[3].setText(konference.getSlutDato().toString());
+        	txfInput[4].setText(konference.getAdresse().getVej());
+        	txfInput[5].setText(""+konference.getAdresse().getNr());
+        	txfInput[6].setText(konference.getAdresse().getEtage());
+        	txfInput[7].setText(""+konference.getAdresse().getPostNr());
+        	txfInput[8].setText(konference.getAdresse().getLand());      	
+        	
+
+        } else {
+        	
+        	txfInput[0].clear();
+        	txfInput[1].clear();
+        	txfInput[2].clear();
+        	txfInput[3].clear();
+        	txfInput[4].clear();
+        	txfInput[5].clear();
+        	txfInput[6].clear();
+        	txfInput[7].clear();
+        	txfInput[8].clear();
+        }
     }
 
     // -------------------------------------------------------------------------
