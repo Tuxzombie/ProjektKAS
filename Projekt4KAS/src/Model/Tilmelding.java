@@ -81,13 +81,16 @@ public class Tilmelding {
 		this.slutDato = slutDato;
 	}
 	
+	public Indkvartering getIndkvartering() {
+		return this.indkvartering;
+	}
+	
 	/**
 	 * Metode til at udregne den samlede pris for deltageren.
 	 * @return samletPris
 	 */
 	public double udregnSamletPris() {
-		double samletPris = 0.0;
-		//TODO 
+		double samletPris = deltager.getPrisgruppe().getPris() + getIndkvartering().getHotelbooking().udregnHotelPris();
 		return samletPris;
 	}
 
