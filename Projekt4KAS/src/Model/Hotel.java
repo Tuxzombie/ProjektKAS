@@ -26,6 +26,10 @@ public class Hotel
 		faciliteter = new ArrayList<Facilitet>();
 		hotelbookinger = new ArrayList<Hotelbooking>();
 	}
+	
+	public Adresse getAdresse() {
+		return this.adresse;
+	}
 
 	/**
 	 * 

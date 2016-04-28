@@ -93,7 +93,28 @@ public class Service {
 		indkvartering.setHotelbooking(null);
 	}
 	
+	public static void updateHotelbooking(Hotelbooking hotelbooking, Hotel hotel, Indkvartering indkvartering, boolean isDobbeltVærelse) {
+		hotelbooking.setDobbeltVærelse(isDobbeltVærelse);
+		hotelbooking.setHotel(hotel);
+		hotelbooking.setIndkvartering(indkvartering);
+	}
+	
+	public static void updateHotel(Hotel hotel, String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String land, String by) {
+		hotel.setNavn(navn);
+		hotel.setPrisDobbeltVærelse(prisDobbeltVærelse);
+		hotel.setPrisEnkeltVærelse(prisEnkeltVærelse);
+		
+	}
+	
+	public static void addFacilitetToHotelbooking(Hotelbooking hotelbooking, Facilitet facilitet) {
+		if(hotelbooking.getHotel().getFaciliteter().contains(facilitet)) {
+			hotelbooking.addFacilitet(facilitet);
+		}
+	}
+	
 	public static ArrayList<Miljøkonference> getMiljøkonferencer() {
 		return Storage.getMiljøkonferencer();
-	} 
+	}
+	
+	
 }
