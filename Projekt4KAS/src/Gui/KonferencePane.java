@@ -125,9 +125,9 @@ public class KonferencePane extends GridPane {
 
     private ArrayList<Miljøkonference> initAllKonfList() {
         ArrayList<Miljøkonference> list = new ArrayList<>();
-//        for (Miljøkonference konf : Service.getMiljøkonference()) {
-//            list.add(konf);
-//        }
+        for (Miljøkonference konf : Service.getMiljøkonference()) {
+            list.add(konf);
+        }
         return list;
     }
 
