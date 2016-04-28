@@ -198,6 +198,7 @@ public class KonferencePane extends GridPane {
 //        	txfInput[7].setText(""+konference.getAdresse().getPostNr());
 //        	txfInput[8].setText(konference.getAdresse().getLand());
         	txaAdresse.setText(konference.getAdresse().toString());
+        	
 //            if (konference.getCompany() != null) {
 //                txfCompany.setText("" + konference.getCompany());
 //                txfSalary.setText("kr " + konference.weeklySalary());
