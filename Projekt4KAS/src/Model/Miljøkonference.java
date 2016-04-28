@@ -39,6 +39,14 @@ public class Miljøkonference
 		this.adresse = new Adresse(vej, nr, etage, postNr, by, land);
 	}
 	
+		
+		
+	@Override
+	public String toString()
+	{
+		return titel;
+	}
+
 	/**
 	 * Metode til at oprette foredrag og tilføje foredraget til listen over miljekonferencens foredrag
 	 * 

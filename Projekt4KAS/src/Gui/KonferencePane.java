@@ -125,9 +125,9 @@ public class KonferencePane extends GridPane {
 
     private ArrayList<Miljøkonference> initAllKonfList() {
         ArrayList<Miljøkonference> list = new ArrayList<>();
-//        for (Miljøkonference konf : Service.getMiljøkonference()) {
-//            list.add(konf);
-//        }
+        for (Miljøkonference konf : Service.getMiljøkonferencer()) {
+            list.add(konf);
+        }
         return list;
     }
 
@@ -173,7 +173,7 @@ public class KonferencePane extends GridPane {
         // Wait for the modal dialog to close
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-//            Service.deleteMiljøkonference(konference);
+            Service.deleteMiljøkonference(konference);
             lvwKonference.getItems().setAll(this.initAllKonfList());
             this.updateControls();
         }
@@ -186,27 +186,33 @@ public class KonferencePane extends GridPane {
     }
 
     public void updateControls() {
-//        Employee employee = lvwKonference.getSelectionModel().getSelectedItem();
-//        if (employee != null) {
-//            txfName.setText(employee.getName());
-//            txfWage.setText("kr " + employee.getWage());
-//            //txfEmploymentYear.setText(""+employee.getEmploymentYear());
-//            if (employee.getCompany() != null) {
-//                txfCompany.setText("" + employee.getCompany());
-//                txfSalary.setText("kr " + employee.weeklySalary());
-//                txfEmploymentYear.setText(""+employee.getEmploymentYear());
+        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+        if (konference != null) {
+        	txfTitel.setText(konference.getTitel());
+        	txfTema.setText(konference.getTema());
+        	txfStartDato.setText(konference.getStartDato().toString());
+        	txfSlutDato.setText(konference.getSlutDato().toString());
+//        	txfInput[4].setText(konference.getAdresse().getVej());
+//        	txfInput[5].setText(""+konference.getAdresse().getNr());
+//        	txfInput[6].setText(konference.getAdresse().getEtage());
+//        	txfInput[7].setText(""+konference.getAdresse().getPostNr());
+//        	txfInput[8].setText(konference.getAdresse().getLand());
+        	txaAdresse.setText(konference.getAdresse().toString());
+//            if (konference.getCompany() != null) {
+//                txfCompany.setText("" + konference.getCompany());
+//                txfSalary.setText("kr " + konference.weeklySalary());
+//                txfEmploymentYear.setText(""+konference.getEmploymentYear());
 //            } else {
 //                txfCompany.clear();
 //                txfSalary.clear();
 //                txfEmploymentYear.clear();
 //            }
-//        } else {
-//            txfName.clear();
-//            txfWage.clear();
-//            txfCompany.clear();
-//            txfSalary.clear();
-//            txfEmploymentYear.clear();
-//        }
+        } else {
+        	txfTitel.clear();
+        	txfTema.clear();
+        	txfStartDato.clear();
+        	txfSlutDato.clear();
+        }
     }
 
 }

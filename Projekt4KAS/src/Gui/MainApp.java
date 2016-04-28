@@ -13,6 +13,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import Service.*;
 
+import java.time.LocalDate;
+
 import javax.swing.text.TabableView;
 
 import Model.*;
@@ -40,6 +42,10 @@ public class MainApp extends Application
 		stage.show();
 		
 		stageClone = stage;
+		
+		Service.createMiljøkonference("Pikkens glæder", "Piknusning",
+				LocalDate.now(), LocalDate.now().plusDays(10), "SmåVænget",
+				13, null, 8000, "Århus", "Danmark");
 		
 
 	}

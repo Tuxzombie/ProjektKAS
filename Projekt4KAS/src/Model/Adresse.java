@@ -29,6 +29,16 @@ public class Adresse {
 		this.by = by;
 	}
 
+	
+	
+	@Override
+	public String toString()
+	{
+		return  vej +" "+ nr + ", " + etage + "\n" + postNr + " " + by +"\n" + land;
+	}
+
+
+
 	/**
 	 * @return vej
 	 */
