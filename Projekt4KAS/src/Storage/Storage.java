@@ -38,8 +38,8 @@ public class Storage
 		miljøkonferencer.remove(miljøkonference);
 	}
 	
-	public static ArrayList<Miljøkonference> getMiljøkonference() {
-		return miljøkonferencer;
+	public static ArrayList<Miljøkonference> getMiljøkonferencer() {
+		return new ArrayList<>(miljøkonferencer);
 	}
 	
 	//-----------------------------------------

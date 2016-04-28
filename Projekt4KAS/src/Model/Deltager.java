@@ -11,6 +11,7 @@ public class Deltager
 	private Ledsager ledsager;
 	private ArrayList<Tilmelding> tilmeldinger;
 	private Prisgruppe prisgruppe;
+	private Firma firma;
 
 	/**
 	 * @param navn
@@ -26,6 +27,18 @@ public class Deltager
 		this.adresse = new Adresse(vej, nr, etage, postNr, land, by);
 		this.telefonNr = telefonNr;
 		this.prisgruppe = prisgruppe;
+	}
+
+	public Firma getFirma() {
+		return firma;
+	}
+
+	public void setFirma(Firma firma) {
+		this.firma = firma;
+	}
+
+	public void setTilmeldinger(ArrayList<Tilmelding> tilmeldinger) {
+		this.tilmeldinger = tilmeldinger;
 	}
 
 	/**

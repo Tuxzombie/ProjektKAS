@@ -1,5 +1,6 @@
 package Service;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import Model.*;
 import Storage.Storage;
@@ -37,12 +38,31 @@ public class Service {
 		return newHotelbooking;
 	}
 
-	public static void createIndkvartering(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land, Hotelbooking hotelbooking) {
+	public static Indkvartering createIndkvartering(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land, Hotelbooking hotelbooking) {
 		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato, vej, nr, etage, postNr, by, land, hotelbooking);
-		// TODO
+		return newIndkvartering;
+	}
+	
+	public static Ledsager createLedsager(String navn, Deltager deltager) {
+		Ledsager newLedsager = new Ledsager(navn, deltager);
+		deltager.setLedsager(newLedsager);
+		return newLedsager;
+	}
+	
+	public static Udflugt createUdflugt(Miljøkonference miljøkonference, String lokalitet, String beskrivelse, double pris, LocalDate startDato, LocalDate slutDato, boolean hasFrokost) {
+		Udflugt newUdflugt = miljøkonference.createUdflugt(lokalitet, beskrivelse, pris, startDato, slutDato, hasFrokost);
+		return newUdflugt;
+	}
+	
+	public static Prisgruppe createPrisgruppe(Miljøkonference miljøkonference, String navn, double pris) {
+		Prisgruppe newPrisgruppe = miljøkonference.createPrisgruppe(navn, pris);
+		return newPrisgruppe;
 	}
 
 	public static void deleteHotel(Hotel hotel) {
+		for (Hotelbooking hotelbooking: hotel.getHotelbookinger()) {
+			hotelbooking.getIndkvartering().setHotelbooking(null);
+		}
 		Storage.removeHotel(hotel);
 	}
 
@@ -51,10 +71,16 @@ public class Service {
 	}
 
 	public static void deleteFirma(Firma firma) {
+		for (Deltager deltager : firma.getMedarbejdere()) {
+			deltager.setFirma(null);
+		}
 		Storage.removeFirma(firma);
 	}
 
 	public static void deleteDeltager(Deltager deltager) {
+		for (Tilmelding tilmelding : deltager.getTilmeldinger()) {
+			tilmelding.setDeltager(null);
+		}
 		Storage.removeDeltager(deltager);
 	}
 
@@ -63,7 +89,11 @@ public class Service {
 		hotelbooking.getIndkvartering().setHotelbooking(null);
 	}
 
-	public static void deleteIndkvartering() {
-		//TODO
+	public static void deleteIndkvartering(Indkvartering indkvartering) {
+		indkvartering.setHotelbooking(null);
+	}
+	
+	public ArrayList<Miljøkonference> getMiljøkonferencer() {
+		return Storage.getMiljøkonferencer();
 	}
 }
