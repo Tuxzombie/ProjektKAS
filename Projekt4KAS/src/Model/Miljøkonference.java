@@ -36,6 +36,8 @@ public class Miljøkonference
 		this.tema = tema;
 		this.startDato = startDato;
 		this.slutDato = slutDato;
+		prisgrupper = new ArrayList<>();
+		tilmeldinger = new ArrayList<>();
 		this.adresse = new Adresse(vej, nr, etage, postNr, by, land);
 	}
 	
@@ -86,7 +88,7 @@ public class Miljøkonference
 	 */
 	public Prisgruppe createPrisgruppe(String navn, double pris) {
 		Prisgruppe newPrisgruppe = new Prisgruppe(navn, pris);
-		prisgrupper.add(newPrisgruppe);
+		this.prisgrupper.add(newPrisgruppe);
 		return newPrisgruppe;
 	}
 	
