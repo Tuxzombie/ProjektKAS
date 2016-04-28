@@ -158,48 +158,48 @@ public class HotelPane extends GridPane {
     }
     
     private void createHotelAction() {
-////        EmployeeWindow dia = new EmployeeWindow("Create Employee");
-////        dia.showAndWait();
-//
-//        // Wait for the modal dialog to close
-//
-//        lvwKonference.getItems().setAll(this.initAllKonfList());
-//        this.updateControls();
+        HotelWindow dia = new HotelWindow("Opret Hotel");
+        dia.showAndWait();
+
+        // Wait for the modal dialog to close
+
+        lvwHoteller.getItems().setAll(this.initAllHotelList());
+        this.updateControls();
     }
 
     private void updateHotelAction() {
-//        Employee employee = lvwKonference.getSelectionModel().getSelectedItem();
-//        if (employee == null)
-//            return;
-//
-//        EmployeeWindow dia = new EmployeeWindow("Update Employee", employee);
-//        dia.showAndWait();
-//
-//        // Wait for the modal dialog to close
-//
-//        int selectIndex = lvwKonference.getSelectionModel().getSelectedIndex();
-//        lvwKonference.getItems().setAll(this.initAllKonfList());
-//        lvwKonference.getSelectionModel().select(selectIndex);
+        Hotel hotel = lvwHoteller.getSelectionModel().getSelectedItem();
+        if (hotel == null)
+            return;
+
+        HotelWindow dia = new HotelWindow("Update Employee", hotel);
+        dia.showAndWait();
+
+        // Wait for the modal dialog to close
+
+        int selectIndex = lvwHoteller.getSelectionModel().getSelectedIndex();
+        lvwHoteller.getItems().setAll(this.initAllHotelList());
+        lvwHoteller.getSelectionModel().select(selectIndex);
     }
 
     private void deleteHotelAction() {
-//        Employee employee = lvwKonference.getSelectionModel().getSelectedItem();
-//        if (employee == null)
-//            return;
-//
-//        Stage owner = (Stage) this.getScene().getWindow();
-//        Alert alert = new Alert(AlertType.CONFIRMATION);
-//        alert.setTitle("Delete Employee");
-//        alert.initOwner(owner);
-//        alert.setHeaderText("Are you sure?");
-//
-//        // Wait for the modal dialog to close
-//        Optional<ButtonType> result = alert.showAndWait();
-//        if (result.isPresent() && result.get() == ButtonType.OK) {
-//            Service.deleteEmployee(employee);
-//            lvwKonference.getItems().setAll(this.initAllKonfList());
-//            this.updateControls();
-//        }
+    	Hotel hotel = lvwHoteller.getSelectionModel().getSelectedItem();
+        if (hotel == null)
+            return;
+
+        Stage owner = (Stage) this.getScene().getWindow();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Delete Employee");
+        alert.initOwner(owner);
+        alert.setHeaderText("Are you sure?");
+
+        // Wait for the modal dialog to close
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+//            Service.deleteHotel(hotel);
+            lvwHoteller.getItems().setAll(this.initAllHotelList());
+            this.updateControls();
+        }
     }
 
     // -------------------------------------------------------------------------

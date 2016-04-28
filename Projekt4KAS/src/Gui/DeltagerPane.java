@@ -47,7 +47,7 @@ public class DeltagerPane extends GridPane
 		this.add(lvwDeltagere, 0, 1, 1, 6);
 		lvwDeltagere.setMinSize(200, 330);
 		lvwDeltagere.setMaxSize(200, 330);
-		lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
+		//lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
 		ChangeListener<Deltager> listener = (ov, oldDeltager, newDeltager) -> this.selectedDeltagerChanged();
 		lvwDeltagere.getSelectionModel().selectedItemProperty().addListener(listener);
 
@@ -131,7 +131,7 @@ public class DeltagerPane extends GridPane
 		btnCreateLedsager.setMinWidth(80);
 		btnCreateLedsager.setTextAlignment(TextAlignment.CENTER);
 		hbxButtons.getChildren().add(btnCreateLedsager);
-		btnCreateLedsager.setDisable(true);
+		btnCreateLedsager.setDisable(false);
 		btnCreateLedsager.setOnAction(event -> this.createLedsagerAction());
 
 		Button btnDeleteLedsager = new Button("Slet \nLedsager");
@@ -149,7 +149,7 @@ public class DeltagerPane extends GridPane
 		btnCreateFirma.setMinWidth(80);
 		btnCreateFirma.setTextAlignment(TextAlignment.CENTER);
 		hbxButtons2.getChildren().add(btnCreateFirma);
-		btnCreateFirma.setDisable(true);
+		btnCreateFirma.setDisable(false);
 		btnCreateFirma.setOnAction(event -> this.createFirmaAction());
 
 		Button btnDeleteFirma = new Button("Slet \nFirma");
@@ -168,17 +168,18 @@ public class DeltagerPane extends GridPane
 	private ArrayList<Deltager> initAllDeltagerList()
 	{
 		ArrayList<Deltager> list = new ArrayList<>();
-		for (Deltager delt : Service.getDeltagere())
-		{
-			list.add(delt);
-		}
+//		for (Deltager delt : Service.getDeltagere())
+//		{
+//			list.add(delt);
+//		}
 		return list;
 	}
 
 	// -------------------------------------------------------------------------
 	private void createFirmaAction()
 	{
-
+		FirmaWindow dia = new FirmaWindow("Opret Firma");
+		dia.showAndWait();
 	}
 
 	private void deleteFirmaAction()
@@ -188,7 +189,8 @@ public class DeltagerPane extends GridPane
 
 	private void createLedsagerAction()
 	{
-
+		LedsagerWindow dia = new LedsagerWindow("Opret Ledsager");
+		dia.showAndWait();
 	}
 
 	private void deleteLedsagerAction()
@@ -225,24 +227,23 @@ public class DeltagerPane extends GridPane
 
 	private void deleteActionDeltager()
 	{
-		// Employee employee =
-		// lvwKonference.getSelectionModel().getSelectedItem();
-		// if (employee == null)
-		// return;
-		//
-		// Stage owner = (Stage) this.getScene().getWindow();
-		// Alert alert = new Alert(AlertType.CONFIRMATION);
-		// alert.setTitle("Delete Employee");
-		// alert.initOwner(owner);
-		// alert.setHeaderText("Are you sure?");
-		//
-		// // Wait for the modal dialog to close
-		// Optional<ButtonType> result = alert.showAndWait();
-		// if (result.isPresent() && result.get() == ButtonType.OK) {
-		// Service.deleteEmployee(employee);
-		// lvwKonference.getItems().setAll(this.initAllKonfList());
-		// this.updateControls();
-		// }
+		 Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
+		 if (deltager == null)
+		 return;
+		
+		 Stage owner = (Stage) this.getScene().getWindow();
+		 Alert alert = new Alert(AlertType.CONFIRMATION);
+		 alert.setTitle("Delete Employee");
+		 alert.initOwner(owner);
+		 alert.setHeaderText("Are you sure?");
+		
+		 // Wait for the modal dialog to close
+		 Optional<ButtonType> result = alert.showAndWait();
+		 if (result.isPresent() && result.get() == ButtonType.OK) {
+//		 Service.deleteDeltager(deltager);
+		 lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
+		 this.updateControls();
+		 }
 	}
 
 	// -------------------------------------------------------------------------

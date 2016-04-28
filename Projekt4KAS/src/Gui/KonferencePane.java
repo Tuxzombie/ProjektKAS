@@ -135,48 +135,48 @@ public class KonferencePane extends GridPane {
 
 
     private void createKonferenceAction() {
-////        EmployeeWindow dia = new EmployeeWindow("Create Employee");
-////        dia.showAndWait();
-//
-//        // Wait for the modal dialog to close
-//
-//        lvwKonference.getItems().setAll(this.initAllKonfList());
-//        this.updateControls();
+        KonferenceWindow dia = new KonferenceWindow("Opret Miljøkonference");
+        dia.showAndWait();
+
+        // Wait for the modal dialog to close
+
+        lvwKonference.getItems().setAll(this.initAllKonfList());
+        this.updateControls();
     }
 
     private void updateKonferenceAction() {
-//        Employee employee = lvwKonference.getSelectionModel().getSelectedItem();
-//        if (employee == null)
-//            return;
-//
-//        EmployeeWindow dia = new EmployeeWindow("Update Employee", employee);
-//        dia.showAndWait();
-//
-//        // Wait for the modal dialog to close
-//
-//        int selectIndex = lvwKonference.getSelectionModel().getSelectedIndex();
-//        lvwKonference.getItems().setAll(this.initAllKonfList());
-//        lvwKonference.getSelectionModel().select(selectIndex);
+        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+        if (konference == null)
+            return;
+
+        KonferenceWindow dia = new KonferenceWindow("Update Employee", konference);
+        dia.showAndWait();
+
+        // Wait for the modal dialog to close
+
+        int selectIndex = lvwKonference.getSelectionModel().getSelectedIndex();
+        lvwKonference.getItems().setAll(this.initAllKonfList());
+        lvwKonference.getSelectionModel().select(selectIndex);
     }
 
     private void deleteKonferenceAction() {
-//        Employee employee = lvwKonference.getSelectionModel().getSelectedItem();
-//        if (employee == null)
-//            return;
-//
-//        Stage owner = (Stage) this.getScene().getWindow();
-//        Alert alert = new Alert(AlertType.CONFIRMATION);
-//        alert.setTitle("Delete Employee");
-//        alert.initOwner(owner);
-//        alert.setHeaderText("Are you sure?");
-//
-//        // Wait for the modal dialog to close
-//        Optional<ButtonType> result = alert.showAndWait();
-//        if (result.isPresent() && result.get() == ButtonType.OK) {
-//            Service.deleteEmployee(employee);
-//            lvwKonference.getItems().setAll(this.initAllKonfList());
-//            this.updateControls();
-//        }
+    	Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+        if (konference == null)
+            return;
+
+        Stage owner = (Stage) this.getScene().getWindow();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Delete Employee");
+        alert.initOwner(owner);
+        alert.setHeaderText("Are you sure?");
+
+        // Wait for the modal dialog to close
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+//            Service.deleteMiljøkonference(konference);
+            lvwKonference.getItems().setAll(this.initAllKonfList());
+            this.updateControls();
+        }
     }
 
     // -------------------------------------------------------------------------

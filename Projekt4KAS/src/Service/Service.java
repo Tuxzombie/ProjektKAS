@@ -25,8 +25,8 @@ public class Service {
 
 	public static void createDeltager() {
 		// TODO - implement Service.createDeltager
-		Deltager newDeltager = new Deltager("ib", null, 123123, null, null, null, null);
-		deltagere.add(newDeltager);
+//		Deltager newDeltager = new Deltager("ib", null, 123123, null, null, null, null);
+//		deltagere.add(newDeltager);
 		
 	}
 
