@@ -112,7 +112,7 @@ public class Service {
 		hotel.getAdresse().setBy(by);
 		hotel.getAdresse().setEtage(etage);
 		hotel.getAdresse().setLand(land);
-		hotel.getAdresse().setNr(postNr);
+		hotel.getAdresse().setNr(nr);
 		hotel.getAdresse().setPostNr(postNr);
 		hotel.getAdresse().setVej(vej);
 	}
@@ -136,7 +136,7 @@ public class Service {
 		firma.getAdresse().setBy(by);
 		firma.getAdresse().setEtage(etage);
 		firma.getAdresse().setLand(land);
-		firma.getAdresse().setNr(postNr);
+		firma.getAdresse().setNr(nr);
 		firma.getAdresse().setPostNr(postNr);
 		firma.getAdresse().setVej(vej);
 	}
@@ -148,7 +148,7 @@ public class Service {
 		deltager.getAdresse().setBy(by);
 		deltager.getAdresse().setEtage(etage);
 		deltager.getAdresse().setLand(land);
-		deltager.getAdresse().setNr(postNr);
+		deltager.getAdresse().setNr(nr);
 		deltager.getAdresse().setPostNr(postNr);
 		deltager.getAdresse().setVej(vej);
 		if(ledsager != null) { deltager.setLedsager(ledsager); }
@@ -162,7 +162,7 @@ public class Service {
 		indkvartering.getAdresse().setBy(by);
 		indkvartering.getAdresse().setEtage(etage);
 		indkvartering.getAdresse().setLand(land);
-		indkvartering.getAdresse().setNr(postNr);
+		indkvartering.getAdresse().setNr(nr);
 		indkvartering.getAdresse().setPostNr(postNr);
 		indkvartering.getAdresse().setVej(vej);
 	}
