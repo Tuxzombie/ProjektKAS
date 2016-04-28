@@ -28,7 +28,7 @@ public class Tilmelding {
 	 * @return
 	 */
 	public int getPeriode() {
-		Period periode = Period.between(startDato, slutDato);		
+		Period periode = Period.between(getStartDato(), getSlutDato());		
 		int periodeIDage = periode.getDays();
 		return periodeIDage;
 	}
@@ -90,7 +90,11 @@ public class Tilmelding {
 	 * @return samletPris
 	 */
 	public double udregnSamletPris() {
-		double samletPris = deltager.getPrisgruppe().getPris() * this.getPeriode() + getIndkvartering().getHotelbooking().udregnHotelPris();
+		double samletPris = 0.0;
+		if(this.getIndkvartering().getHotelbooking() != null) {
+			samletPris = deltager.getPrisgruppe().getPris() * this.getPeriode() + getIndkvartering().getHotelbooking().udregnHotelPris(); 
+		}
+		else samletPris = deltager.getPrisgruppe().getPris() * this.getPeriode();
 		return samletPris;
 	}
 
