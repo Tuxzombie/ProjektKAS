@@ -32,7 +32,7 @@ public class MainApp extends Application
     public void init() {
 		Service.createMiljøkonference("Pikkens glæder", "Piknusning",
 				LocalDate.now(), LocalDate.now().plusDays(10), "SmåVænget",
-				13, null, 8000, "Århus", "Danmark");
+				13, "", 8000, "Århus", "Danmark");
     }
 
 	@Override

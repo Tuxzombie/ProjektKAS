@@ -212,6 +212,7 @@ public class KonferencePane extends GridPane {
         	txfTema.clear();
         	txfStartDato.clear();
         	txfSlutDato.clear();
+        	txaAdresse.clear();
         }
     }
 
