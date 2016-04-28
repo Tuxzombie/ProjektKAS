@@ -238,11 +238,17 @@ public class Service
 	{
 		return Storage.getMiljøkonferencer();
 	}
+	
+	public static ArrayList<Deltager> getDeltagere()
+	{
+		return Storage.getDeltagere();
+	}
 
 	public static void initStorage()
 	{
 		Hotel hotelDenHvideSvane = Service.createHotel("Den Hvide Svane", 100, 150, "Vestergade", 2, "", 9000, "Danmark", "Aalborg");
 		Miljøkonference miljøkonference = Service.createMiljøkonference("Hav og himmel", "Havet", LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), "Hovedgaden", 12, "1. th.", 8200, "Aarhus N", "Danmark");
+		Miljøkonference miljøkonference1 = Service.createMiljøkonference("Ib's Mågehjælp", "Min fod", LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), "Over Skuderen", 102, "", 8000, "Aarhus C", "Danmark");
 
 		Prisgruppe prisgruppeVoksen = Service.createPrisgruppe(miljøkonference, "Voksen", 1500);
 		Prisgruppe prisgruppeForedragsholder = Service.createPrisgruppe(miljøkonference, "Foredragsholder", 0);
@@ -256,6 +262,7 @@ public class Service
 		Indkvartering indkvarteringLone = Service.createIndkvartering(LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), "Øllegade", 68, "", 9280, "Aalborg Øst", "Danmark", null);
 
 		Tilmelding tilmeldingFinn = Service.createTilmelding(miljøkonference, deltagerFinn, LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), indkvarteringFinn);
+		Service.createTilmelding(miljøkonference1, deltagerFinn, LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), indkvarteringFinn);
 		Tilmelding tilmeldingPeter = Service.createTilmelding(miljøkonference, deltagerPeter, LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), indkvarteringPeter);
 		Tilmelding tilmeldingLone = Service.createTilmelding(miljøkonference, deltagerLone, LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), indkvarteringLone);
 
