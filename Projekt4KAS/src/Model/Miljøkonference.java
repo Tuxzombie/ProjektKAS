@@ -270,14 +270,4 @@ public class Miljøkonference
 		return adresse;
 	}
 
-	/**
-	 * @param adresse
-	 *            the adresse to set
-	 */
-	public void setAdresse(Adresse adresse)
-	{
-		this.adresse = adresse;
-	}
-
-
 }

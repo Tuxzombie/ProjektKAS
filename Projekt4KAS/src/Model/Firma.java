@@ -86,15 +86,6 @@ public class Firma
 		this.cvrNr = cvrNr;
 	}
 
-	/**
-	 * @param adresse
-	 *            the adresse to set
-	 */
-	public void setAdresse(Adresse adresse)
-	{
-		this.adresse = adresse;
-	}
-
 	public Adresse getAdresse()
 	{
 		return this.adresse;

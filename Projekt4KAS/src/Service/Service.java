@@ -58,7 +58,13 @@ public class Service {
 		Prisgruppe newPrisgruppe = miljøkonference.createPrisgruppe(navn, pris);
 		return newPrisgruppe;
 	}
-
+	
+	public static Tilmelding createTilmelding(Miljøkonference miljøkonference, Deltager deltager, LocalDate startDato, LocalDate slutDato, Indkvartering indkvartering) {
+		Tilmelding newTilmelding = miljøkonference.createTilmelding(indkvartering, deltager, startDato, slutDato);
+		deltager.addTilmelding(newTilmelding);
+		return newTilmelding;
+	}
+	
 	public static void deleteHotel(Hotel hotel) {
 		for (Hotelbooking hotelbooking: hotel.getHotelbookinger()) {
 			hotelbooking.getIndkvartering().setHotelbooking(null);
@@ -103,6 +109,83 @@ public class Service {
 		hotel.setNavn(navn);
 		hotel.setPrisDobbeltVærelse(prisDobbeltVærelse);
 		hotel.setPrisEnkeltVærelse(prisEnkeltVærelse);
+		hotel.getAdresse().setBy(by);
+		hotel.getAdresse().setEtage(etage);
+		hotel.getAdresse().setLand(land);
+		hotel.getAdresse().setNr(postNr);
+		hotel.getAdresse().setPostNr(postNr);
+		hotel.getAdresse().setVej(vej);
+	}
+	
+	public static void updateMiljøkonference(Miljøkonference miljøkonference, String titel, String tema, LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land) {
+		miljøkonference.setSlutDato(slutDato);
+		miljøkonference.setStartDato(startDato);
+		miljøkonference.setTema(tema);
+		miljøkonference.setTitel(titel);
+		miljøkonference.getAdresse().setBy(by);
+		miljøkonference.getAdresse().setEtage(etage);
+		miljøkonference.getAdresse().setLand(land);
+		miljøkonference.getAdresse().setNr(postNr);
+		miljøkonference.getAdresse().setPostNr(postNr);
+		miljøkonference.getAdresse().setVej(vej);
+	}
+	
+	public static void updateFirma(Firma firma, String navn, int cvrNr, Adresse adresse, String vej, int nr, String etage, int postNr, String land, String by) {
+		firma.setCvrNr(cvrNr);
+		firma.setNavn(navn);
+		firma.getAdresse().setBy(by);
+		firma.getAdresse().setEtage(etage);
+		firma.getAdresse().setLand(land);
+		firma.getAdresse().setNr(postNr);
+		firma.getAdresse().setPostNr(postNr);
+		firma.getAdresse().setVej(vej);
+	}
+	
+	public static void updateDeltager(Deltager deltager, Firma firma, Ledsager ledsager, String navn, int telefonNr, Prisgruppe prisgruppe, String vej, int nr, String etage, int postNr, String by, String land) {
+		deltager.setNavn(navn);
+		deltager.setPrisgruppe(prisgruppe);
+		deltager.setTelefonNr(telefonNr);
+		deltager.getAdresse().setBy(by);
+		deltager.getAdresse().setEtage(etage);
+		deltager.getAdresse().setLand(land);
+		deltager.getAdresse().setNr(postNr);
+		deltager.getAdresse().setPostNr(postNr);
+		deltager.getAdresse().setVej(vej);
+		if(ledsager != null) { deltager.setLedsager(ledsager); }
+		if(firma != null) { deltager.setFirma(firma); }
+	}
+	
+	public static void updateIndkvartering(Indkvartering indkvartering, LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land, Hotelbooking hotelbooking) {
+		indkvartering.setSlutDato(slutDato);
+		indkvartering.setStartDato(startDato);
+		indkvartering.setHotelbooking(hotelbooking);
+		indkvartering.getAdresse().setBy(by);
+		indkvartering.getAdresse().setEtage(etage);
+		indkvartering.getAdresse().setLand(land);
+		indkvartering.getAdresse().setNr(postNr);
+		indkvartering.getAdresse().setPostNr(postNr);
+		indkvartering.getAdresse().setVej(vej);
+	}
+	
+	public static void updateLedsager(Ledsager ledsager, String navn, Deltager deltager) {
+		ledsager.setDeltager(deltager);
+		ledsager.setNavn(navn);
+	}
+	
+	public static void updateUdflugt(Udflugt udflugt, String lokalitet, String beskrivelse, double pris, LocalDate startDato, LocalDate slutDato, boolean hasFrokost) {
+		udflugt.setHasFrokost(hasFrokost);
+		udflugt.setLokalitet(lokalitet);
+		udflugt.setPris(pris);
+		udflugt.setSlutDato(slutDato);
+		udflugt.setStartDato(startDato);
+	}
+	
+	public static void updatePrisgruppe(Prisgruppe prisgruppe, String navn, double pris) {
+		prisgruppe.setNavn(navn);
+		prisgruppe.setPris(pris);
+	}
+	
+	public static void updateTilmelding(Deltager deltager, LocalDate startDato, LocalDate slutDato, Indkvartering indkvartering) {
 		
 	}
 	
@@ -116,5 +199,6 @@ public class Service {
 		return Storage.getMiljøkonferencer();
 	}
 	
+	//TODO Getter til alle arraylists i Storage
 	
 }

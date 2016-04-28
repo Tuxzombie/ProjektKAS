@@ -45,15 +45,6 @@ public class Indkvartering
 	}
 
 	/**
-	 * @param adresse
-	 *  
-	 */
-	public void setAdresse(Adresse adresse)
-	{
-		this.adresse = adresse;
-	}
-
-	/**
 	 * @return startDato
 	 */
 	public LocalDate getStartDato()

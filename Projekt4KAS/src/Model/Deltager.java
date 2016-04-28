@@ -37,10 +37,6 @@ public class Deltager
 		this.firma = firma;
 	}
 
-	public void setTilmeldinger(ArrayList<Tilmelding> tilmeldinger) {
-		this.tilmeldinger = tilmeldinger;
-	}
-
 	/**
 	 * Metode til at hente liste over deltagerens tilmeldinger
 	 * 
@@ -56,7 +52,7 @@ public class Deltager
 	 * 
 	 * @param tilmeldinger
 	 */
-	public void addTilmeldinger(Tilmelding tilmelding)
+	public void addTilmelding(Tilmelding tilmelding)
 	{
 		tilmeldinger.add(tilmelding);
 	}
@@ -103,15 +99,6 @@ public class Deltager
 	public Adresse getAdresse()
 	{
 		return adresse;
-	}
-
-	/**
-	 * @param adresse
-	 *            the adresse to set
-	 */
-	public void setAdresse(Adresse adresse)
-	{
-		this.adresse = adresse;
 	}
 
 	/**
