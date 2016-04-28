@@ -15,9 +15,8 @@ public class Hotelbooking {
 	 * @param indkvartering
 	 * @param isDobbeltVærelse
 	 */
-	public Hotelbooking(Hotel hotel, Indkvartering indkvartering, boolean isDobbeltVærelse) {
+	public Hotelbooking(Hotel hotel, boolean isDobbeltVærelse) {
 		this.hotel = hotel;
-		this.indkvartering = indkvartering;
 		this.isDobbeltVærelse = isDobbeltVærelse;
 		valgteFaciliteter = new ArrayList<>();
 	}
@@ -64,7 +63,7 @@ public class Hotelbooking {
 
 	public double udregnHotelPris() {
 		double værelsesPris = 0.0;
-		if(this.isDobbeltVærelse) {
+		if(this.isDobbeltVærelse == true) {
 			værelsesPris = this.getHotel().getPrisDobbeltVærelse();
 		}
 		else værelsesPris = this.getHotel().getPrisEnkeltVærelse();
@@ -74,7 +73,7 @@ public class Hotelbooking {
 			faciliteterPris += facilitet.getPris();
 		}
 		
-		double hotelPris = faciliteterPris + (værelsesPris * getIndkvartering().getPeriode());
+		double hotelPris = faciliteterPris + værelsesPris * getIndkvartering().getPeriode();
 		return hotelPris;
 	}
 

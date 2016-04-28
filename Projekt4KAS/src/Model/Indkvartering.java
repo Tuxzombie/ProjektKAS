@@ -2,6 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class Indkvartering
 {
@@ -13,14 +14,21 @@ public class Indkvartering
 
 
 
-	public Indkvartering(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land, Hotelbooking hotelbooking)
+	public Indkvartering(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		this.startDato = startDato;
 		this.slutDato = slutDato;
 		this.adresse = new Adresse(vej, nr, etage, postNr, by, land);
-		this.hotelbooking = hotelbooking;
 	}
 	
+	public Indkvartering(LocalDate startDato, LocalDate slutDato) {
+		this.startDato = startDato;
+		this.slutDato = slutDato;
+		this.hotelbooking = null;
+		this.adresse = null;
+	}
+
+
 	/**
 	 * 
 	 * @return hotelbooking
@@ -79,9 +87,8 @@ public class Indkvartering
 		this.slutDato = slutDato;
 	}
 
-	public int getPeriode() {
-		Period periode = Period.between(startDato, slutDato);		
-		int periodeIDage = periode.getDays();
-		return periodeIDage;
+	public long getPeriode() {
+		long nætter = ChronoUnit.DAYS.between(startDato, slutDato);
+		return nætter;
 	}
 }

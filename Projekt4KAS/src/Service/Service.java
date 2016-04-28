@@ -32,15 +32,24 @@ public class Service {
 		return newDeltager;
 	}
 
-	public static Hotelbooking createHotelbooking(Hotel hotel, Indkvartering indkvartering, boolean isDobbeltVærelse) {
-		Hotelbooking newHotelbooking = new Hotelbooking(hotel, indkvartering, isDobbeltVærelse);
+	public static Hotelbooking createHotelbooking(Hotel hotel, boolean isDobbeltVærelse) {
+		Hotelbooking newHotelbooking = new Hotelbooking(hotel, isDobbeltVærelse);
 		hotel.addHotelbooking(newHotelbooking);
 		return newHotelbooking;
 	}
 
-	public static Indkvartering createIndkvartering(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land, Hotelbooking hotelbooking) {
-		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato, vej, nr, etage, postNr, by, land, hotelbooking);
+	public static Indkvartering createIndkvarteringUdenHotelbooking(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land) {
+		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato, vej, nr, etage, postNr, by, land);
 		return newIndkvartering;
+	}
+	public static Indkvartering createIndkvarteringMedHotelbooking(LocalDate startDato, LocalDate slutDato) {
+		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato);
+		return newIndkvartering;
+	}
+	
+	public static void connectIndkvarteringOgHotelbooking (Indkvartering indkvartering, Hotelbooking hotelbooking) {
+		indkvartering.setHotelbooking(hotelbooking);
+		hotelbooking.setIndkvartering(indkvartering);
 	}
 	
 	public static Ledsager createLedsager(String navn, Deltager deltager) {
