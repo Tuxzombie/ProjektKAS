@@ -5,6 +5,8 @@ import java.time.format.DateTimeParseException;
 
 import Model.Adresse;
 import Model.Deltager;
+import Model.Firma;
+import Model.Ledsager;
 import Model.Prisgruppe;
 import Service.Service;
 import javafx.geometry.Insets;
@@ -13,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
@@ -53,6 +56,8 @@ public class DeltagerWindow extends Stage
 	private Label[] lblInput;
 	private Label lblError;
 	private String[] lblNames;
+	private ListView<Firma> lvwFirmaer;
+	private ListView<Ledsager> lvwLedsagere;
 
 	// -------------------------------------------------------------------------
 	private void initContent(GridPane pane)
@@ -98,10 +103,10 @@ public class DeltagerWindow extends Stage
 		Button btnCancel = new Button("Cancel");
 		pane.add(btnCancel, 1, MAX_ROWS + 1);
 		btnCancel.setOnAction(event -> this.cancelAction());
-		
-        lblError = new Label();
-        pane.add(lblError, 0, MAX_ROWS+2, 2, 1);
-        lblError.setStyle("-fx-text-fill: red");
+
+		lblError = new Label();
+		pane.add(lblError, 0, MAX_ROWS + 2, 2, 1);
+		lblError.setStyle("-fx-text-fill: red");
 
 		this.initControls();
 	}
@@ -157,116 +162,134 @@ public class DeltagerWindow extends Stage
 
 	private void okAction()
 	{
-		//firma 
-		//ledsager, 
-		String navn = txfInput[0].getText().trim(); 
-		
-    	LocalDate startDato = LocalDate.MIN;
-    	try
+		// firma
+		// ledsager,
+		String navn = txfInput[0].getText().trim();
+
+		LocalDate startDato = LocalDate.MIN;
+		try
 		{
-        	startDato = LocalDate.parse(txfInput[1].getText().trim());
+			startDato = LocalDate.parse(txfInput[1].getText().trim());
 		} catch (DateTimeParseException ex)
 		{
 			// do nothing
 		}
-    	
-    	LocalDate slutDato = LocalDate.MIN;
-    	try
+
+		LocalDate slutDato = LocalDate.MIN;
+		try
 		{
-        	slutDato = LocalDate.parse(txfInput[2].getText().trim());
+			slutDato = LocalDate.parse(txfInput[2].getText().trim());
 		} catch (DateTimeParseException ex)
 		{
 			// do nothing
-		} 
-		
-		int telefonNr = -1; 
-     	try
+		}
+
+		int telefonNr = -1;
+		try
 		{
-     		telefonNr = Integer.parseInt(txfInput[3].getText().trim());
+			telefonNr = Integer.parseInt(txfInput[3].getText().trim());
 		} catch (NumberFormatException ex)
 		{
 			// do nothing
 		}
-		//prisgruppe
-     	
-     	String vej = txfInput[4].getText().trim();
-    	
-    	int nr = -1;
-    	try
+		// prisgruppe
+
+		String vej = txfInput[4].getText().trim();
+
+		int nr = -1;
+		try
 		{
-        	nr = Integer.parseInt(txfInput[5].getText().trim());
-		} catch (NumberFormatException ex)
-		{
-			// do nothing
-		}
-    	
-    	String etage = txfInput[6].getText().trim();
-    	
-    	int postNr = -1;
-    	try
-		{
-        	postNr = Integer.parseInt(txfInput[7].getText().trim());
+			nr = Integer.parseInt(txfInput[5].getText().trim());
 		} catch (NumberFormatException ex)
 		{
 			// do nothing
 		}
 
-    	String by = txfInput[8].getText().trim(); 
-    	String land = txfInput[9].getText().trim();
-    	
-        if (navn.length() == 0) {
-            lblError.setText("Navn er tom");
-            return;
-        }
-        else if (telefonNr <= 0)
- 		{
- 			lblError.setText("Telefon nr er ugyldigt");
- 			return;
- 		}
-        //skal måske med
-//        else if (startDato == LocalDate.MIN)
-// 		{
-// 			lblError.setText("Start Dato er tom");
-// 			return;
-// 		}
-//        else if (slutDato == LocalDate.MIN)
-//		{
-//			lblError.setText("Slut Dato er tom");
-//			return;
-//		}    	
-    	else if (vej.length() == 0)
+		String etage = txfInput[6].getText().trim();
+
+		int postNr = -1;
+		try
+		{
+			postNr = Integer.parseInt(txfInput[7].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+
+		String by = txfInput[8].getText().trim();
+		String land = txfInput[9].getText().trim();
+
+		if (navn.length() == 0)
+		{
+			lblError.setText("Navn er tom");
+			return;
+		} else if (telefonNr <= 0)
+		{
+			lblError.setText("Telefon nr er ugyldigt");
+			return;
+		}
+		// skal måske med
+		// else if (startDato == LocalDate.MIN)
+		// {
+		// lblError.setText("Start Dato er tom");
+		// return;
+		// }
+		// else if (slutDato == LocalDate.MIN)
+		// {
+		// lblError.setText("Slut Dato er tom");
+		// return;
+		// }
+		else if (vej.length() == 0)
 		{
 			lblError.setText("Vej er tom");
 			return;
-		}
-        else if (nr <=0)
+		} else if (nr <= 0)
 		{
 			lblError.setText("Nr er ugyldigt");
 			return;
-		}
-        else if (postNr <=0)
+		} else if (postNr <= 0)
 		{
 			lblError.setText("Post Nr er ugyldigt");
 			return;
-		}
-        else if (by.length() == 0)
+		} else if (by.length() == 0)
 		{
 			lblError.setText("By er ugyldigt");
 			return;
-		}
-        else if (land.length() == 0)
+		} else if (land.length() == 0)
 		{
 			lblError.setText("Land er tom");
 			return;
 		}
+		
+		Firma firma = null;
+		try
+		{
+			firma = lvwFirmaer.getSelectionModel().getSelectedItem();
+		} catch (NullPointerException ex)
+		{
+			// do nothing
+		}
 
-	       if (deltager != null) {
-	            Service.updateDeltager(deltager, null, null, navn, telefonNr, null, vej, nr, etage, postNr, by, land);
-	        } else {
-	            Service.createDeltager(navn, telefonNr, null, vej, nr, etage, postNr, by, land);
-	        }
 
-	        this.hide();
+		Ledsager ledsager = null;
+		try
+		{
+			ledsager = lvwLedsagere.getSelectionModel().getSelectedItem();
+		} catch (NullPointerException ex)
+		{
+			// do nothing
+		}
+		
+
+		if (deltager != null)
+		{
+			Service.updateDeltager(deltager, firma, ledsager, navn, telefonNr, null, vej, nr, etage, postNr, by, land);
+		} else
+		{
+			Service.createDeltager(navn, telefonNr, null, vej, nr, etage, postNr, by, land);
+		}
+
+		this.hide();
 
 	}
 
