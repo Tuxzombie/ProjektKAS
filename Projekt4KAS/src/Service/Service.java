@@ -125,8 +125,8 @@ public class Service {
 		miljøkonference.getAdresse().setBy(by);
 		miljøkonference.getAdresse().setEtage(etage);
 		miljøkonference.getAdresse().setLand(land);
-		miljøkonference.getAdresse().setNr(postNr);
 		miljøkonference.getAdresse().setPostNr(postNr);
+		miljøkonference.getAdresse().setNr(nr);
 		miljøkonference.getAdresse().setVej(vej);
 	}
 	
@@ -185,8 +185,10 @@ public class Service {
 		prisgruppe.setPris(pris);
 	}
 	
-	public static void updateTilmelding(Deltager deltager, LocalDate startDato, LocalDate slutDato, Indkvartering indkvartering) {
-		
+	public static void updateTilmelding(Tilmelding tilmelding, Deltager deltager, LocalDate startDato, LocalDate slutDato, Indkvartering indkvartering) {
+		tilmelding.setDeltager(deltager);
+		tilmelding.setSlutDato(slutDato);
+		tilmelding.setStartDato(startDato);
 	}
 	
 	public static void addFacilitetToHotelbooking(Hotelbooking hotelbooking, Facilitet facilitet) {

@@ -1,6 +1,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Indkvartering
 {
@@ -78,4 +79,9 @@ public class Indkvartering
 		this.slutDato = slutDato;
 	}
 
+	public int getPeriode() {
+		Period periode = Period.between(startDato, slutDato);		
+		int periodeIDage = periode.getDays();
+		return periodeIDage;
+	}
 }
