@@ -49,9 +49,8 @@ public class KonferenceWindow extends Stage {
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
 
-        lblNames = new String[]{"Deltagernavn:", "Vej:", "Nr:", "Etage:"
-				, "Postnr:", "Land:", "Ankomstdato:", "Afrejsedato:" , "Firmanavn:"
-				, "Foredragsholder:", "Tlf.nr.:", "Firma tlf.nr.:"};
+        lblNames = new String[]{"Titel:", "Tema:", "Start Dato:", "Slut Dato:",  "Vej:", "Nr:", "Etage:"
+				, "Postnr:", "Land:"};
 		txfInput = new TextField[lblNames.length];
 		lblInput = new Label[lblNames.length];
 		
@@ -96,13 +95,31 @@ public class KonferenceWindow extends Stage {
     }
 
     private void initControls() {
-//        if (company != null) {
-//            txfName.setText(company.getName());
-//            txfHours.setText("" + company.getHours());
-//        } else {
-//            txfName.clear();
-//            txfHours.clear();
-//        }
+        if (konference != null) {
+        	
+        	txfInput[0].setText(konference.getTitel());
+        	txfInput[1].setText(konference.getTema());
+        	txfInput[2].setText(konference.getStartDato().toString());
+        	txfInput[3].setText(konference.getSlutDato().toString());
+        	txfInput[4].setText(konference.getAdresse().getVej());
+        	txfInput[5].setText(""+konference.getAdresse().getNr());
+        	txfInput[6].setText(konference.getAdresse().getEtage());
+        	txfInput[7].setText(""+konference.getAdresse().getPostNr());
+        	txfInput[8].setText(konference.getAdresse().getLand());      	
+        	
+
+        } else {
+        	
+        	txfInput[0].clear();
+        	txfInput[1].clear();
+        	txfInput[2].clear();
+        	txfInput[3].clear();
+        	txfInput[4].clear();
+        	txfInput[5].clear();
+        	txfInput[6].clear();
+        	txfInput[7].clear();
+        	txfInput[8].clear();
+        }
     }
 
     // -------------------------------------------------------------------------
