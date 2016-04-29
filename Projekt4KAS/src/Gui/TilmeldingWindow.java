@@ -1,5 +1,6 @@
 package Gui;
 
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -17,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import Model.*;
+import Service.Service;
 
 public class TilmeldingWindow extends Stage {
     private Deltager deltager;
@@ -48,11 +50,14 @@ public class TilmeldingWindow extends Stage {
     private ListView<Udflugt> lvwUdflugter;
     private ListView<Hotel> lvwHoteller;
     private ListView<Facilitet> lvwFaciliteter;
-    private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype, lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, lblTotalPris, lblPrisUdregning;
+    private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype,
+    			lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, 
+    			lblTotalPris, lblPrisUdregning;
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
     private String[] indkvarteringsTyper = {"Hotel", "Andet"};
     private CheckBox cbxLedsager;
+    private Miljøkonference konference;
     
     
     private void initContent(GridPane pane) {
@@ -97,6 +102,9 @@ public class TilmeldingWindow extends Stage {
         paneKonference.add(lblMiljøkonferencer, 0, 0);
         
         lvwMiljøkonferencer = new ListView();
+        lvwMiljøkonferencer.getItems().setAll(Service.getMiljøkonferencer());
+		ChangeListener<Miljøkonference> listenerMiljøkonference = (ov, oldMiljøkonference, newMiljøkonference) -> this.selectedKonferenceChanged();
+		lvwMiljøkonferencer.getSelectionModel().selectedItemProperty().addListener(listenerMiljøkonference);
         paneKonference.add(lvwMiljøkonferencer, 0, 1, 1, 1);
         lvwMiljøkonferencer.setMaxSize(200, 130);
         lvwMiljøkonferencer.setMinSize(200, 130);
@@ -106,6 +114,8 @@ public class TilmeldingWindow extends Stage {
         paneKonference.add(lblPrisgrupper, 1, 0);
         
         lvwPrisgrupper = new ListView();
+        ChangeListener<Prisgruppe> listenerPrisgruppe = (ov, oldPrisgruppe, newPrisgruppe) -> this.selectedPrisgruppeChanged();
+        lvwPrisgrupper.getSelectionModel().selectedItemProperty().addListener(listenerPrisgruppe);
         paneKonference.add(lvwPrisgrupper, 1, 1, 1, 1);
         lvwPrisgrupper.setMaxSize(200, 130);
         lvwPrisgrupper.setMinSize(200, 130);
@@ -187,6 +197,26 @@ public class TilmeldingWindow extends Stage {
 
     // -------------------------------------------------------------------------
 
+  	private void selectedKonferenceChanged()
+	{
+		this.updateControls();
+	}
+  	
+  	private void selectedPrisgruppeChanged()
+  	{
+  		
+  	}
+
+	public void updateControls()
+	{
+		Miljøkonference konference = lvwMiljøkonferencer.getSelectionModel().getSelectedItem();
+		
+		if (konference != null)
+		{
+			lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
+		}
+	}
+	
 //    private void cancelAction() {
 //        this.hide();
 //    }
