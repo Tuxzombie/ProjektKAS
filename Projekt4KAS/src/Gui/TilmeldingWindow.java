@@ -46,7 +46,7 @@ public class TilmeldingWindow extends Stage {
     private ListView<Prisgruppe> lvwPrisgrupper;
     private ListView<Udflugt> lvwUdflugter;
     private ListView<Hotel> lvwHoteller;
-    private ListView<Facilitet> lvwFaciliter;
+    private ListView<Facilitet> lvwFaciliteter;
     private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype, lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, lblTotalPris, lblPrisUdregning;
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
@@ -127,6 +127,9 @@ public class TilmeldingWindow extends Stage {
         
         txfLedsagerNavn = new TextField();
         paneLedsager.add(txfLedsagerNavn, 0, 2);
+        txfLedsagerNavn.setMaxWidth(200);
+        txfLedsagerNavn.setMinWidth(200);
+
         
         lblUdflugter = new Label("Udflugter:");
         paneLedsager.add(lblUdflugter, 1, 0);
@@ -136,11 +139,33 @@ public class TilmeldingWindow extends Stage {
         lvwUdflugter.setMaxSize(200, 130);
         lvwUdflugter.setMinSize(200, 130);
         
+        lblHotel = new Label("Hoteller:");
+        paneHotel.add(lblHotel, 0, 0);
+        
+        lvwHoteller = new ListView();
+        paneHotel.add(lvwHoteller, 0, 1);
+        lvwHoteller.setMaxSize(200, 130);
+        lvwHoteller.setMinSize(200, 130);
+        
+        lblFaciliteter = new Label("Faciliteter:");
+        paneHotel.add(lblFaciliteter, 1, 0);
+        
+        lvwFaciliteter = new ListView();
+        paneHotel.add(lvwFaciliteter, 1, 1);
+        lvwFaciliteter.setMaxSize(200, 130);
+        lvwFaciliteter.setMinSize(200, 130);
+        
+        lblTotalPris = new Label("Total Pris:");
+        panePris.add(lblTotalPris, 0, 0);
+        
+        lblPrisUdregning = new Label("0 kr.");
+        panePris.add(lblPrisUdregning, 1, 0);
+        
         Button btnOK = new Button("Tilmeld");
         pane.add(btnOK, 0, 4);
         GridPane.setHalignment(btnOK, HPos.RIGHT);
         //btnOK.setOnAction(event -> this.okAction());
-        //LUDERx2
+        
         lblError = new Label();
         pane.add(lblError, 0, 5);
         lblError.setStyle("-fx-text-fill: red");
