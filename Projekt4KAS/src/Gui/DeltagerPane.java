@@ -69,7 +69,7 @@ public class DeltagerPane extends GridPane
 		txaAdresse.setMaxSize(FIELD_WIDTH, 80);
 		txaAdresse.setMinSize(FIELD_WIDTH, 80);
 		this.add(txaAdresse, 2, 2);
-
+		
 		Label lblTlfNr = new Label("Telefon nr.:");
 		this.add(lblTlfNr, 1, 3);
 

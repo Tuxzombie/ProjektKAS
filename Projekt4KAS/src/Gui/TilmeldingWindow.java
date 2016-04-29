@@ -2,6 +2,7 @@ package Gui;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -129,6 +130,7 @@ public class TilmeldingWindow extends Stage {
         paneLedsager.add(txfLedsagerNavn, 0, 2);
         txfLedsagerNavn.setMaxWidth(200);
         txfLedsagerNavn.setMinWidth(200);
+        paneLedsager.setValignment(txfLedsagerNavn, VPos.TOP);
 
         
         lblUdflugter = new Label("Udflugter:");
