@@ -2,7 +2,8 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Prisgruppe {
+public class Prisgruppe
+{
 
 	private String navn;
 	private double pris;
@@ -10,36 +11,54 @@ public class Prisgruppe {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param navn
 	 * @param pris
 	 */
-	public Prisgruppe(String navn, double pris) {
+	public Prisgruppe(String navn, double pris)
+	{
 		this.navn = navn;
 		this.pris = pris;
 		deltagere = new ArrayList<>();
 	}
 	
+	
+
+	@Override
+	public String toString()
+	{
+		return navn + " " + "(" + pris + ")";
+	}
+
+
+
 	/**
-	 * Metode der returnerer liste over prisgruppens deltagere 
+	 * Metode der returnerer liste over prisgruppens deltagere
+	 * 
 	 * @return
 	 */
-	public ArrayList<Deltager> getDeltagere() {
+	public ArrayList<Deltager> getDeltagere()
+	{
 		return new ArrayList<>(deltagere);
 	}
-	
+
 	/**
 	 * Metode til at tilføje en deltager til listen over prisgruppens deltagere
+	 * 
 	 * @param deltager
 	 */
-	public void addDeltager(Deltager deltager) {
+	public void addDeltager(Deltager deltager)
+	{
 		deltagere.add(deltager);
 	}
-	
+
 	/**
 	 * Metode til at fjerne en deltager fra listen over prisgruppens deltagere
+	 * 
 	 * @param deltager
 	 */
-	public void removeDeltager(Deltager deltager) {
+	public void removeDeltager(Deltager deltager)
+	{
 		deltagere.remove(deltager);
 	}
 
@@ -74,7 +93,5 @@ public class Prisgruppe {
 	{
 		this.pris = pris;
 	}
-	
-	
 
 }
