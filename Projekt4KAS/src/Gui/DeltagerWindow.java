@@ -68,7 +68,7 @@ public class DeltagerWindow extends Stage
 		pane.setVgap(10);
 
 		lblNames = new String[]
-		{"Deltagernavn:", "Ankomstdato:", "Afrejsedato:", "Tlf.nr.:", "Vej:", "Nr:", "Etage:", "Postnr:", "By", "Land:"};
+		{"Deltagernavn:", "Tlf.nr.:", "Vej:", "Nr:", "Etage:", "Postnr:", "By", "Land:"};
 
 		txfInput = new TextField[lblNames.length];
 		lblInput = new Label[lblNames.length];
@@ -117,24 +117,13 @@ public class DeltagerWindow extends Stage
 		{
 
 			txfInput[0].setText(deltager.getNavn());
-			// Hvad er det for en ankomstdato?!
-			if (deltager.getTilmeldinger().size() != 0)
-			{
-				txfInput[1].setText("" + deltager.getTilmeldinger().get(0).getStartDato().toString());
-			}
-
-			if (deltager.getTilmeldinger().size() != 0)
-			{
-				txfInput[2].setText("" + deltager.getTilmeldinger().get(0).getSlutDato().toString());
-			}
-
-			txfInput[3].setText("" + deltager.getTelefonNr());
-			txfInput[4].setText(deltager.getAdresse().getVej());
-			txfInput[5].setText("" + deltager.getAdresse().getNr());
-			txfInput[6].setText(deltager.getAdresse().getEtage());
-			txfInput[7].setText("" + deltager.getAdresse().getPostNr());
-			txfInput[8].setText(deltager.getAdresse().getBy());
-			txfInput[9].setText(deltager.getAdresse().getLand());
+			txfInput[1].setText("" + deltager.getTelefonNr());
+			txfInput[2].setText(deltager.getAdresse().getVej());
+			txfInput[3].setText("" + deltager.getAdresse().getNr());
+			txfInput[4].setText(deltager.getAdresse().getEtage());
+			txfInput[5].setText("" + deltager.getAdresse().getPostNr());
+			txfInput[6].setText(deltager.getAdresse().getBy());
+			txfInput[7].setText(deltager.getAdresse().getLand());
 
 		} else
 		{
@@ -147,8 +136,6 @@ public class DeltagerWindow extends Stage
 			txfInput[5].clear();
 			txfInput[6].clear();
 			txfInput[7].clear();
-			txfInput[8].clear();
-			txfInput[9].clear();
 		}
 	}
 
@@ -166,58 +153,40 @@ public class DeltagerWindow extends Stage
 		// ledsager,
 		String navn = txfInput[0].getText().trim();
 
-		LocalDate startDato = LocalDate.MIN;
-		try
-		{
-			startDato = LocalDate.parse(txfInput[1].getText().trim());
-		} catch (DateTimeParseException ex)
-		{
-			// do nothing
-		}
-
-		LocalDate slutDato = LocalDate.MIN;
-		try
-		{
-			slutDato = LocalDate.parse(txfInput[2].getText().trim());
-		} catch (DateTimeParseException ex)
-		{
-			// do nothing
-		}
-
 		int telefonNr = -1;
 		try
 		{
-			telefonNr = Integer.parseInt(txfInput[3].getText().trim());
+			telefonNr = Integer.parseInt(txfInput[1].getText().trim());
 		} catch (NumberFormatException ex)
 		{
 			// do nothing
 		}
 		// prisgruppe
 
-		String vej = txfInput[4].getText().trim();
+		String vej = txfInput[2].getText().trim();
 
 		int nr = -1;
 		try
 		{
-			nr = Integer.parseInt(txfInput[5].getText().trim());
+			nr = Integer.parseInt(txfInput[3].getText().trim());
 		} catch (NumberFormatException ex)
 		{
 			// do nothing
 		}
 
-		String etage = txfInput[6].getText().trim();
+		String etage = txfInput[4].getText().trim();
 
 		int postNr = -1;
 		try
 		{
-			postNr = Integer.parseInt(txfInput[7].getText().trim());
+			postNr = Integer.parseInt(txfInput[5].getText().trim());
 		} catch (NumberFormatException ex)
 		{
 			// do nothing
 		}
 
-		String by = txfInput[8].getText().trim();
-		String land = txfInput[9].getText().trim();
+		String by = txfInput[6].getText().trim();
+		String land = txfInput[7].getText().trim();
 
 		if (navn.length() == 0)
 		{
@@ -228,17 +197,7 @@ public class DeltagerWindow extends Stage
 			lblError.setText("Telefon nr er ugyldigt");
 			return;
 		}
-		// skal måske med
-		// else if (startDato == LocalDate.MIN)
-		// {
-		// lblError.setText("Start Dato er tom");
-		// return;
-		// }
-		// else if (slutDato == LocalDate.MIN)
-		// {
-		// lblError.setText("Slut Dato er tom");
-		// return;
-		// }
+
 		else if (vej.length() == 0)
 		{
 			lblError.setText("Vej er tom");
