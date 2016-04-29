@@ -7,9 +7,11 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
@@ -52,12 +54,18 @@ public class TilmeldingWindow extends Stage {
     private ListView<Facilitet> lvwFaciliteter;
     private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype,
     			lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, 
-    			lblTotalPris, lblPrisUdregning;
+    			lblTotalPris, lblPrisUdregning, lblStartDato, lblSlutDato, lblStartDatoHotel, lblSlutDatoHotel;
+    private RadioButton rbHotel;
+    private RadioButton rbAndet;
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
     private String[] indkvarteringsTyper = {"Hotel", "Andet"};
     private CheckBox cbxLedsager;
     private Miljøkonference konference;
+    private DatePicker dpStartDato;
+    private DatePicker dpSlutDato;
+    private DatePicker dpStartDatoHotel;
+    private DatePicker dpSlutDatoHotel;
     
     
     private void initContent(GridPane pane) {
@@ -83,7 +91,7 @@ public class TilmeldingWindow extends Stage {
         paneLedsager.setStyle("-fx-border-color: black");
         
         GridPane paneHotel = new GridPane();
-        pane.add(paneHotel, 0, 2);
+        pane.add(paneHotel, 1, 0);
         paneHotel.setGridLinesVisible(true);
         paneHotel.setPadding(new Insets(10));
         paneHotel.setHgap(10);
@@ -91,7 +99,7 @@ public class TilmeldingWindow extends Stage {
         paneHotel.setStyle("-fx-border-color: black");
         
         GridPane panePris = new GridPane();
-        pane.add(panePris, 0, 3);
+        pane.add(panePris, 1, 1);
         panePris.setGridLinesVisible(true);
         panePris.setPadding(new Insets(10));
         panePris.setHgap(10);
@@ -120,6 +128,25 @@ public class TilmeldingWindow extends Stage {
         lvwPrisgrupper.setMaxSize(200, 130);
         lvwPrisgrupper.setMinSize(200, 130);
         
+        lblStartDato = new Label("Start Dato:");
+        paneKonference.add(lblStartDato, 0, 2);
+        
+        dpStartDato = new DatePicker();
+        paneKonference.add(dpStartDato, 0, 3);
+        dpStartDato.setMaxWidth(200);
+        dpStartDato.setMinWidth(200);
+        
+        lblSlutDato = new Label("Slut Dato:");
+        paneKonference.add(lblSlutDato, 1, 2);
+        
+        dpSlutDato = new DatePicker();
+        paneKonference.add(dpSlutDato, 1, 3);
+        dpSlutDato.setMaxWidth(200);
+        dpSlutDato.setMinWidth(200);
+        
+        lblIndkvarteringstype = new Label("Vælg indkvarteringstype:");
+        paneKonference.add(lblIndkvarteringstype, 0, 4);
+        
         for(int i = 0; i < indkvarteringsTyper.length; i++) {
         	RadioButton rb = new RadioButton();
         	rb.setText(indkvarteringsTyper[i]);
@@ -127,7 +154,7 @@ public class TilmeldingWindow extends Stage {
         	boxIndkvarteringsTyper.getChildren().add(rb);
         }
         
-        paneKonference.add(boxIndkvarteringsTyper, 0, 2);
+        paneKonference.add(boxIndkvarteringsTyper, 0, 5);
         
         
         cbxLedsager = new CheckBox("Ledsager");
@@ -144,28 +171,47 @@ public class TilmeldingWindow extends Stage {
 
         
         lblUdflugter = new Label("Udflugter:");
-        paneLedsager.add(lblUdflugter, 1, 0);
+        paneLedsager.add(lblUdflugter, 1, 1);
         
         lvwUdflugter = new ListView();
-        paneLedsager.add(lvwUdflugter, 1, 1, 1, 2);
+        paneLedsager.add(lvwUdflugter, 1, 2, 1, 2);
         lvwUdflugter.setMaxSize(200, 130);
         lvwUdflugter.setMinSize(200, 130);
+        lvwUdflugter.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        
+        lblStartDatoHotel = new Label("Indtjekning:");
+        paneHotel.add(lblStartDatoHotel, 0, 0);
+        
+        dpStartDatoHotel = new DatePicker();
+        paneHotel.add(dpStartDatoHotel, 0, 1);
+        dpStartDatoHotel.setMaxWidth(200);
+        dpStartDatoHotel.setMinWidth(200);
+        
+        lblSlutDatoHotel = new Label("Udtjekning:");
+        paneHotel.add(lblSlutDatoHotel, 1, 0);
+        
+        dpSlutDatoHotel  = new DatePicker();
+        paneHotel.add(dpSlutDatoHotel, 1, 1);
+        dpSlutDatoHotel.setMaxWidth(200);
+        dpSlutDatoHotel.setMinWidth(200);
         
         lblHotel = new Label("Hoteller:");
-        paneHotel.add(lblHotel, 0, 0);
+        paneHotel.add(lblHotel, 0, 2);
         
         lvwHoteller = new ListView();
-        paneHotel.add(lvwHoteller, 0, 1);
+        paneHotel.add(lvwHoteller, 0, 3);
         lvwHoteller.setMaxSize(200, 130);
         lvwHoteller.setMinSize(200, 130);
         
         lblFaciliteter = new Label("Faciliteter:");
-        paneHotel.add(lblFaciliteter, 1, 0);
+        paneHotel.add(lblFaciliteter, 1, 2);
         
         lvwFaciliteter = new ListView();
-        paneHotel.add(lvwFaciliteter, 1, 1);
+        paneHotel.add(lvwFaciliteter, 1, 3);
         lvwFaciliteter.setMaxSize(200, 130);
         lvwFaciliteter.setMinSize(200, 130);
+        lvwFaciliteter.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         
         lblTotalPris = new Label("Total Pris:");
         panePris.add(lblTotalPris, 0, 0);
@@ -173,10 +219,14 @@ public class TilmeldingWindow extends Stage {
         lblPrisUdregning = new Label("0 kr.");
         panePris.add(lblPrisUdregning, 1, 0);
         
-        Button btnOK = new Button("Tilmeld");
-        pane.add(btnOK, 0, 4);
-        GridPane.setHalignment(btnOK, HPos.RIGHT);
-        //btnOK.setOnAction(event -> this.okAction());
+        Button btnTilmeld = new Button("Tilmeld");
+        pane.add(btnTilmeld, 0, 4);
+        GridPane.setHalignment(btnTilmeld, HPos.RIGHT);
+        //btnTilmeld.setOnAction(event -> this.tilmeldAction());
+        
+        Button btnAnuller = new Button("Anuller");
+        pane.add(btnAnuller, 0, 4);
+        GridPane.setHalignment(btnAnuller, HPos.LEFT);
         
         lblError = new Label();
         pane.add(lblError, 0, 5);
