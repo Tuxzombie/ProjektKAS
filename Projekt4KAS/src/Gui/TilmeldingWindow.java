@@ -1,6 +1,10 @@
 package Gui;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -21,6 +25,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import Model.*;
 import Service.Service;
@@ -74,6 +82,9 @@ public class TilmeldingWindow extends Stage {
     private DatePicker dpSlutDato;
     private DatePicker dpStartDatoHotel;
     private DatePicker dpSlutDatoHotel;
+    private ObservableList<String> oblFaciliteter = FXCollections.observableArrayList();
+    
+    
     
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
@@ -123,7 +134,7 @@ public class TilmeldingWindow extends Stage {
         paneKonference.add(lvwMiljøkonferencer, 0, 1, 1, 1);
         lvwMiljøkonferencer.setMaxSize(200, 130);
         lvwMiljøkonferencer.setMinSize(200, 130);
-        
+                
         
         lblPrisgrupper = new Label("Prisgrupper:");
         paneKonference.add(lblPrisgrupper, 1, 0);
@@ -135,6 +146,8 @@ public class TilmeldingWindow extends Stage {
         lvwPrisgrupper.setMaxSize(200, 130);
         lvwPrisgrupper.setMinSize(200, 130);
         lvwPrisgrupper.setDisable(true);
+        
+
         
         lblStartDato = new Label("Start Dato:");
         paneKonference.add(lblStartDato, 0, 2);
@@ -199,6 +212,8 @@ public class TilmeldingWindow extends Stage {
         lvwUdflugter.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         lvwUdflugter.setDisable(true);
         
+
+        
         lblStartDatoHotel = new Label("Indtjekning:");
         paneHotel.add(lblStartDatoHotel, 0, 0);
         
@@ -239,7 +254,7 @@ public class TilmeldingWindow extends Stage {
         lvwFaciliteter.setMinSize(200, 130);
         lvwFaciliteter.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         lvwFaciliteter.setDisable(true);
-
+        
         
         lblTotalPris = new Label("Total Pris:");
         panePris.add(lblTotalPris, 0, 0);
@@ -260,18 +275,8 @@ public class TilmeldingWindow extends Stage {
         pane.add(lblError, 0, 5);
         lblError.setStyle("-fx-text-fill: red");
 
-        this.initControls();
     }
 
-    private void initControls() {
-//        if (company != null) {
-//            txfName.setText(company.getName());
-//            txfHours.setText("" + company.getHours());
-//        } else {
-//            txfName.clear();
-//            txfHours.clear();
-//        }
-    }
 
     // -------------------------------------------------------------------------
     
@@ -331,6 +336,7 @@ public class TilmeldingWindow extends Stage {
   			
   			lvwFaciliteter.setDisable(false);
   			lvwFaciliteter.getItems().setAll(hotel.getFaciliteter());
+
   		}
   		else {
   			dpStartDatoHotel.setDisable(true);
