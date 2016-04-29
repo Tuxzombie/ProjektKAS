@@ -102,8 +102,8 @@ public class TilmeldingWindow extends Stage {
         
         lvwMiljøkonferencer = new ListView();
         lvwMiljøkonferencer.getItems().setAll(Service.getMiljøkonferencer());
-		ChangeListener<Miljøkonference> listener = (ov, oldMiljøkonference, newMiljøkonference) -> this.selectedKonferenceChanged();
-		lvwMiljøkonferencer.getSelectionModel().selectedItemProperty().addListener(listener);
+		ChangeListener<Miljøkonference> listenerMiljøkonference = (ov, oldMiljøkonference, newMiljøkonference) -> this.selectedKonferenceChanged();
+		lvwMiljøkonferencer.getSelectionModel().selectedItemProperty().addListener(listenerMiljøkonference);
         paneKonference.add(lvwMiljøkonferencer, 0, 1, 1, 1);
         lvwMiljøkonferencer.setMaxSize(200, 130);
         lvwMiljøkonferencer.setMinSize(200, 130);
@@ -113,6 +113,8 @@ public class TilmeldingWindow extends Stage {
         paneKonference.add(lblPrisgrupper, 1, 0);
         
         lvwPrisgrupper = new ListView();
+        ChangeListener<Prisgruppe> listenerPrisgruppe = (ov, oldPrisgruppe, newPrisgruppe) -> this.selectedPrisgruppeChanged();
+        lvwPrisgrupper.getSelectionModel().selectedItemProperty().addListener(listenerPrisgruppe);
         paneKonference.add(lvwPrisgrupper, 1, 1, 1, 1);
         lvwPrisgrupper.setMaxSize(200, 130);
         lvwPrisgrupper.setMinSize(200, 130);
@@ -171,6 +173,11 @@ public class TilmeldingWindow extends Stage {
 	{
 		this.updateControls();
 	}
+  	
+  	private void selectedPrisgruppeChanged()
+  	{
+  		
+  	}
 
 	public void updateControls()
 	{
