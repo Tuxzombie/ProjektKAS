@@ -30,6 +30,7 @@ public class DeltagerPane extends GridPane
 	private ListView<Deltager> lvwDeltagere;
 	private TextArea txaAdresse,
 			txaMiljøkonferencer;
+	private Button btnTilmeldDeltager;
 
 	private final int FIELD_WIDTH = 227;
 
@@ -158,6 +159,13 @@ public class DeltagerPane extends GridPane
 		hbxButtons2.getChildren().add(btnDeleteFirma);
 		btnDeleteFirma.setDisable(true);
 		btnDeleteFirma.setOnAction(event -> this.deleteFirmaAction());
+		
+		btnTilmeldDeltager = new Button("Tilmeld \nDeltager");
+		btnTilmeldDeltager.setMinWidth(80);
+		btnTilmeldDeltager.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons2.getChildren().add(btnTilmeldDeltager);
+		btnTilmeldDeltager.setDisable(true);
+		btnDeleteFirma.setOnAction(event -> this.tilmeldActionDeltager());
 
 		if (lvwDeltagere.getItems().size() > 0)
 		{
@@ -257,9 +265,10 @@ public class DeltagerPane extends GridPane
 	public void updateControls()
 	{
 		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
-
+		
 		if (deltager != null)
 		{
+			btnTilmeldDeltager.setDisable(false);
 			txfNavn.setText(deltager.getNavn());
 			txfTlfNr.setText("" + deltager.getTelefonNr());
 			try
@@ -294,7 +303,12 @@ public class DeltagerPane extends GridPane
 			txfIndskvartering.clear();
 			txaAdresse.clear();
 			txaMiljøkonferencer.clear();
+			btnTilmeldDeltager.setDisable(true);
 		}
+	}
+	
+	private void tilmeldActionDeltager () {
+		
 	}
 
 }
