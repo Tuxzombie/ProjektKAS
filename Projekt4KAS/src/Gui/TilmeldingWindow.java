@@ -17,6 +17,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.time.LocalDate;
+
 import Model.*;
 import Service.Service;
 
@@ -58,6 +61,8 @@ public class TilmeldingWindow extends Stage {
     private String[] indkvarteringsTyper = {"Hotel", "Andet"};
     private CheckBox cbxLedsager;
     private Miljøkonference konference;
+    private Prisgruppe priser;
+    private Tilmelding tilmelding;
     
     
     private void initContent(GridPane pane) {
@@ -68,7 +73,7 @@ public class TilmeldingWindow extends Stage {
         
         GridPane paneKonference = new GridPane();
         pane.add(paneKonference, 0, 0);
-        paneKonference.setGridLinesVisible(true);
+        paneKonference.setGridLinesVisible(false);
         paneKonference.setPadding(new Insets(10));
         paneKonference.setHgap(10);
         paneKonference.setVgap(10);
@@ -76,7 +81,7 @@ public class TilmeldingWindow extends Stage {
     
         GridPane paneLedsager = new GridPane();
         pane.add(paneLedsager, 0, 1);
-        paneLedsager.setGridLinesVisible(true);
+        paneLedsager.setGridLinesVisible(false);
         paneLedsager.setPadding(new Insets(10));
         paneLedsager.setHgap(10);
         paneLedsager.setVgap(10);
@@ -84,7 +89,7 @@ public class TilmeldingWindow extends Stage {
         
         GridPane paneHotel = new GridPane();
         pane.add(paneHotel, 0, 2);
-        paneHotel.setGridLinesVisible(true);
+        paneHotel.setGridLinesVisible(false);
         paneHotel.setPadding(new Insets(10));
         paneHotel.setHgap(10);
         paneHotel.setVgap(10);
@@ -92,7 +97,7 @@ public class TilmeldingWindow extends Stage {
         
         GridPane panePris = new GridPane();
         pane.add(panePris, 0, 3);
-        panePris.setGridLinesVisible(true);
+        panePris.setGridLinesVisible(false);
         panePris.setPadding(new Insets(10));
         panePris.setHgap(10);
         panePris.setVgap(10);
@@ -119,6 +124,7 @@ public class TilmeldingWindow extends Stage {
         paneKonference.add(lvwPrisgrupper, 1, 1, 1, 1);
         lvwPrisgrupper.setMaxSize(200, 130);
         lvwPrisgrupper.setMinSize(200, 130);
+        lvwPrisgrupper.setDisable(true);
         
         for(int i = 0; i < indkvarteringsTyper.length; i++) {
         	RadioButton rb = new RadioButton();
@@ -126,7 +132,7 @@ public class TilmeldingWindow extends Stage {
         	rb.setToggleGroup(groupIndkvarteringsTyper);
         	boxIndkvarteringsTyper.getChildren().add(rb);
         }
-        
+        boxIndkvarteringsTyper.setDisable(true);
         paneKonference.add(boxIndkvarteringsTyper, 0, 2);
         
         
@@ -199,22 +205,37 @@ public class TilmeldingWindow extends Stage {
 
   	private void selectedKonferenceChanged()
 	{
-		this.updateControls();
+		konference = lvwMiljøkonferencer.getSelectionModel().getSelectedItem();
+		
+		if (konference != null && konference.getPrisgrupper().size() != 0)
+		{
+			lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
+			lvwPrisgrupper.setDisable(false);
+		}
+		else
+		{
+			lvwPrisgrupper.setDisable(true);
+			lvwPrisgrupper.getItems().clear();
+		}
 	}
   	
   	private void selectedPrisgruppeChanged()
   	{
+  		priser = lvwPrisgrupper.getSelectionModel().getSelectedItem();
   		
+  		if (priser != null)
+		{
+			boxIndkvarteringsTyper.setDisable(false);
+		}
+  		else
+  		{
+  			boxIndkvarteringsTyper.setDisable(true);
+  		}
   	}
 
 	public void updateControls()
 	{
-		Miljøkonference konference = lvwMiljøkonferencer.getSelectionModel().getSelectedItem();
-		
-		if (konference != null)
-		{
-			lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
-		}
+
 	}
 	
 //    private void cancelAction() {
