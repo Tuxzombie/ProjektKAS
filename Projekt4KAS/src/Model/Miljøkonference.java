@@ -38,6 +38,8 @@ public class Miljøkonference
 		this.slutDato = slutDato;
 		prisgrupper = new ArrayList<>();
 		tilmeldinger = new ArrayList<>();
+		udflugter = new ArrayList<>();
+		foredrag = new ArrayList<>();
 		this.adresse = new Adresse(vej, nr, etage, postNr, by, land);
 	}
 	

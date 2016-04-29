@@ -63,14 +63,19 @@ public class Hotelbooking {
 
 	public double udregnHotelPris() {
 		double værelsesPris = 0.0;
+		double faciliteterPris = 0.0;
+		
+		for (Facilitet facilitet : this.valgteFaciliteter) {
+				faciliteterPris += facilitet.getPris();
+			}
+		
 		if(this.isDobbeltVærelse == true) {
 			værelsesPris = this.getHotel().getPrisDobbeltVærelse();
+			
+			faciliteterPris = faciliteterPris * 2;
 		}
-		else værelsesPris = this.getHotel().getPrisEnkeltVærelse();
-		
-		double faciliteterPris = 0.0;
-		for (Facilitet facilitet : valgteFaciliteter) {
-			faciliteterPris += facilitet.getPris();
+		else {
+			værelsesPris = this.getHotel().getPrisEnkeltVærelse();
 		}
 		
 		double hotelPris = faciliteterPris + værelsesPris * getIndkvartering().getPeriode();

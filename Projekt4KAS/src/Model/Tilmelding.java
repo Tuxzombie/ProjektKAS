@@ -27,11 +27,12 @@ public class Tilmelding {
 	 * Metode der returnerer hvor mange dage en tilmelding gælder for
 	 * @return
 	 */
-	public int getPeriode() {
+	public long getPeriode() {
 		Period periode = Period.between(getStartDato(), getSlutDato());		
-		int periodeIDage = periode.getDays();
+		long periodeIDage = periode.getDays() + 1;	//Vi plusser med 1 for at inkludere slutdatoen.
 		return periodeIDage;
 	}
+
 
 	/**
 	 * Metode der returnerer hvilke deltager som tilmelding er tilknyttet
@@ -94,7 +95,16 @@ public class Tilmelding {
 		if(this.getIndkvartering().getHotelbooking() != null) {
 			samletPris = deltager.getPrisgruppe().getPris() * this.getPeriode() + this.getIndkvartering().getHotelbooking().udregnHotelPris(); 
 		}
-		else samletPris = deltager.getPrisgruppe().getPris() * this.getPeriode();
+		else {
+			samletPris = deltager.getPrisgruppe().getPris() * this.getPeriode();
+		}
+		
+		if(this.getDeltager().getLedsager() != null) {
+			for (Udflugt udflugt : getDeltager().getLedsager().getUdflugter()) {
+				samletPris += udflugt.getPris();
+			}
+		}
+		
 		return samletPris;
 	}
 

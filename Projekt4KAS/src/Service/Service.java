@@ -46,12 +46,22 @@ public class Service
 		return newHotelbooking;
 	}
 
-	public static Indkvartering createIndkvartering(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land, Hotelbooking hotelbooking)
+	public static Indkvartering createIndkvarteringMedHotelbooking(LocalDate startDato, LocalDate slutDato)
 	{
+		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato);
+		return newIndkvartering;
+	}
+	
+	public static Indkvartering createIndkvarteringUdenHotelbooking(LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land) {
 		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato, vej, nr, etage, postNr, by, land);
 		return newIndkvartering;
 	}
 
+	public static Facilitet createFacilitet(Hotel hotel, String facilitetnavn, double pris) {
+		Facilitet newFacilitet = new Facilitet(facilitetnavn, pris);
+		hotel.addFacilitet(newFacilitet);
+		return newFacilitet;
+	}
 	
 	public static void connectIndkvarteringOgHotelbooking (Indkvartering indkvartering, Hotelbooking hotelbooking) {
 		indkvartering.setHotelbooking(hotelbooking);
@@ -235,12 +245,14 @@ public class Service
 		tilmelding.setStartDato(startDato);
 	}
 
-	public static void addFacilitetToHotelbooking(Hotelbooking hotelbooking, Facilitet facilitet)
+	public static void addFacilitetTilHotelbooking(Hotelbooking hotelbooking, Facilitet facilitet)
 	{
-		if (hotelbooking.getHotel().getFaciliteter().contains(facilitet))
-		{
 			hotelbooking.addFacilitet(facilitet);
-		}
+	}
+	
+	public static void addLedsagerTilUdflugt(Udflugt udflugt, Ledsager ledsager) {
+		udflugt.addLedsager(ledsager);
+		ledsager.addUdflugt(udflugt);
 	}
 
 	public static ArrayList<Miljøkonference> getMiljøkonferencer()

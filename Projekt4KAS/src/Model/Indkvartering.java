@@ -88,7 +88,8 @@ public class Indkvartering
 	}
 
 	public long getPeriode() {
-		long nætter = ChronoUnit.DAYS.between(startDato, slutDato);
+		Period periode = Period.between(this.getStartDato(), this.getSlutDato());		
+		long nætter = periode.getDays();
 		return nætter;
-	}
+}
 }
