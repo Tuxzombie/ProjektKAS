@@ -42,7 +42,11 @@ public class TilmeldingWindow extends Stage {
     // -------------------------------------------------------------------------
 
     private TextField txfLedsagerNavn;
-    private ListView lvwMiljøkonferencer, lvwPrisgrupper, lvwUdflugter, lvwHoteller, lvwFaciliter;
+    private ListView<Miljøkonference> lvwMiljøkonferencer;
+    private ListView<Prisgruppe> lvwPrisgrupper;
+    private ListView<Udflugt> lvwUdflugter;
+    private ListView<Hotel> lvwHoteller;
+    private ListView<Facilitet> lvwFaciliter;
     private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype, lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, lblTotalPris, lblPrisUdregning;
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
@@ -115,10 +119,22 @@ public class TilmeldingWindow extends Stage {
         paneKonference.add(boxIndkvarteringsTyper, 0, 2);
         
         
+        cbxLedsager = new CheckBox("Ledsager");
+        paneLedsager.add(cbxLedsager, 0, 0);
         
+        lblLedsagerNavn = new Label("Navn:");
+        paneLedsager.add(lblLedsagerNavn, 0, 1);
         
+        txfLedsagerNavn = new TextField();
+        paneLedsager.add(txfLedsagerNavn, 0, 2);
         
+        lblUdflugter = new Label("Udflugter:");
+        paneLedsager.add(lblUdflugter, 1, 0);
         
+        lvwUdflugter = new ListView();
+        paneLedsager.add(lvwUdflugter, 1, 1, 1, 2);
+        lvwUdflugter.setMaxSize(200, 130);
+        lvwUdflugter.setMinSize(200, 130);
         
         Button btnOK = new Button("Tilmeld");
         pane.add(btnOK, 0, 4);
