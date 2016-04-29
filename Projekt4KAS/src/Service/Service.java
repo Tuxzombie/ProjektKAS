@@ -10,7 +10,7 @@ import sun.print.resources.serviceui;
 
 public class Service
 {
-
+//hemmlig diller
 	public static Hotel createHotel(String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String land, String by)
 	{
 		Hotel newHotel = new Hotel(navn, prisEnkeltVærelse, prisDobbeltVærelse, vej, nr, etage, postNr, land, by);
