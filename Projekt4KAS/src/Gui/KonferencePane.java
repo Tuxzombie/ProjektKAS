@@ -175,7 +175,12 @@ public class KonferencePane extends GridPane {
     
     private void deletePrisgruppeAction()
     {
-    	
+        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+        if (konference == null)
+            return;
+
+        PrisgrupperDeleteWindow dia = new PrisgrupperDeleteWindow("Slet Miljøkonference", konference);
+        dia.showAndWait();
     }
     
     private void createUdflugtAction()
