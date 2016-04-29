@@ -13,9 +13,9 @@ import javafx.stage.StageStyle;
 import Model.*;
 
 public class LedsagerWindow extends Stage {
-    private LedsagerWindow ledsager;
+    private Ledsager ledsager;
 
-    public LedsagerWindow(String title, LedsagerWindow ledsager) {
+    public LedsagerWindow(String title, Ledsager ledsager) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
@@ -36,7 +36,7 @@ public class LedsagerWindow extends Stage {
 
     // -------------------------------------------------------------------------
 
-    private TextField txfName, txfHours;
+    private TextField txfNavn, txfPris;
     private Label lblError;
 
     private void initContent(GridPane pane) {
@@ -48,15 +48,15 @@ public class LedsagerWindow extends Stage {
         Label lblName = new Label("Name");
         pane.add(lblName, 0, 0);
 
-        txfName = new TextField();
-        pane.add(txfName, 0, 1);
-        txfName.setPrefWidth(200);
+        txfNavn = new TextField();
+        pane.add(txfNavn, 0, 1);
+        txfNavn.setPrefWidth(200);
 
         Label lblHours = new Label("Weekly Hours");
         pane.add(lblHours, 0, 2);
 
-        txfHours = new TextField();
-        pane.add(txfHours, 0, 3);
+        txfPris = new TextField();
+        pane.add(txfPris, 0, 3);
 
         Button btnCancel = new Button("Cancel");
         pane.add(btnCancel, 0, 4);
@@ -92,7 +92,7 @@ public class LedsagerWindow extends Stage {
     }
 
     private void okAction() {
-        String name = txfName.getText().trim();
+        String name = txfNavn.getText().trim();
         if (name.length() == 0) {
             lblError.setText("Name is empty");
             return;
@@ -100,7 +100,7 @@ public class LedsagerWindow extends Stage {
 
         int hours = -1;
         try {
-            hours = Integer.parseInt(txfHours.getText().trim());
+            hours = Integer.parseInt(txfPris.getText().trim());
         } catch (NumberFormatException ex) {
             // do nothing
         }

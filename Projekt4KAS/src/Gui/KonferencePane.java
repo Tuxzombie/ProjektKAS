@@ -98,7 +98,6 @@ public class KonferencePane extends GridPane {
         
         HBox hbxButtons = new HBox(40);
         this.add(hbxButtons, 0, 7, 3, 1);
-//        hbxButtons.setPadding(new Insets(10, 0, 0, 0));
         hbxButtons.setAlignment(Pos.BASELINE_LEFT);
 
         Button btnCreateKonference = new Button("Opret \nKonference");
@@ -118,6 +117,35 @@ public class KonferencePane extends GridPane {
         btnDeleteKonference.setTextAlignment(TextAlignment.CENTER);
         hbxButtons.getChildren().add(btnDeleteKonference);
         btnDeleteKonference.setOnAction(event -> this.deleteKonferenceAction());
+        
+        HBox hbxButtons1 = new HBox(40);
+        this.add(hbxButtons1, 0, 8, 3, 1);
+        hbxButtons1.setAlignment(Pos.BASELINE_LEFT);
+        
+        Button btnCreatePrisgruppe = new Button("Opret \nPrisgruppe");
+        btnCreatePrisgruppe.setMinWidth(80);
+        btnCreatePrisgruppe.setTextAlignment(TextAlignment.CENTER);
+        hbxButtons1.getChildren().add(btnCreatePrisgruppe);
+        btnCreatePrisgruppe.setOnAction(event -> this.createPrisgruppeAction());
+
+        Button btnDeletePrisgruppe = new Button("Delete \nPrisgruppe");
+        btnDeletePrisgruppe.setMinWidth(80);
+        btnDeletePrisgruppe.setTextAlignment(TextAlignment.CENTER);
+        hbxButtons1.getChildren().add(btnDeletePrisgruppe);
+        btnDeletePrisgruppe.setOnAction(event -> this.deletePrisgruppeAction());
+
+        Button btnCreateUdflugt = new Button("Opret \nPrisgruppe");
+        btnCreateUdflugt.setMinWidth(80);
+        btnCreateUdflugt.setTextAlignment(TextAlignment.CENTER);
+        hbxButtons1.getChildren().add(btnCreateUdflugt);
+        btnCreateUdflugt.setOnAction(event -> this.createUdflugtAction());
+
+        Button btnDeleteUdflugt = new Button("Delete \nPrisgruppe");
+        btnDeletePrisgruppe.setMinWidth(80);
+        btnDeletePrisgruppe.setTextAlignment(TextAlignment.CENTER);
+        hbxButtons1.getChildren().add(btnDeleteUdflugt);
+        btnDeletePrisgruppe.setOnAction(event -> this.deleteUdflugtAction());
+        
 
 
         if (lvwKonference.getItems().size() > 0) {
@@ -135,6 +163,25 @@ public class KonferencePane extends GridPane {
 
     // -------------------------------------------------------------------------
 
+    private void createPrisgruppeAction()
+    {
+    	
+    }
+    
+    private void deletePrisgruppeAction()
+    {
+    	
+    }
+    
+    private void createUdflugtAction()
+    {
+    	
+    }
+    
+    private void deleteUdflugtAction()
+    {
+    	
+    }
 
     private void createKonferenceAction() {
         KonferenceWindow dia = new KonferenceWindow("Opret Miljøkonference");
