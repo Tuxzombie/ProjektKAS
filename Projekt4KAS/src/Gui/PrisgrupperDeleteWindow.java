@@ -42,16 +42,16 @@ public class PrisgrupperDeleteWindow extends Stage
 		pane.setGridLinesVisible(false);
 		
         lvwPrisgrupper = new ListView<>();
-        pane.add(lvwPrisgrupper, 0, 0, 1, 1);
-        lvwPrisgrupper.setMinSize(200, 330);
-        lvwPrisgrupper.setMaxSize(200, 330);
+        pane.add(lvwPrisgrupper, 0, 0, 2, 1);
+        lvwPrisgrupper.setMinSize(200, 100);
+        lvwPrisgrupper.setMaxSize(200, 100);
         lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
         
-		Button btnOK = new Button("OK");
+		Button btnOK = new Button("Slet");
 		pane.add(btnOK, 0, 1);
 		btnOK.setOnAction(event -> this.okAction());
 
-		Button btnCancel = new Button("Cancel");
+		Button btnCancel = new Button("Annuller");
 		pane.add(btnCancel, 1, 1);
 		btnCancel.setOnAction(event -> this.cancelAction());
 		
@@ -59,7 +59,9 @@ public class PrisgrupperDeleteWindow extends Stage
 	
 	private void okAction()
 	{
-		konference.removePrisgruppe(lvwPrisgrupper.getSelectionModel().getSelectedItem());
+		Service.deletePrisgruppe(lvwPrisgrupper.getSelectionModel().getSelectedItem(), konference);
+		
+		this.hide();
 	}
 	
 	private void cancelAction()

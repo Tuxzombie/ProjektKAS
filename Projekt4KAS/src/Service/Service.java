@@ -137,9 +137,16 @@ public class Service
 		indkvartering.setHotelbooking(null);
 	}
 	
-	public static void delete()
+	public static void deletePrisgruppe(Prisgruppe prisgruppe, Miljøkonference miljøkonference)
 	{
-		
+		miljøkonference.removePrisgruppe(prisgruppe);
+		for (Tilmelding liste : miljøkonference.getTilmeldingliste())
+		{
+			if (liste.getDeltager().getPrisgruppe() == prisgruppe)
+			{
+				liste.getDeltager().setPrisgruppe(null);
+			}
+		}
 	}
 
 	public static void updateHotelbooking(Hotelbooking hotelbooking, Hotel hotel, Indkvartering indkvartering, boolean isDobbeltVærelse)

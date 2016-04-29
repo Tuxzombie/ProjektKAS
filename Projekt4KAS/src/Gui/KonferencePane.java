@@ -169,7 +169,7 @@ public class KonferencePane extends GridPane {
         if (konference == null)
             return;
 
-        PrisgruppeWindow dia = new PrisgruppeWindow("Opdater Miljøkonference", konference);
+        PrisgruppeWindow dia = new PrisgruppeWindow("Opret Prisgruppe", konference);
         dia.showAndWait();
     }
     
@@ -179,7 +179,7 @@ public class KonferencePane extends GridPane {
         if (konference == null)
             return;
 
-        PrisgrupperDeleteWindow dia = new PrisgrupperDeleteWindow("Slet Miljøkonference", konference);
+        PrisgrupperDeleteWindow dia = new PrisgrupperDeleteWindow("Slet Prisgruppe", konference);
         dia.showAndWait();
     }
     
