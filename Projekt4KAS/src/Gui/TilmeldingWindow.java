@@ -62,6 +62,7 @@ public class TilmeldingWindow extends Stage {
     private CheckBox cbxLedsager;
     private Miljøkonference konference;
     private Prisgruppe priser;
+    private Hotelbooking hotelbooking;
     private Tilmelding tilmelding;
     
     
