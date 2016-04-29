@@ -47,5 +47,10 @@ public class Facilitet {
 		this.pris = pris;
 	}
 	
+	@Override
+	public String toString() {
+		String s = this.facilitetNavn + ", " + this.pris + " kr."; 
+		return s;
+	}
 
 }

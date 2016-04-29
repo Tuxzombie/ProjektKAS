@@ -132,5 +132,10 @@ public class Hotel
 		this.prisDobbeltVærelse = prisDobbeltVærelse;
 	}
 
+	@Override
+	public String toString() {
+		String s = this.navn + "(" + this.prisEnkeltVærelse + "kr. / " + this.prisDobbeltVærelse + " kr.)";
+				return s;
+	}
 
 }
