@@ -81,18 +81,6 @@ public class PrisgruppeWindow extends Stage
 		pane.add(lblError, 0, 5, 2, 1);
 		lblError.setStyle("-fx-text-fill: red");
 
-		this.initControls();
-	}
-
-	private void initControls()
-	{
-		if (konference != null)
-		{
-
-		} else
-		{
-
-		}
 	}
 
 	// -------------------------------------------------------------------------
@@ -134,13 +122,7 @@ public class PrisgruppeWindow extends Stage
 		}
 
 	
-//		if (konference != null)
-//		{
-//			Service.updatePrisgruppe(Service.createPrisgruppe(konference, navn, pris), navn, pris);
-//		} else
-//		{
 			Service.createPrisgruppe(konference, navn, pris);
-//		}
 
 		this.hide();
 	}

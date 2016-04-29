@@ -136,6 +136,11 @@ public class Service
 	{
 		indkvartering.setHotelbooking(null);
 	}
+	
+	public static void delete()
+	{
+		
+	}
 
 	public static void updateHotelbooking(Hotelbooking hotelbooking, Hotel hotel, Indkvartering indkvartering, boolean isDobbeltVærelse)
 	{
