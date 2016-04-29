@@ -165,13 +165,12 @@ public class KonferencePane extends GridPane {
 
     private void createPrisgruppeAction()
     {
-    	PrisgruppeWindow dia = new PrisgruppeWindow("");
-    	dia.showAndWait();
-    	
-        // Wait for the modal dialog to close
+        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+        if (konference == null)
+            return;
 
-        lvwKonference.getItems().setAll(this.initAllKonfList());
-        this.updateControls();
+        PrisgruppeWindow dia = new PrisgruppeWindow("Opdater Miljøkonference", konference);
+        dia.showAndWait();
     }
     
     private void deletePrisgruppeAction()
