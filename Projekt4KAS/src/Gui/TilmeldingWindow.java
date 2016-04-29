@@ -140,7 +140,7 @@ public class TilmeldingWindow extends Stage {
         pane.add(btnOK, 0, 4);
         GridPane.setHalignment(btnOK, HPos.RIGHT);
         //btnOK.setOnAction(event -> this.okAction());
-
+        //LUDER
         lblError = new Label();
         pane.add(lblError, 0, 5);
         lblError.setStyle("-fx-text-fill: red");
