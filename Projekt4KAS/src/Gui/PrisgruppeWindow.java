@@ -56,16 +56,29 @@ public class PrisgruppeWindow extends Stage
 		pane.setVgap(10);
 		pane.setGridLinesVisible(false);
 
+        Label lblNavn = new Label("Navn");
+        pane.add(lblNavn, 0, 0);
+
+        txfNavn = new TextField();
+        pane.add(txfNavn, 0, 1);
+        txfNavn.setPrefWidth(200);
+
+        Label lblPris = new Label("Pris");
+        pane.add(lblPris, 0, 2);
+
+        txfPris = new TextField();
+        pane.add(txfPris, 0, 3);
+        
 		Button btnOK = new Button("OK");
-		pane.add(btnOK, 0, 1);
+		pane.add(btnOK, 0, 4);
 		btnOK.setOnAction(event -> this.okAction());
 
 		Button btnCancel = new Button("Cancel");
-		pane.add(btnCancel, 1, 1);
+		pane.add(btnCancel, 1, 4);
 		btnCancel.setOnAction(event -> this.cancelAction());
 
 		lblError = new Label();
-		pane.add(lblError, 0, 2, 2, 1);
+		pane.add(lblError, 0, 5, 2, 1);
 		lblError.setStyle("-fx-text-fill: red");
 
 		this.initControls();
@@ -121,13 +134,13 @@ public class PrisgruppeWindow extends Stage
 		}
 
 	
-		if (konference != null)
-		{
-			Service.updatePrisgruppe(Service.createPrisgruppe(konference, navn, pris), navn, pris);
-		} else
-		{
+//		if (konference != null)
+//		{
+//			Service.updatePrisgruppe(Service.createPrisgruppe(konference, navn, pris), navn, pris);
+//		} else
+//		{
 			Service.createPrisgruppe(konference, navn, pris);
-		}
+//		}
 
 		this.hide();
 	}

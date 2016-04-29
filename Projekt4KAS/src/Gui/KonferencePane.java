@@ -134,17 +134,17 @@ public class KonferencePane extends GridPane {
         hbxButtons1.getChildren().add(btnDeletePrisgruppe);
         btnDeletePrisgruppe.setOnAction(event -> this.deletePrisgruppeAction());
 
-        Button btnCreateUdflugt = new Button("Opret \nPrisgruppe");
+        Button btnCreateUdflugt = new Button("Opret \nUdflugt");
         btnCreateUdflugt.setMinWidth(80);
         btnCreateUdflugt.setTextAlignment(TextAlignment.CENTER);
         hbxButtons1.getChildren().add(btnCreateUdflugt);
         btnCreateUdflugt.setOnAction(event -> this.createUdflugtAction());
 
-        Button btnDeleteUdflugt = new Button("Delete \nPrisgruppe");
-        btnDeletePrisgruppe.setMinWidth(80);
-        btnDeletePrisgruppe.setTextAlignment(TextAlignment.CENTER);
+        Button btnDeleteUdflugt = new Button("Delete \nUdflugt");
+        btnDeleteUdflugt.setMinWidth(80);
+        btnDeleteUdflugt.setTextAlignment(TextAlignment.CENTER);
         hbxButtons1.getChildren().add(btnDeleteUdflugt);
-        btnDeletePrisgruppe.setOnAction(event -> this.deleteUdflugtAction());
+        btnDeleteUdflugt.setOnAction(event -> this.deleteUdflugtAction());
         
 
 
@@ -165,7 +165,13 @@ public class KonferencePane extends GridPane {
 
     private void createPrisgruppeAction()
     {
+    	PrisgruppeWindow dia = new PrisgruppeWindow("");
+    	dia.showAndWait();
     	
+        // Wait for the modal dialog to close
+
+        lvwKonference.getItems().setAll(this.initAllKonfList());
+        this.updateControls();
     }
     
     private void deletePrisgruppeAction()

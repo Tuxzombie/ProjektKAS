@@ -36,10 +36,10 @@ public class Miljøkonference
 		this.tema = tema;
 		this.startDato = startDato;
 		this.slutDato = slutDato;
-		prisgrupper = new ArrayList<>();
-		tilmeldinger = new ArrayList<>();
-		udflugter = new ArrayList<>();
-		foredrag = new ArrayList<>();
+		this.prisgrupper = new ArrayList<>();
+		this.tilmeldinger = new ArrayList<>();
+		this.udflugter = new ArrayList<>();
+		this.foredrag = new ArrayList<>();
 		this.adresse = new Adresse(vej, nr, etage, postNr, by, land);
 	}
 	
