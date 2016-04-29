@@ -30,9 +30,7 @@ public class MainApp extends Application
 	
     @Override
     public void init() {
-		Service.createMiljøkonference("Pikkens glæder", "Piknusning",
-				LocalDate.now(), LocalDate.now().plusDays(10), "SmåVænget",
-				13, "", 8000, "Århus", "Danmark");
+		Service.initStorage();
     }
 
 	@Override

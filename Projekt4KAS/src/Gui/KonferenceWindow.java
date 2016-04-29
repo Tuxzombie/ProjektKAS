@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.IllegalFormatException;
 
 import Model.*;
@@ -140,20 +141,20 @@ public class KonferenceWindow extends Stage {
     	String titel = txfInput[0].getText().trim();
     	String tema = txfInput[1].getText().trim();
     	
-    	LocalDate startDato = null;
+    	LocalDate startDato = LocalDate.MIN;
     	try
 		{
         	startDato = LocalDate.parse(txfInput[2].getText().trim());
-		} catch (NumberFormatException ex)
+		} catch (DateTimeParseException ex)
 		{
 			// do nothing
 		}
     	
-    	LocalDate slutDato = null;
+    	LocalDate slutDato = LocalDate.MIN;
     	try
 		{
         	slutDato = LocalDate.parse(txfInput[3].getText().trim());
-		} catch (NumberFormatException ex)
+		} catch (DateTimeParseException ex)
 		{
 			// do nothing
 		}
@@ -193,12 +194,12 @@ public class KonferenceWindow extends Stage {
 			lblError.setText("Tema er tom");
 			return;
 		}
-        else if (startDato == null)
+        else if (startDato == LocalDate.MIN)
  		{
  			lblError.setText("Start Dato er tom");
  			return;
  		}
-        else if (slutDato == null)
+        else if (slutDato == LocalDate.MIN)
 		{
 			lblError.setText("Slut Dato er tom");
 			return;
@@ -206,6 +207,11 @@ public class KonferenceWindow extends Stage {
         else if (vej.length() == 0)
 		{
 			lblError.setText("Vej er tom");
+			return;
+		}
+        else if (nr <=0)
+		{
+			lblError.setText("Nr er ugyldigt");
 			return;
 		}
         else if (postNr <=0)

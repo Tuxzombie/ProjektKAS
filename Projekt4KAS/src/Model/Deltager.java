@@ -28,6 +28,14 @@ public class Deltager
 		this.telefonNr = telefonNr;
 		this.prisgruppe = prisgruppe;
 	}
+	
+	
+	@Override
+	public String toString()
+	{
+		return navn;
+	}
+
 
 	public Firma getFirma() {
 		return firma;

@@ -47,7 +47,7 @@ public class DeltagerPane extends GridPane
 		this.add(lvwDeltagere, 0, 1, 1, 6);
 		lvwDeltagere.setMinSize(200, 330);
 		lvwDeltagere.setMaxSize(200, 330);
-		//lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
+		lvwDeltagere.getItems().setAll(Service.getDeltagere());
 		ChangeListener<Deltager> listener = (ov, oldDeltager, newDeltager) -> this.selectedDeltagerChanged();
 		lvwDeltagere.getSelectionModel().selectedItemProperty().addListener(listener);
 
@@ -168,10 +168,10 @@ public class DeltagerPane extends GridPane
 	private ArrayList<Deltager> initAllDeltagerList()
 	{
 		ArrayList<Deltager> list = new ArrayList<>();
-//		for (Deltager delt : Service.getDeltagere())
-//		{
-//			list.add(delt);
-//		}
+		for (Deltager delt : Service.getDeltagere())
+		{
+			list.add(delt);
+		}
 		return list;
 	}
 
@@ -227,23 +227,24 @@ public class DeltagerPane extends GridPane
 
 	private void deleteActionDeltager()
 	{
-		 Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
-		 if (deltager == null)
-		 return;
-		
-		 Stage owner = (Stage) this.getScene().getWindow();
-		 Alert alert = new Alert(AlertType.CONFIRMATION);
-		 alert.setTitle("Delete Employee");
-		 alert.initOwner(owner);
-		 alert.setHeaderText("Are you sure?");
-		
-		 // Wait for the modal dialog to close
-		 Optional<ButtonType> result = alert.showAndWait();
-		 if (result.isPresent() && result.get() == ButtonType.OK) {
-//		 Service.deleteDeltager(deltager);
-		 lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
-		 this.updateControls();
-		 }
+		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
+		if (deltager == null)
+			return;
+
+		Stage owner = (Stage) this.getScene().getWindow();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Slet Deltager");
+		alert.initOwner(owner);
+		alert.setHeaderText("Er du sikker?");
+
+		// Wait for the modal dialog to close
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.isPresent() && result.get() == ButtonType.OK)
+		{
+			Service.deleteDeltager(deltager);
+			lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
+			this.updateControls();
+		}
 	}
 
 	// -------------------------------------------------------------------------
@@ -255,28 +256,45 @@ public class DeltagerPane extends GridPane
 
 	public void updateControls()
 	{
-		// Employee employee =
-		// lvwKonference.getSelectionModel().getSelectedItem();
-		// if (employee != null) {
-		// txfName.setText(employee.getName());
-		// txfWage.setText("kr " + employee.getWage());
-		// //txfEmploymentYear.setText(""+employee.getEmploymentYear());
-		// if (employee.getCompany() != null) {
-		// txfCompany.setText("" + employee.getCompany());
-		// txfSalary.setText("kr " + employee.weeklySalary());
-		// txfEmploymentYear.setText(""+employee.getEmploymentYear());
-		// } else {
-		// txfCompany.clear();
-		// txfSalary.clear();
-		// txfEmploymentYear.clear();
-		// }
-		// } else {
-		// txfName.clear();
-		// txfWage.clear();
-		// txfCompany.clear();
-		// txfSalary.clear();
-		// txfEmploymentYear.clear();
-		// }
+		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
+
+		if (deltager != null)
+		{
+			txfNavn.setText(deltager.getNavn());
+			txfTlfNr.setText("" + deltager.getTelefonNr());
+			try
+			{
+				txfLedsager.setText(deltager.getLedsager().getNavn());
+			} catch (NullPointerException ex)
+			{
+				//Do nothing
+			}			
+			txfIndskvartering.setText("");
+
+			txaAdresse.setText(deltager.getAdresse().toString());
+
+			StringBuilder sb = new StringBuilder();
+			for (Miljøkonference konf : Service.getMiljøkonferencer())
+			{
+				for (Tilmelding til : konf.getTilmeldingliste())
+				{
+					if (til.getDeltager() == deltager)
+					{
+						sb.append(konf.getTitel() + "\n");
+					}					
+				}
+			}
+			txaMiljøkonferencer.setText(sb.toString());
+		}
+		else
+		{
+			txfNavn.clear();
+			txfTlfNr.clear();
+			txfLedsager.clear();
+			txfIndskvartering.clear();
+			txaAdresse.clear();
+			txaMiljøkonferencer.clear();
+		}
 	}
 
 }
