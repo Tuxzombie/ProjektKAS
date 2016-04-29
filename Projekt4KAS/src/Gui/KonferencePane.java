@@ -22,251 +22,266 @@ import javafx.stage.Stage;
 import Model.*;
 import Service.Service;
 
+public class KonferencePane extends GridPane
+{
+	private TextField txfTitel, txfTema,
+			txfStartDato, txfSlutDato;
+	private ListView<Miljøkonference> lvwKonference;
+	private TextArea txaAdresse,
+			txaDeltagere;
 
-public class KonferencePane extends GridPane {
-    private TextField txfTitel, txfTema, txfStartDato, txfSlutDato;
-    private ListView<Miljøkonference> lvwKonference;
-    private TextArea txaAdresse, txaDeltagere;
-    
-    private final int FIELD_WIDTH = 263;
+	private final int FIELD_WIDTH = 263;
 
-    public KonferencePane() {
-        this.setPadding(new Insets(20));
-        this.setHgap(20);
-        this.setVgap(10);
-        this.setGridLinesVisible(false);
-        
-        
-        Label lblComp = new Label("Miljøkonferencer");
-        this.add(lblComp, 0, 0);
+	public KonferencePane()
+	{
+		this.setPadding(new Insets(20));
+		this.setHgap(20);
+		this.setVgap(10);
+		this.setGridLinesVisible(false);
 
-        lvwKonference = new ListView<>();
-        this.add(lvwKonference, 0, 1, 1, 6);
-        lvwKonference.setMinSize(200, 330);
-        lvwKonference.setMaxSize(200, 330);
-        lvwKonference.getItems().setAll(Service.getMiljøkonferencer());
-        ChangeListener<Miljøkonference> listener =
-            (ov, oldMiljøkonference, newMiljøkonference) -> this.selectedKonferenceChanged();
-        lvwKonference.getSelectionModel().selectedItemProperty().addListener(listener);
+		Label lblComp = new Label("Miljøkonferencer");
+		this.add(lblComp, 0, 0);
 
-        Label lblTitel = new Label("Titel:");
-        this.add(lblTitel, 1, 1);
+		lvwKonference = new ListView<>();
+		this.add(lvwKonference, 0, 1, 1, 6);
+		lvwKonference.setMinSize(200, 330);
+		lvwKonference.setMaxSize(200, 330);
+		lvwKonference.getItems().setAll(Service.getMiljøkonferencer());
+		ChangeListener<Miljøkonference> listener = (ov, oldMiljøkonference, newMiljøkonference) -> this.selectedKonferenceChanged();
+		lvwKonference.getSelectionModel().selectedItemProperty().addListener(listener);
 
-        txfTitel = new TextField();
-        this.add(txfTitel, 2, 1);
-        txfTitel.setPrefWidth(FIELD_WIDTH);
-        txfTitel.setEditable(false);
+		Label lblTitel = new Label("Titel:");
+		this.add(lblTitel, 1, 1);
 
-        Label lblTema = new Label("Tema:");
-        this.add(lblTema, 1, 2);
+		txfTitel = new TextField();
+		this.add(txfTitel, 2, 1);
+		txfTitel.setPrefWidth(FIELD_WIDTH);
+		txfTitel.setEditable(false);
 
-        txfTema = new TextField();
-        this.add(txfTema, 2, 2);
-        txfTema.setEditable(false);
+		Label lblTema = new Label("Tema:");
+		this.add(lblTema, 1, 2);
 
-        Label lblStartDato = new Label("Start Dato:");
-        this.add(lblStartDato, 1, 3);
+		txfTema = new TextField();
+		this.add(txfTema, 2, 2);
+		txfTema.setEditable(false);
 
-        txfStartDato = new TextField();
-        this.add(txfStartDato, 2, 3);
-        txfStartDato.setEditable(false);
+		Label lblStartDato = new Label("Start Dato:");
+		this.add(lblStartDato, 1, 3);
 
-        Label lblSlutDato = new Label("Slut Dato:");
-        this.add(lblSlutDato, 1, 4);
+		txfStartDato = new TextField();
+		this.add(txfStartDato, 2, 3);
+		txfStartDato.setEditable(false);
 
-        txfSlutDato = new TextField();
-        this.add(txfSlutDato, 2, 4);
-        txfSlutDato.setEditable(false);
-        
-        Label lblAdresse = new Label("Adresse:");
-        this.add(lblAdresse, 1, 5);
-        
-        txaAdresse = new TextArea();
-        txaAdresse.setMaxSize(FIELD_WIDTH, 80);
-        txaAdresse.setMinSize(FIELD_WIDTH, 80);
-        txaAdresse.setEditable(false);
-        this.add(txaAdresse, 2, 5);
-        
-        Label lblDeltagere = new Label("Deltagere:");
-        this.add(lblDeltagere, 1, 6);
-        
-        txaDeltagere = new TextArea();
-        txaDeltagere.setMaxSize(FIELD_WIDTH, 80);
-        txaDeltagere.setMinSize(FIELD_WIDTH, 80);
-        txaDeltagere.setEditable(false);
-        this.add(txaDeltagere, 2, 6);
-        
-        HBox hbxButtons = new HBox(40);
-        this.add(hbxButtons, 0, 7, 3, 1);
-        hbxButtons.setAlignment(Pos.BASELINE_LEFT);
+		Label lblSlutDato = new Label("Slut Dato:");
+		this.add(lblSlutDato, 1, 4);
 
-        Button btnCreateKonference = new Button("Opret \nKonference");
-        btnCreateKonference.setMinWidth(80);
-        btnCreateKonference.setTextAlignment(TextAlignment.CENTER);
-        hbxButtons.getChildren().add(btnCreateKonference);
-        btnCreateKonference.setOnAction(event -> this.createKonferenceAction());
+		txfSlutDato = new TextField();
+		this.add(txfSlutDato, 2, 4);
+		txfSlutDato.setEditable(false);
 
-        Button btnUpdateKonference = new Button("Opdater \nKonference");
-        btnUpdateKonference.setMinWidth(80);
-        btnUpdateKonference.setTextAlignment(TextAlignment.CENTER);
-        hbxButtons.getChildren().add(btnUpdateKonference);
-        btnUpdateKonference.setOnAction(event -> this.updateKonferenceAction());
+		Label lblAdresse = new Label("Adresse:");
+		this.add(lblAdresse, 1, 5);
 
-        Button btnDeleteKonference = new Button("Slet \nKonference");
-        btnDeleteKonference.setMinWidth(80);
-        btnDeleteKonference.setTextAlignment(TextAlignment.CENTER);
-        hbxButtons.getChildren().add(btnDeleteKonference);
-        btnDeleteKonference.setOnAction(event -> this.deleteKonferenceAction());
-        
-        HBox hbxButtons1 = new HBox(40);
-        this.add(hbxButtons1, 0, 8, 3, 1);
-        hbxButtons1.setAlignment(Pos.BASELINE_LEFT);
-        
-        Button btnCreatePrisgruppe = new Button("Opret \nPrisgruppe");
-        btnCreatePrisgruppe.setMinWidth(80);
-        btnCreatePrisgruppe.setTextAlignment(TextAlignment.CENTER);
-        hbxButtons1.getChildren().add(btnCreatePrisgruppe);
-        btnCreatePrisgruppe.setOnAction(event -> this.createPrisgruppeAction());
+		txaAdresse = new TextArea();
+		txaAdresse.setMaxSize(FIELD_WIDTH, 80);
+		txaAdresse.setMinSize(FIELD_WIDTH, 80);
+		txaAdresse.setEditable(false);
+		this.add(txaAdresse, 2, 5);
 
-        Button btnDeletePrisgruppe = new Button("Delete \nPrisgruppe");
-        btnDeletePrisgruppe.setMinWidth(80);
-        btnDeletePrisgruppe.setTextAlignment(TextAlignment.CENTER);
-        hbxButtons1.getChildren().add(btnDeletePrisgruppe);
-        btnDeletePrisgruppe.setOnAction(event -> this.deletePrisgruppeAction());
+		Label lblDeltagere = new Label("Deltagere:");
+		this.add(lblDeltagere, 1, 6);
 
-        Button btnCreateUdflugt = new Button("Opret \nUdflugt");
-        btnCreateUdflugt.setMinWidth(80);
-        btnCreateUdflugt.setTextAlignment(TextAlignment.CENTER);
-        hbxButtons1.getChildren().add(btnCreateUdflugt);
-        btnCreateUdflugt.setOnAction(event -> this.createUdflugtAction());
+		txaDeltagere = new TextArea();
+		txaDeltagere.setMaxSize(FIELD_WIDTH, 80);
+		txaDeltagere.setMinSize(FIELD_WIDTH, 80);
+		txaDeltagere.setEditable(false);
+		this.add(txaDeltagere, 2, 6);
 
-        Button btnDeleteUdflugt = new Button("Delete \nUdflugt");
-        btnDeleteUdflugt.setMinWidth(80);
-        btnDeleteUdflugt.setTextAlignment(TextAlignment.CENTER);
-        hbxButtons1.getChildren().add(btnDeleteUdflugt);
-        btnDeleteUdflugt.setOnAction(event -> this.deleteUdflugtAction());
-        
+		HBox hbxButtons = new HBox(40);
+		this.add(hbxButtons, 0, 7, 3, 1);
+		hbxButtons.setAlignment(Pos.BASELINE_LEFT);
 
+		Button btnCreateKonference = new Button("Opret \nKonference");
+		btnCreateKonference.setMinWidth(80);
+		btnCreateKonference.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons.getChildren().add(btnCreateKonference);
+		btnCreateKonference.setOnAction(event -> this.createKonferenceAction());
 
-        if (lvwKonference.getItems().size() > 0) {
-            lvwKonference.getSelectionModel().select(0);
-        }
-    }
+		Button btnUpdateKonference = new Button("Opdater \nKonference");
+		btnUpdateKonference.setMinWidth(80);
+		btnUpdateKonference.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons.getChildren().add(btnUpdateKonference);
+		btnUpdateKonference.setOnAction(event -> this.updateKonferenceAction());
 
-    private ArrayList<Miljøkonference> initAllKonfList() {
-        ArrayList<Miljøkonference> list = new ArrayList<>();
-        for (Miljøkonference konf : Service.getMiljøkonferencer()) {
-            list.add(konf);
-        }
-        return list;
-    }
+		Button btnDeleteKonference = new Button("Slet \nKonference");
+		btnDeleteKonference.setMinWidth(80);
+		btnDeleteKonference.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons.getChildren().add(btnDeleteKonference);
+		btnDeleteKonference.setOnAction(event -> this.deleteKonferenceAction());
 
-    // -------------------------------------------------------------------------
+		HBox hbxButtons1 = new HBox(40);
+		this.add(hbxButtons1, 0, 8, 3, 1);
+		hbxButtons1.setAlignment(Pos.BASELINE_LEFT);
 
-    private void createPrisgruppeAction()
-    {
-        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
-        if (konference == null)
-            return;
+		Button btnCreatePrisgruppe = new Button("Opret \nPrisgruppe");
+		btnCreatePrisgruppe.setMinWidth(80);
+		btnCreatePrisgruppe.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons1.getChildren().add(btnCreatePrisgruppe);
+		btnCreatePrisgruppe.setOnAction(event -> this.createPrisgruppeAction());
 
-        PrisgruppeWindow dia = new PrisgruppeWindow("Opret Prisgruppe", konference);
-        dia.showAndWait();
-    }
-    
-    private void deletePrisgruppeAction()
-    {
-        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
-        if (konference == null)
-            return;
+		Button btnDeletePrisgruppe = new Button("Delete \nPrisgruppe");
+		btnDeletePrisgruppe.setMinWidth(80);
+		btnDeletePrisgruppe.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons1.getChildren().add(btnDeletePrisgruppe);
+		btnDeletePrisgruppe.setOnAction(event -> this.deletePrisgruppeAction());
 
-        PrisgrupperDeleteWindow dia = new PrisgrupperDeleteWindow("Slet Prisgruppe", konference);
-        dia.showAndWait();
-    }
-    
-    private void createUdflugtAction()
-    {
-    	
-    }
-    
-    private void deleteUdflugtAction()
-    {
-    	
-    }
+		Button btnCreateUdflugt = new Button("Opret \nUdflugt");
+		btnCreateUdflugt.setMinWidth(80);
+		btnCreateUdflugt.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons1.getChildren().add(btnCreateUdflugt);
+		btnCreateUdflugt.setOnAction(event -> this.createUdflugtAction());
 
-    private void createKonferenceAction() {
-        KonferenceWindow dia = new KonferenceWindow("Opret Miljøkonference");
-        dia.showAndWait();
+		Button btnDeleteUdflugt = new Button("Delete \nUdflugt");
+		btnDeleteUdflugt.setMinWidth(80);
+		btnDeleteUdflugt.setTextAlignment(TextAlignment.CENTER);
+		hbxButtons1.getChildren().add(btnDeleteUdflugt);
+		btnDeleteUdflugt.setOnAction(event -> this.deleteUdflugtAction());
 
-        // Wait for the modal dialog to close
+		if (lvwKonference.getItems().size() > 0)
+		{
+			lvwKonference.getSelectionModel().select(0);
+		}
+	}
 
-        lvwKonference.getItems().setAll(this.initAllKonfList());
-        this.updateControls();
-    }
+	private ArrayList<Miljøkonference> initAllKonfList()
+	{
+		ArrayList<Miljøkonference> list = new ArrayList<>();
+		for (Miljøkonference konf : Service.getMiljøkonferencer())
+		{
+			list.add(konf);
+		}
+		return list;
+	}
 
-    private void updateKonferenceAction() {
-        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
-        if (konference == null)
-            return;
+	// -------------------------------------------------------------------------
 
-        KonferenceWindow dia = new KonferenceWindow("Opdater Miljøkonference", konference);
-        dia.showAndWait();
+	private void createPrisgruppeAction()
+	{
+		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+		if (konference == null)
+			return;
 
-        // Wait for the modal dialog to close
+		PrisgruppeWindow dia = new PrisgruppeWindow("Opret Prisgruppe", konference);
+		dia.showAndWait();
+	}
 
-        int selectIndex = lvwKonference.getSelectionModel().getSelectedIndex();
-        lvwKonference.getItems().setAll(this.initAllKonfList());
-        lvwKonference.getSelectionModel().select(selectIndex);
-    }
+	private void deletePrisgruppeAction()
+	{
+		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+		if (konference == null)
+			return;
 
-    private void deleteKonferenceAction() {
-    	Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
-        if (konference == null)
-            return;
+		PrisgrupperDeleteWindow dia = new PrisgrupperDeleteWindow("Slet Prisgruppe", konference);
+		dia.showAndWait();
+	}
 
-        Stage owner = (Stage) this.getScene().getWindow();
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Slet Miljøkonference");
-        alert.initOwner(owner);
-        alert.setHeaderText("Er du sikker?");
+	private void createUdflugtAction()
+	{
 
-        // Wait for the modal dialog to close
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Service.deleteMiljøkonference(konference);
-            lvwKonference.getItems().setAll(this.initAllKonfList());
-            this.updateControls();
-        }
-    }
+	}
 
-    // -------------------------------------------------------------------------
+	private void deleteUdflugtAction()
+	{
 
-    private void selectedKonferenceChanged() {
-        this.updateControls();
-    }
+	}
 
-    public void updateControls() {
-        Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
-        if (konference != null) {
-        	txfTitel.setText(konference.getTitel());
-        	txfTema.setText(konference.getTema());
-        	txfStartDato.setText(konference.getStartDato().toString());
-        	txfSlutDato.setText(konference.getSlutDato().toString());
-        	txaAdresse.setText(konference.getAdresse().toString());
-        	
-            StringBuilder sb = new StringBuilder();
-            for (Tilmelding delt : konference.getTilmeldingliste()) {
-                sb.append(delt.getDeltager().getNavn() + "\n");
-            }
-            txaDeltagere.setText(sb.toString());
+	private void createKonferenceAction()
+	{
+		KonferenceWindow dia = new KonferenceWindow("Opret Miljøkonference");
+		dia.showAndWait();
 
-        } else {
-        	txfTitel.clear();
-        	txfTema.clear();
-        	txfStartDato.clear();
-        	txfSlutDato.clear();
-        	txaAdresse.clear();
-        	txaDeltagere.clear();
-        }
-    }
+		// Wait for the modal dialog to close
+
+		lvwKonference.getItems().setAll(this.initAllKonfList());
+		this.updateControls();
+	}
+
+	private void updateKonferenceAction()
+	{
+		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+		if (konference == null)
+			return;
+
+		KonferenceWindow dia = new KonferenceWindow("Opdater Miljøkonference", konference);
+		dia.showAndWait();
+
+		// Wait for the modal dialog to close
+
+		int selectIndex = lvwKonference.getSelectionModel().getSelectedIndex();
+		lvwKonference.getItems().setAll(this.initAllKonfList());
+		lvwKonference.getSelectionModel().select(selectIndex);
+	}
+
+	private void deleteKonferenceAction()
+	{
+		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+		if (konference == null)
+			return;
+
+		Stage owner = (Stage) this.getScene().getWindow();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Slet Miljøkonference");
+		alert.initOwner(owner);
+		alert.setHeaderText("Er du sikker?");
+
+		// Wait for the modal dialog to close
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.isPresent() && result.get() == ButtonType.OK)
+		{
+			Service.deleteMiljøkonference(konference);
+			lvwKonference.getItems().setAll(this.initAllKonfList());
+			this.updateControls();
+		}
+	}
+
+	// -------------------------------------------------------------------------
+
+	private void selectedKonferenceChanged()
+	{
+		this.updateControls();
+	}
+
+	public void updateControls()
+	{
+		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+		if (konference != null)
+		{
+			txfTitel.setText(konference.getTitel());
+			txfTema.setText(konference.getTema());
+			txfStartDato.setText(konference.getStartDato().toString());
+			txfSlutDato.setText(konference.getSlutDato().toString());
+			txaAdresse.setText(konference.getAdresse().toString());
+
+			StringBuilder sb = new StringBuilder();
+			for (Tilmelding delt : konference.getTilmeldingliste())
+			{
+				if (delt.getDeltager() != null)
+				{
+					sb.append(delt.getDeltager().getNavn() + "\n");
+				}
+
+			}
+			txaDeltagere.setText(sb.toString());
+
+		} else
+		{
+			txfTitel.clear();
+			txfTema.clear();
+			txfStartDato.clear();
+			txfSlutDato.clear();
+			txaAdresse.clear();
+			txaDeltagere.clear();
+		}
+	}
 
 }
