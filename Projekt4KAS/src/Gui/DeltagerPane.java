@@ -165,7 +165,7 @@ public class DeltagerPane extends GridPane
 		btnTilmeldDeltager.setTextAlignment(TextAlignment.CENTER);
 		hbxButtons2.getChildren().add(btnTilmeldDeltager);
 		btnTilmeldDeltager.setDisable(true);
-		btnDeleteFirma.setOnAction(event -> this.tilmeldActionDeltager());
+		btnTilmeldDeltager.setOnAction(event -> this.tilmeldActionDeltager());
 
 		if (lvwDeltagere.getItems().size() > 0)
 		{
@@ -308,7 +308,9 @@ public class DeltagerPane extends GridPane
 	}
 	
 	private void tilmeldActionDeltager () {
-		
+		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
+		TilmeldingWindow dia = new TilmeldingWindow("Tilmeld", deltager);
+		dia.showAndWait();
 	}
 
 }
