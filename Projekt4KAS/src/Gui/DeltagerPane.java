@@ -79,31 +79,31 @@ public class DeltagerPane extends GridPane
 		this.add(txfTlfNr, 2, 3);
 		txfTlfNr.setEditable(false);
 
-		Label lblLedsager = new Label("Ledsager:");
-		this.add(lblLedsager, 1, 4);
-
-		txfLedsager = new TextField();
-		txfLedsager.setMinWidth(FIELD_WIDTH);
-		txfLedsager.setMaxWidth(FIELD_WIDTH);
-		this.add(txfLedsager, 2, 4);
-		txfLedsager.setEditable(false);
-
-		Label lblIndkvartering = new Label("Indkvartering:");
-		this.add(lblIndkvartering, 1, 5);
-
-		txfIndskvartering = new TextField();
-		txfIndskvartering.setMinWidth(FIELD_WIDTH);
-		txfIndskvartering.setMaxWidth(FIELD_WIDTH);
-		this.add(txfIndskvartering, 2, 5);
-		txfIndskvartering.setEditable(false);
+//		Label lblLedsager = new Label("Ledsager:");
+//		this.add(lblLedsager, 1, 4);
+//
+//		txfLedsager = new TextField();
+//		txfLedsager.setMinWidth(FIELD_WIDTH);
+//		txfLedsager.setMaxWidth(FIELD_WIDTH);
+//		this.add(txfLedsager, 2, 4);
+//		txfLedsager.setEditable(false);
+//
+//		Label lblIndkvartering = new Label("Indkvartering:");
+//		this.add(lblIndkvartering, 1, 5);
+//
+//		txfIndskvartering = new TextField();
+//		txfIndskvartering.setMinWidth(FIELD_WIDTH);
+//		txfIndskvartering.setMaxWidth(FIELD_WIDTH);
+//		this.add(txfIndskvartering, 2, 5);
+//		txfIndskvartering.setEditable(false);
 
 		Label lblMiljøkonferencer = new Label("Miljøkonferencer:");
-		this.add(lblMiljøkonferencer, 1, 6);
+		this.add(lblMiljøkonferencer, 1, 4);
 
 		txaMiljøkonferencer = new TextArea();
-		txaMiljøkonferencer.setMaxSize(FIELD_WIDTH, 80);
-		txaMiljøkonferencer.setMinSize(FIELD_WIDTH, 80);
-		this.add(txaMiljøkonferencer, 2, 6);
+		txaMiljøkonferencer.setMaxSize(FIELD_WIDTH, 160);
+		txaMiljøkonferencer.setMinSize(FIELD_WIDTH, 160);
+		this.add(txaMiljøkonferencer, 2, 4);
 
 		HBox hbxButtons = new HBox(40);
 		this.add(hbxButtons, 0, 7, 3, 1);
@@ -128,42 +128,42 @@ public class DeltagerPane extends GridPane
 		hbxButtons.getChildren().add(btnDeleteDeltager);
 		btnDeleteDeltager.setOnAction(event -> this.deleteActionDeltager());
 
-		Button btnCreateLedsager = new Button("Opret \nLedsager");
-		btnCreateLedsager.setMinWidth(80);
-		btnCreateLedsager.setTextAlignment(TextAlignment.CENTER);
-		hbxButtons.getChildren().add(btnCreateLedsager);
-		btnCreateLedsager.setDisable(false);
-		btnCreateLedsager.setOnAction(event -> this.createLedsagerAction());
-
-		Button btnDeleteLedsager = new Button("Slet \nLedsager");
-		btnDeleteLedsager.setMinWidth(80);
-		btnDeleteLedsager.setTextAlignment(TextAlignment.CENTER);
-		hbxButtons.getChildren().add(btnDeleteLedsager);
-		btnDeleteLedsager.setDisable(true);
-		btnDeleteLedsager.setOnAction(event -> this.deleteLedsagerAction());
-
-		HBox hbxButtons2 = new HBox(40);
-		this.add(hbxButtons2, 0, 8, 3, 1);
-		hbxButtons2.setAlignment(Pos.BASELINE_LEFT);
-
-		Button btnCreateFirma = new Button("Opret \nFirma");
-		btnCreateFirma.setMinWidth(80);
-		btnCreateFirma.setTextAlignment(TextAlignment.CENTER);
-		hbxButtons2.getChildren().add(btnCreateFirma);
-		btnCreateFirma.setDisable(false);
-		btnCreateFirma.setOnAction(event -> this.createFirmaAction());
-
-		Button btnDeleteFirma = new Button("Slet \nFirma");
-		btnDeleteFirma.setMinWidth(80);
-		btnDeleteFirma.setTextAlignment(TextAlignment.CENTER);
-		hbxButtons2.getChildren().add(btnDeleteFirma);
-		btnDeleteFirma.setDisable(true);
-		btnDeleteFirma.setOnAction(event -> this.deleteFirmaAction());
+//		Button btnCreateLedsager = new Button("Opret \nLedsager");
+//		btnCreateLedsager.setMinWidth(80);
+//		btnCreateLedsager.setTextAlignment(TextAlignment.CENTER);
+//		hbxButtons.getChildren().add(btnCreateLedsager);
+//		btnCreateLedsager.setDisable(false);
+//		btnCreateLedsager.setOnAction(event -> this.createLedsagerAction());
+//
+//		Button btnDeleteLedsager = new Button("Slet \nLedsager");
+//		btnDeleteLedsager.setMinWidth(80);
+//		btnDeleteLedsager.setTextAlignment(TextAlignment.CENTER);
+//		hbxButtons.getChildren().add(btnDeleteLedsager);
+//		btnDeleteLedsager.setDisable(true);
+//		btnDeleteLedsager.setOnAction(event -> this.deleteLedsagerAction());
+//
+//		HBox hbxButtons2 = new HBox(40);
+//		this.add(hbxButtons2, 0, 8, 1, 1);
+//		hbxButtons2.setAlignment(Pos.BASELINE_CENTER);
+//
+//		Button btnCreateFirma = new Button("Opret \nFirma");
+//		btnCreateFirma.setMinWidth(80);
+//		btnCreateFirma.setTextAlignment(TextAlignment.CENTER);
+//		hbxButtons2.getChildren().add(btnCreateFirma);
+//		btnCreateFirma.setDisable(false);
+//		btnCreateFirma.setOnAction(event -> this.createFirmaAction());
+//
+//		Button btnDeleteFirma = new Button("Slet \nFirma");
+//		btnDeleteFirma.setMinWidth(80);
+//		btnDeleteFirma.setTextAlignment(TextAlignment.CENTER);
+//		hbxButtons2.getChildren().add(btnDeleteFirma);
+//		btnDeleteFirma.setDisable(true);
+//		btnDeleteFirma.setOnAction(event -> this.deleteFirmaAction());
 		
 		btnTilmeldDeltager = new Button("Tilmeld \nDeltager");
 		btnTilmeldDeltager.setMinWidth(80);
 		btnTilmeldDeltager.setTextAlignment(TextAlignment.CENTER);
-		hbxButtons2.getChildren().add(btnTilmeldDeltager);
+		hbxButtons.getChildren().add(btnTilmeldDeltager);
 		btnTilmeldDeltager.setDisable(true);
 		btnTilmeldDeltager.setOnAction(event -> this.tilmeldActionDeltager());
 
@@ -271,14 +271,14 @@ public class DeltagerPane extends GridPane
 			btnTilmeldDeltager.setDisable(false);
 			txfNavn.setText(deltager.getNavn());
 			txfTlfNr.setText("" + deltager.getTelefonNr());
-			try
-			{
-				txfLedsager.setText(deltager.getLedsager().getNavn());
-			} catch (NullPointerException ex)
-			{
-				//Do nothing
-			}			
-			txfIndskvartering.setText("");
+//			try
+//			{
+//				txfLedsager.setText(deltager.getLedsager().getNavn());
+//			} catch (NullPointerException ex)
+//			{
+//				//Do nothing
+//			}			
+//			txfIndskvartering.setText("");
 
 			txaAdresse.setText(deltager.getAdresse().toString());
 
@@ -299,8 +299,8 @@ public class DeltagerPane extends GridPane
 		{
 			txfNavn.clear();
 			txfTlfNr.clear();
-			txfLedsager.clear();
-			txfIndskvartering.clear();
+//			txfLedsager.clear();
+//			txfIndskvartering.clear();
 			txaAdresse.clear();
 			txaMiljøkonferencer.clear();
 			btnTilmeldDeltager.setDisable(true);
