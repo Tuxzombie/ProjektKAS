@@ -145,7 +145,25 @@ public class KonferencePane extends GridPane
 
 	private void visUdflugterAction()
 	{
-		
+		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
+		if (konference == null)
+			return;
+	
+		if (konference.getUdflugter().size() > 0)
+		{
+			UdflugtWindow dia = new UdflugtWindow("Vis Udflugter", konference);
+			dia.showAndWait();
+		}
+		else
+		{
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Advarsel");
+		alert.setHeaderText(null);
+		alert.setContentText("Der er ikke oprettet nogle udflugter");
+
+		alert.showAndWait();
+		}
+
 	}
 
 	private void createKonferenceAction()
