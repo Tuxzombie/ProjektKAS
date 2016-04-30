@@ -526,7 +526,7 @@ public class TilmeldingWindow extends Stage {
 			hotelPris = nætterPåHotel * prisDobbeltværelse + facilitetPris;	
 		}
 		else hotelPris = nætterPåHotel * prisEnkeltværelse + facilitetPris;	
-
+		
 			
 		double udflugtPris = 0.0;
 			for (Udflugt valgtUdflugt : lvwUdflugter.getSelectionModel().getSelectedItems()) {
@@ -536,7 +536,8 @@ public class TilmeldingWindow extends Stage {
 		double tilmeldingsPris = dageTilmeldtKonference * prisgruppeKvote + udflugtPris;
 			
 		double totalPris = hotelPris + tilmeldingsPris;
-		lblPrisUdregning.setText("" + totalPris + " kr.");
+		lblPrisUdregning.setText("Hotel: " + hotelPris + "\nFaciliteter: " + facilitetPris + "\nUdflugter: " + udflugtPris
+				+ "\n" + totalPris + " kr.");
 		
 	}
 
