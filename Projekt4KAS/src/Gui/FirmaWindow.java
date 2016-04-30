@@ -81,10 +81,6 @@ public class FirmaWindow extends Stage {
         		}
     }
 
-    private void initControls() {
-
-    }
-
     // -------------------------------------------------------------------------
 
     private void btnAnullerAction() {
@@ -162,8 +158,12 @@ public class FirmaWindow extends Stage {
 			return;
 		}
 		else {
-    	Service.createFirma(txfInput[0].getText(), cvrNr, txfInput[2].getText()
-    		, nr, txfInput[3].getText(), postNr, txfInput[5].getText(), txfInput[7].getText());
+//    	Service.createFirma(txfInput[0].getText(), cvrNr, txfInput[2].getText()
+//    		, nr, txfInput[3].getText(), postNr, txfInput[5].getText(), txfInput[7].getText());
+			
+			//her er en af de store pointer ved at oprette en million små variabler ;
+	    	Service.createFirma(navn, cvrNr, vej, nr, etage, postNr, by, land);			
+			
     	close();
 		}
     }

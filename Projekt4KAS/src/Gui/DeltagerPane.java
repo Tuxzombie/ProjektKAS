@@ -23,9 +23,7 @@ import Service.Service;
 
 public class DeltagerPane extends GridPane
 {
-	private TextField txfNavn, txfTlfNr,
-			txfLedsager,
-			txfIndskvartering;
+	private TextField txfNavn, txfTlfNr;
 	private ListView<Deltager> lvwDeltagere;
 	private TextArea txaAdresse,
 			txaMiljøkonferencer;
@@ -133,28 +131,6 @@ public class DeltagerPane extends GridPane
 	}
 
 	// -------------------------------------------------------------------------
-	private void createFirmaAction()
-	{
-		FirmaWindow dia = new FirmaWindow("Opret Firma");
-		dia.showAndWait();
-	}
-
-	private void deleteFirmaAction()
-	{
-
-	}
-
-	private void createLedsagerAction()
-	{
-		LedsagerWindow dia = new LedsagerWindow("Opret Ledsager");
-		dia.showAndWait();
-	}
-
-	private void deleteLedsagerAction()
-	{
-
-	}
-
 	private void createActionDeltager()
 	{
 		DeltagerWindow dia = new DeltagerWindow("Opret Deltager");
