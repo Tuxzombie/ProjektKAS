@@ -1,14 +1,10 @@
 package Gui;
 
-import javafx.application.Platform;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -17,11 +13,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Pair;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.IllegalFormatException;
 import java.util.Optional;
 
 import Model.*;

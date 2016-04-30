@@ -1,25 +1,17 @@
 package Gui;
 
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.IllegalFormatException;
-
 import Model.*;
-import Service.*;
 
 public class UdflugtWindow extends Stage
 {

@@ -1,6 +1,5 @@
 package Gui;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,10 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.IllegalFormatException;
 
 import Model.*;
 import Service.*;

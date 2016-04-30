@@ -1,6 +1,5 @@
 package Gui;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,11 +12,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.ArrayList;
-
-import javax.xml.bind.ParseConversionEvent;
-
-import Model.*;
 import Service.Service;
 
 public class FirmaWindow extends Stage {
