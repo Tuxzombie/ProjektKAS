@@ -1,10 +1,9 @@
 package Gui;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -23,12 +22,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import java.time.Period;
 
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import Model.*;
 import Service.Service;
@@ -42,8 +37,6 @@ public class TilmeldingWindow extends Stage {
         this.setResizable(false);
 
         this.deltager = deltager;
-        Hotelbooking hotelbooking = new Hotelbooking(null, false);
-        Tilmelding tilmeldig = new Tilmelding(deltager, null, null, null);
         
         this.setTitle(title);
         GridPane pane = new GridPane();
@@ -82,7 +75,6 @@ public class TilmeldingWindow extends Stage {
     private DatePicker dpSlutDato;
     private DatePicker dpStartDatoHotel;
     private DatePicker dpSlutDatoHotel;
-    private ObservableList<String> oblFaciliteter = FXCollections.observableArrayList();
     
     
     
@@ -258,9 +250,13 @@ public class TilmeldingWindow extends Stage {
         
         lblTotalPris = new Label("Total Pris:");
         panePris.add(lblTotalPris, 0, 0);
+        lblTotalPris.setStyle("-fx-text-fill: green; -fx-font-size: 20pt;");
+
         
         lblPrisUdregning = new Label("0 kr.");
         panePris.add(lblPrisUdregning, 1, 0);
+        lblPrisUdregning.setStyle("-fx-text-fill: green; -fx-font-size: 20pt;");
+
         
         Button btnTilmeld = new Button("Tilmeld");
         pane.add(btnTilmeld, 0, 4);
@@ -274,6 +270,21 @@ public class TilmeldingWindow extends Stage {
         lblError = new Label();
         pane.add(lblError, 0, 5);
         lblError.setStyle("-fx-text-fill: red");
+      
+        ChangeListener<Facilitet> listenerFaciliteter = (ov, old, newFacilitet) -> this.updatePris();
+        lvwFaciliteter.getSelectionModel().selectedItemProperty().addListener(listenerFaciliteter);
+        
+        ChangeListener<Udflugt> listenerUdflugter = (ov, old, newUdflugt) -> this.updatePris();
+        lvwUdflugter.getSelectionModel().selectedItemProperty().addListener(listenerUdflugter);
+        
+        dpStartDato.setOnHidden(e -> startDatoAction());
+
+        
+        dpSlutDato.setOnHidden(e -> slutDatoAction());
+        
+        dpStartDatoHotel.setOnHidden(e -> startDatoHotelAction());
+        dpSlutDatoHotel.setOnHidden(e -> slutDatoHotelAction());
+ 
 
     }
 
@@ -312,6 +323,7 @@ public class TilmeldingWindow extends Stage {
 			dpSlutDato.setDisable(false);
 			dpStartDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()); //Sætter dpStartDato og dpSlutDato til konferencens start og slut dato
 			dpSlutDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+			updatePris();
  		}
   		else
   		{
@@ -320,6 +332,7 @@ public class TilmeldingWindow extends Stage {
   			dpSlutDato.setValue(null);
   			dpStartDato.setDisable(true);
 			dpSlutDato.setDisable(true);
+			updatePris();
   		}
   	}
 
@@ -336,13 +349,14 @@ public class TilmeldingWindow extends Stage {
   			
   			lvwFaciliteter.setDisable(false);
   			lvwFaciliteter.getItems().setAll(hotel.getFaciliteter());
-
+  			updatePris();
   		}
   		else {
   			dpStartDatoHotel.setDisable(true);
   			dpSlutDatoHotel.setDisable(true);
   			dpStartDatoHotel.setValue(null);
   			dpSlutDatoHotel.setValue(null);
+  			updatePris();
   		}
   	}
   	
@@ -351,6 +365,8 @@ public class TilmeldingWindow extends Stage {
   			lvwHoteller.setDisable(false);
   			lvwHoteller.getItems().setAll(Service.getHoteller());
   			cbxLedsager.setDisable(false);
+  			updatePris();
+
   		}
   		else {
   			lvwHoteller.setDisable(true);
@@ -364,6 +380,8 @@ public class TilmeldingWindow extends Stage {
   			dpStartDatoHotel.setDisable(true);
   			dpSlutDatoHotel.setDisable(true);
   			cbxLedsager.setDisable(false);
+  			updatePris();
+
    		}
   	}
   	
@@ -372,46 +390,154 @@ public class TilmeldingWindow extends Stage {
   			txfLedsagerNavn.setDisable(false);
   			lvwUdflugter.setDisable(false);
   			lvwUdflugter.getItems().setAll(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getUdflugter());
+  			updatePris();
   		}
   		else {
   			txfLedsagerNavn.setDisable(true);
   			lvwUdflugter.setDisable(true);
   			txfLedsagerNavn.clear();
   			lvwUdflugter.getItems().setAll();
+  			updatePris();
   		}
   	}
 
-//  	public void startDatoAction () {
-////  		if(dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) || 
-////  				dpStartDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
-////  				dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
-////  				dpStartDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato())){
-//  	  		Service.updateTilmelding(this.tilmelding, deltager, dpStartDato.getValue(), tilmelding.getSlutDato(), tilmelding.getIndkvartering());
-////  		}
-////  		else {
-////  			//fejl
-////  		}
-//  	} 
-//  	
-//  	public void slutDatoAction() {
-//// 		if(dpSlutDato.getValue().isAfter(tilmelding.getStartDato())){
-//  		Service.updateTilmelding(this.tilmelding, deltager, tilmelding.getStartDato(), dpSlutDato.getValue(), tilmelding.getIndkvartering());
-////  		}
-////  		else
-//  	}
+  	public void startDatoAction () {
+  		if(dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) || 
+  				dpStartDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
+  				dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
+  				dpStartDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato())){
+  			updatePris();
+  		}
+  		else {
+  			lblError.setText("Dato er ugyldig! Startdato skal være indenfor konferencens aktive periode og før slutdatoen! (" 
+  					+ lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato() + " til " + 
+  					lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			dpStartDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato());
+  			updatePris();
+
+  		}
+  	} 
+  	
+  	public void slutDatoAction () {
+  		if(dpSlutDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) || 
+  				dpSlutDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
+  				dpSlutDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
+  				dpSlutDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato())){
+  			updatePris();
+  		}
+  		else {
+  			lblError.setText("Dato er ugyldig! Slutdato skal være indenfor konferencens aktive periode og efter startdatoen! (" 
+  					+ lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato() + " til " + 
+  					lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			dpSlutDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			updatePris();
+
+  		}
+  	}
+  	
+  	public void startDatoHotelAction () {
+  		if(dpStartDatoHotel.getValue().isBefore(dpSlutDatoHotel.getValue())) {
+  			updatePris();
+  		}
+  		else {
+  			lblError.setText("Dato er ugyldig! Indkvartering skal være før udtjekning!"); 
+  			dpStartDatoHotel.setValue(dpSlutDatoHotel.getValue().minusDays(1));
+  			updatePris();
+
+  		}
+  	}
+  	
+  	public void slutDatoHotelAction () {
+  		if(dpSlutDatoHotel.getValue().isAfter(dpStartDatoHotel.getValue())) {
+  			updatePris();
+  		}
+  		else {
+  			lblError.setText("Dato er ugyldig! Udtjekning skal være efter indtjekning!"); 
+  			dpSlutDatoHotel.setValue(dpStartDatoHotel.getValue().plusDays(1));
+  			updatePris();
+
+  		}
+  	} 
   	
 	public void btnTilmeldAction()
 	{
 		Hotelbooking hotelbooking = Service.createHotelbooking(lvwHoteller.getSelectionModel().getSelectedItem(), cbxLedsager.isSelected());
-		Indkvartering indkvartering = Service.createIndkvarteringMedHotelbooking(dpStartDatoHotel.getValue(), dpSlutDatoHotel.getValue());
-		Ledsager ledsager = Service.createLedsager(txfLedsagerNavn.getText(), deltager);
+		Indkvartering indkvartering;
+		if(rbHotel.isSelected()) {
+			indkvartering = Service.createIndkvarteringMedHotelbooking(dpStartDatoHotel.getValue(), dpSlutDatoHotel.getValue());
+		}
+		else {
+			indkvartering = Service.createIndkvarteringMedHotelbooking(dpStartDato.getValue(), dpSlutDato.getValue());
+		}
+		
+		Ledsager ledsager;
+		if(txfLedsagerNavn.getLength() > 0) {
+				ledsager = Service.createLedsager(txfLedsagerNavn.getText(), deltager);
+		}
+		else {
+			ledsager = Service.createLedsager(txfLedsagerNavn.getText(), deltager);
+		}
+		
 		Service.createTilmelding(lvwMiljøkonferencer.getSelectionModel().getSelectedItem(), this.deltager, 
 				dpStartDato.getValue(), dpSlutDato.getValue(), indkvartering);
-		//Service.addLedsagerTilUdflugt(lvwUdflugter.getSelectionModel().getSelectedItem(), ledsager);
 		Service.connectIndkvarteringOgHotelbooking(indkvartering, hotelbooking);
+		for (Facilitet valgtFacilitet : lvwFaciliteter.getSelectionModel().getSelectedItems()) {
+			Service.addFacilitetTilHotelbooking(hotelbooking, valgtFacilitet);
+		}
+		for (Udflugt valgtUdflugt : lvwUdflugter.getSelectionModel().getSelectedItems()) {
+			Service.addLedsagerTilUdflugt(valgtUdflugt, ledsager);
+		}
 		close();
 	}
 	
+	public void updatePris() {
+		int nætterPåHotel = 0;
+		if(dpStartDatoHotel.getValue() != null && dpSlutDatoHotel.getValue() != null) {
+			Period periodeHotel = Period.between(dpStartDatoHotel.getValue(), dpSlutDatoHotel.getValue());		
+			nætterPåHotel = periodeHotel.getDays();
+		}
+		
+		double prisDobbeltværelse = 0.0; 
+		double prisEnkeltværelse = 0.0;
+		if(lvwHoteller.getSelectionModel().getSelectedItem() != null) {
+			prisDobbeltværelse = lvwHoteller.getSelectionModel().getSelectedItem().getPrisDobbeltVærelse();
+			prisEnkeltværelse = lvwHoteller.getSelectionModel().getSelectedItem().getPrisEnkeltVærelse();
+		}
+		
+		double prisgruppeKvote = 0.0;
+		if (lvwPrisgrupper.getSelectionModel().getSelectedItem() != null) {
+			prisgruppeKvote = lvwPrisgrupper.getSelectionModel().getSelectedItem().getPris(); 
+		}
+		
+		Period periodeTilmelding;
+		int dageTilmeldtKonference = 0;
+		if(dpStartDato != null && dpSlutDato != null){
+			periodeTilmelding = Period.between(dpStartDato.getValue(), dpSlutDato.getValue());		
+			dageTilmeldtKonference = periodeTilmelding.getDays() + 1; //+1 for at inkludere slutdatoen
+		}
+		
+		double facilitetPris = 0.0;
+			for (Facilitet valgtFacilitet : lvwFaciliteter.getSelectionModel().getSelectedItems()) {
+				facilitetPris += valgtFacilitet.getPris();
+			}
+		
+		double hotelPris = 0.0;
+		if(cbxLedsager.isSelected()) {
+			hotelPris = nætterPåHotel * prisDobbeltværelse + facilitetPris;	
+		}
+		else hotelPris = nætterPåHotel * prisEnkeltværelse + facilitetPris;	
 
+			
+		double udflugtPris = 0.0;
+			for (Udflugt valgtUdflugt : lvwUdflugter.getSelectionModel().getSelectedItems()) {
+				udflugtPris += valgtUdflugt.getPris();
+			}
+		
+		double tilmeldingsPris = dageTilmeldtKonference * prisgruppeKvote + udflugtPris;
+			
+		double totalPris = hotelPris + tilmeldingsPris;
+		lblPrisUdregning.setText("" + totalPris + " kr.");
+		
+	}
 
 }
