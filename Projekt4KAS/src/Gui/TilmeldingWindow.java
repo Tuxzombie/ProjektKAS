@@ -58,6 +58,7 @@ public class TilmeldingWindow extends Stage {
     private ListView<Udflugt> lvwUdflugter;
     private ListView<Hotel> lvwHoteller;
     private ListView<Facilitet> lvwFaciliteter;
+    private ListView<Firma> lvwFirmaer;
     private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype,
     			lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, 
     			lblTotalPris, lblPrisUdregning, lblStartDato, lblSlutDato, lblStartDatoHotel, lblSlutDatoHotel;
@@ -66,6 +67,8 @@ public class TilmeldingWindow extends Stage {
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
     private CheckBox cbxLedsager;
+    private CheckBox cbxFirma;
+    private Button btnOpretFirma;
     private Miljøkonference konference;
     private Prisgruppe prisgruppe;
     private Hotelbooking hotelbooking;
@@ -108,14 +111,41 @@ public class TilmeldingWindow extends Stage {
         paneHotel.setVgap(10);
         paneHotel.setStyle("-fx-border-color: black");
         
+//        GridPane panePrisOgFirma = new GridPane();
+//        pane.add(panePrisOgFirma, 1, 1);
+//        panePrisOgFirma.setGridLinesVisible(true);
+//        panePrisOgFirma.setPadding(new Insets(10));
+//        panePrisOgFirma.setHgap(0);
+//        panePrisOgFirma.setVgap(0);        
+  
+        
+        GridPane paneFirma = new GridPane();
+        pane.add(paneFirma, 1, 1);
+        paneFirma.setGridLinesVisible(true);
+        paneFirma.setPadding(new Insets(10));
+        paneFirma.setHgap(10);
+        paneFirma.setVgap(10);
+        paneFirma.setStyle("-fx-border-color: black");
+    
+        cbxFirma = new CheckBox("Firma");
+        paneFirma.add(cbxFirma, 0, 0);
+        
+        btnOpretFirma = new Button("Opret");
+        paneFirma.add(btnOpretFirma, 1, 0);
+        
+        lvwFirmaer = new ListView();
+        paneFirma.add(lvwFirmaer, 0, 1, 2, 1);
+        lvwFirmaer.setMaxSize(200, 130);
+        lvwFirmaer.setMinSize(200, 130);
+        
         GridPane panePris = new GridPane();
-        pane.add(panePris, 1, 1);
-        panePris.setGridLinesVisible(false);
+        pane.add(panePris, 1, 2);
+        panePris.setGridLinesVisible(true);
         panePris.setPadding(new Insets(10));
         panePris.setHgap(10);
         panePris.setVgap(10);
         panePris.setStyle("-fx-border-color: black");
-
+        
         lblMiljøkonferencer = new Label("Miljøkonferencer:");
         paneKonference.add(lblMiljøkonferencer, 0, 0);
         
