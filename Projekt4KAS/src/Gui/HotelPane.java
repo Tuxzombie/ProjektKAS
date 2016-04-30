@@ -31,12 +31,6 @@ public class HotelPane extends GridPane
 	private TextArea txaAdresse, txaPriser,
 			txaGæster, txaFaciliteter;
 
-	// private String navn;
-	// private double prisEnkeltVærelse;
-	// private double prisDobbeltVærelse;
-	// private ArrayList<Facilitet> faciliteter;
-	// private ArrayList<Hotelbooking> hotelbookinger;
-
 	private final int FIELD_WIDTH = 261;
 
 	public HotelPane()

@@ -39,6 +39,11 @@ public class HotelWindow extends Stage {
     private TextField txfName, txfHours;
     private Label lblError;
 
+	// private String navn;
+	// private double prisEnkeltVærelse;
+	// private double prisDobbeltVærelse;
+    // adresse
+    
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
