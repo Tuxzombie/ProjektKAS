@@ -1,19 +1,26 @@
 package Gui;
 
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.IllegalFormatException;
+import java.util.Optional;
 
 import Model.*;
 import Service.*;
@@ -44,10 +51,11 @@ public class KonferenceWindow extends Stage {
     private TextField[] txfInput;
     private Label[] lblInput;
     private String[] lblNames;
+    private Label lblError;
+    private ListView<Prisgruppe> lvwPrisgrupper;
 
     //--------------------------------------------------------------------------
-    private TextField txfName, txfHours;
-    private Label lblError;
+
 
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
@@ -91,7 +99,20 @@ public class KonferenceWindow extends Stage {
 		Button btnCancel = new Button("Cancel");
 		pane.add(btnCancel, 1, MAX_ROWS+1);
 		btnCancel.setOnAction(event -> this.cancelAction());
+		
+		PrisgruppeWindow prisgrpw = new PrisgruppeWindow("Opret Prisgruppe", konference);
+		
+		lvwPrisgrupper = new ListView<>();
+		if (konference.getPrisgrupper() != null)
+		{
+			lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
+		}
 
+		pane.add(lvwPrisgrupper, 4, 0, 1, 7);
+		
+		Button btnTilføj = new Button("Tilføj");
+		pane.add(btnTilføj, 4, 1);
+		btnTilføj.setOnAction(event -> this.dialogPrisgruppe());
 
         lblError = new Label();
         pane.add(lblError, 0, MAX_ROWS+2, 2, 1);
@@ -241,4 +262,47 @@ public class KonferenceWindow extends Stage {
         this.hide();
     }
 
+    private void dialogPrisgruppe()
+    {
+    	// Create the custom dialog.
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("TestName");
+
+        // Set the button types.
+        ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+                GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField from = new TextField();
+        from.setPromptText("From");
+        TextField to = new TextField();
+        to.setPromptText("To");
+
+        gridPane.add(from, 0, 0);
+        gridPane.add(new Label("To:"), 1, 0);
+        gridPane.add(to, 2, 0);
+
+        dialog.getDialogPane().setContent(gridPane);
+
+        // Request focus on the username field by default.
+        Platform.runLater(() -> from.requestFocus());
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                return new Pair<>(from.getText(), to.getText());
+            }
+            return null;
+        });
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+
+        result.ifPresent(pair -> {
+            System.out.println("From=" + pair.getKey() + ", To=" + pair.getValue());
+        });
+    }
 }
