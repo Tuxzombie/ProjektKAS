@@ -24,7 +24,7 @@ public class Deltager
 	{
 		this.navn = navn;
 		tilmeldinger = new ArrayList<>();
-		this.adresse = new Adresse(vej, nr, etage, postNr, land, by);
+		this.adresse = new Adresse(vej, nr, etage, postNr, by, land);
 		this.telefonNr = telefonNr;
 		this.prisgruppe = prisgruppe;
 	}
