@@ -24,11 +24,11 @@ import Service.Service;
 
 public class HotelPane extends GridPane
 {
-	private TextField txfNavn, txfTlfNr,
+	private TextField txfNavn,
 			txfLedsager,
 			txfIndskvartering;
 	private ListView<Hotel> lvwHoteller;
-	private TextArea txaAdresse,
+	private TextArea txaAdresse, txaPriser,
 			txaGæster, txaFaciliteter;
 
 	// private String navn;
@@ -72,13 +72,16 @@ public class HotelPane extends GridPane
 		txaAdresse.setMaxSize(FIELD_WIDTH, 80);
 		txaAdresse.setMinSize(FIELD_WIDTH, 80);
 		this.add(txaAdresse, 2, 2);
+		txaAdresse.setEditable(false);
 
-		Label lblTlfNr = new Label("Telefon nr.:");
-		this.add(lblTlfNr, 1, 3);
+		Label lblPriser = new Label("Priser:");
+		this.add(lblPriser, 1, 3);
 
-		txfTlfNr = new TextField();
-		this.add(txfTlfNr, 2, 3);
-		txfTlfNr.setEditable(false);
+		txaPriser = new TextArea();
+		txaPriser.setMaxSize(FIELD_WIDTH, 40);
+		txaPriser.setMinSize(FIELD_WIDTH, 40);
+		this.add(txaPriser, 2, 3);
+		txaPriser.setEditable(false);
 
 		Label lblGæster = new Label("Gæster:");
 		this.add(lblGæster, 1, 4);
@@ -87,6 +90,7 @@ public class HotelPane extends GridPane
 		txaGæster.setMaxSize(FIELD_WIDTH, 80);
 		txaGæster.setMinSize(FIELD_WIDTH, 80);
 		this.add(txaGæster, 2, 4);
+		txaGæster.setEditable(false);
 
 		Label lblFaciliteter = new Label("Faciliteter:");
 		this.add(lblFaciliteter, 1, 5);
@@ -95,6 +99,7 @@ public class HotelPane extends GridPane
 		txaFaciliteter.setMaxSize(FIELD_WIDTH, 80);
 		txaFaciliteter.setMinSize(FIELD_WIDTH, 80);
 		this.add(txaFaciliteter, 2, 5);
+		txaFaciliteter.setEditable(false);
 
 		HBox hbxButtons = new HBox(40);
 		this.add(hbxButtons, 0, 6, 3, 1);
@@ -226,6 +231,9 @@ public class HotelPane extends GridPane
 			txfNavn.setText(hotel.getNavn());
 
 			txaAdresse.setText(hotel.getAdresse().toString());
+			
+			txaPriser.setText("Dobbelt værelse: "+hotel.getPrisDobbeltVærelse() + "\n" 
+							 +"Enkelt Værelse : "+ hotel.getPrisEnkeltVærelse());
 
 			StringBuilder sbGæster = new StringBuilder();
 
@@ -267,6 +275,15 @@ public class HotelPane extends GridPane
 			
 			txaFaciliteter.setText(sbFacilitet.toString());
 
+		}
+		else
+		{
+			txfNavn.clear();
+			txaAdresse.clear();
+			txaPriser.clear();
+			txaGæster.clear();
+			txaFaciliteter.clear();
+			
 		}
 		// Employee employee =
 		// lvwKonference.getSelectionModel().getSelectedItem();
