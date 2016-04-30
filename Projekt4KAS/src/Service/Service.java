@@ -11,9 +11,9 @@ import sun.print.resources.serviceui;
 public class Service
 {
 
-	public static Hotel createHotel(String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String land, String by)
+	public static Hotel createHotel(String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String by, String land)
 	{
-		Hotel newHotel = new Hotel(navn, prisEnkeltVærelse, prisDobbeltVærelse, vej, nr, etage, postNr, land, by);
+		Hotel newHotel = new Hotel(navn, prisEnkeltVærelse, prisDobbeltVærelse, vej, nr, etage, postNr, by, land);
 		Storage.addHotel(newHotel);
 		return newHotel;
 	}
@@ -25,9 +25,9 @@ public class Service
 		return newMiljøkonference;
 	}
 
-	public static Firma createFirma(String navn, int cvrNr, Adresse adresse, String vej, int nr, String etage, int postNr, String land, String by)
+	public static Firma createFirma(String navn, int cvrNr, String vej, int nr, String etage, int postNr, String by, String land)
 	{
-		Firma newFirma = new Firma(navn, cvrNr, adresse, vej, nr, etage, postNr, land, by);
+		Firma newFirma = new Firma(navn, cvrNr, vej, nr, etage, postNr, by, land);
 		Storage.addFirma(newFirma);
 		return newFirma;
 	}
@@ -265,6 +265,10 @@ public class Service
 		udflugt.addLedsager(ledsager);
 		ledsager.addUdflugt(udflugt);
 	}
+	
+	public static void addDeltagerTilFirma(Firma firma, Deltager deltager) {
+		firma.addMedarbejder(deltager);
+	}
 
 	public static ArrayList<Miljøkonference> getMiljøkonferencer()
 	{
@@ -279,6 +283,10 @@ public class Service
 	public static ArrayList<Hotel> getHoteller()
 	{
 		return Storage.getHoteller();
+	}
+	
+	public static ArrayList<Firma> getFirmaer() {
+		return Storage.getFirmaer();
 	}
 	
 	public static int randInt(int min, int max) {
@@ -363,7 +371,7 @@ public class Service
 		}
 		
 		
-		Hotel hotelDenHvideSvane = Service.createHotel("Den Hvide Svane", 1050, 1250, "Vestergade", 2, "", 9000, "Danmark", "Aalborg");
+		Hotel hotelDenHvideSvane = Service.createHotel("Den Hvide Svane", 1050, 1250, "Vestergade", 2, "", 9000, "Aalborg", "Danmark");
 		Facilitet wifi = Service.createFacilitet(hotelDenHvideSvane, "WIFI", 50);
 
 		
@@ -411,7 +419,7 @@ public class Service
 		Service.connectIndkvarteringOgHotelbooking(indkvarteringNiels, hotelbookingNiels);
 		Tilmelding tilmeldingNiels = Service.createTilmelding(miljøkonference, deltagerNiels, LocalDate.of(2016, 4, 18), LocalDate.of(2016, 4, 20), indkvarteringNiels);
 		
-
+		Service.createFirma("Grundfos", 12345, "Pumpevej", 4, null, 8850, "Bjerringbro", "Danmark");
 		
 //		Hotel hotelDenHvideSvane = Service.createHotel("Den Hvide Svane", 100, 150, "Vestergade", 2, "", 9000, "Danmark", "Aalborg");
 //		Miljøkonference miljøkonference = Service.createMiljøkonference("Hav og himmel", "Havet", LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), "Hovedgaden", 12, "1. th.", 8200, "Aarhus N", "Danmark");

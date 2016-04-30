@@ -17,10 +17,10 @@ public class Hotel
 	 * @param prisEnkeltVærelse
 	 * @param prisDobbeltVærelse
 	 */
-	public Hotel(String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String land, String by)
+	public Hotel(String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		this.navn = navn;
-		this.adresse = new Adresse(vej, nr, etage, postNr, land, by);
+		this.adresse = new Adresse(vej, nr, etage, postNr, by, land);
 		this.prisEnkeltVærelse = prisEnkeltVærelse;
 		this.prisDobbeltVærelse = prisDobbeltVærelse;
 		faciliteter = new ArrayList<Facilitet>();

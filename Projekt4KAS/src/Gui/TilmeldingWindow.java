@@ -58,14 +58,17 @@ public class TilmeldingWindow extends Stage {
     private ListView<Udflugt> lvwUdflugter;
     private ListView<Hotel> lvwHoteller;
     private ListView<Facilitet> lvwFaciliteter;
+    private ListView<Firma> lvwFirmaer;
     private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype,
     			lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, 
-    			lblTotalPris, lblPrisUdregning, lblStartDato, lblSlutDato, lblStartDatoHotel, lblSlutDatoHotel;
+    			lblTotalPris, lblPrisUdregning, lblStartDato, lblSlutDato, lblStartDatoHotel, 
+    			lblSlutDatoHotel, lblFirmaer;
     private RadioButton rbHotel;
     private RadioButton rbAndet;
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
     private CheckBox cbxLedsager;
+    private Button btnOpretFirma;
     private Miljøkonference konference;
     private Prisgruppe prisgruppe;
     private Hotelbooking hotelbooking;
@@ -107,15 +110,41 @@ public class TilmeldingWindow extends Stage {
         paneHotel.setHgap(10);
         paneHotel.setVgap(10);
         paneHotel.setStyle("-fx-border-color: black");
+ 
+  
+        
+        GridPane paneFirma = new GridPane();
+        pane.add(paneFirma, 1, 1);
+        paneFirma.setGridLinesVisible(true);
+        paneFirma.setPadding(new Insets(10));
+        paneFirma.setHgap(10);
+        paneFirma.setVgap(10);
+        paneFirma.setStyle("-fx-border-color: black");
+    
+        lblFirmaer = new Label("Firmaer:");
+        paneFirma.add(lblFirmaer, 0, 0);
+        
+        
+        btnOpretFirma = new Button("Opret");
+        paneFirma.add(btnOpretFirma, 1, 0);
+        GridPane.setHalignment(btnOpretFirma, HPos.RIGHT);
+        btnOpretFirma.setOnAction(e -> opretFirmaAction());
+        btnOpretFirma.setDisable(true);
+                
+        lvwFirmaer = new ListView();
+        paneFirma.add(lvwFirmaer, 0, 1, 2, 1);
+        lvwFirmaer.setMaxSize(410, 130);
+        lvwFirmaer.setMinSize(410, 130);
+        lvwFirmaer.setDisable(true);
         
         GridPane panePris = new GridPane();
-        pane.add(panePris, 1, 1);
-        panePris.setGridLinesVisible(false);
+        pane.add(panePris, 1, 2);
+        panePris.setGridLinesVisible(true);
         panePris.setPadding(new Insets(10));
         panePris.setHgap(10);
         panePris.setVgap(10);
         panePris.setStyle("-fx-border-color: black");
-
+        
         lblMiljøkonferencer = new Label("Miljøkonferencer:");
         paneKonference.add(lblMiljøkonferencer, 0, 0);
         
@@ -324,6 +353,7 @@ public class TilmeldingWindow extends Stage {
 			dpStartDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()); //Sætter dpStartDato og dpSlutDato til konferencens start og slut dato
 			dpSlutDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
 			updatePris();
+
  		}
   		else
   		{
@@ -333,6 +363,7 @@ public class TilmeldingWindow extends Stage {
   			dpStartDato.setDisable(true);
 			dpSlutDato.setDisable(true);
 			updatePris();
+
   		}
   	}
 
@@ -350,6 +381,7 @@ public class TilmeldingWindow extends Stage {
   			lvwFaciliteter.setDisable(false);
   			lvwFaciliteter.getItems().setAll(hotel.getFaciliteter());
   			updatePris();
+  			lvwFirmaer.setDisable(false);
   		}
   		else {
   			dpStartDatoHotel.setDisable(true);
@@ -366,7 +398,10 @@ public class TilmeldingWindow extends Stage {
   			lvwHoteller.getItems().setAll(Service.getHoteller());
   			cbxLedsager.setDisable(false);
   			updatePris();
-
+  			lvwFirmaer.setDisable(false);
+  			btnOpretFirma.setDisable(false);
+  			lvwFirmaer.getItems().setAll(Service.getFirmaer());
+  			
   		}
   		else {
   			lvwHoteller.setDisable(true);
@@ -380,6 +415,10 @@ public class TilmeldingWindow extends Stage {
   			dpStartDatoHotel.setDisable(true);
   			dpSlutDatoHotel.setDisable(true);
   			cbxLedsager.setDisable(false);
+  			lvwFirmaer.setDisable(false);
+  			btnOpretFirma.setDisable(false);
+  			lvwFirmaer.getItems().setAll(Service.getFirmaer());
+
   			updatePris();
 
    		}
@@ -487,6 +526,11 @@ public class TilmeldingWindow extends Stage {
 		for (Udflugt valgtUdflugt : lvwUdflugter.getSelectionModel().getSelectedItems()) {
 			Service.addLedsagerTilUdflugt(valgtUdflugt, ledsager);
 		}
+		
+		if(lvwFirmaer.getSelectionModel().getSelectedItem() != null) {
+			Service.addDeltagerTilFirma(lvwFirmaer.getSelectionModel().getSelectedItem(), this.deltager);
+		}
+		
 		close();
 	}
 	
@@ -538,6 +582,12 @@ public class TilmeldingWindow extends Stage {
 		double totalPris = hotelPris + tilmeldingsPris;
 		lblPrisUdregning.setText(totalPris + " kr.");
 		
+	}
+	
+	public void opretFirmaAction() {
+		FirmaWindow dia = new FirmaWindow("Opret firma");
+		dia.showAndWait();
+		lvwFirmaer.getItems().setAll(Service.getFirmaer());
 	}
 
 }

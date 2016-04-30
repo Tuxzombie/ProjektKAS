@@ -2,25 +2,31 @@ package Gui;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.util.ArrayList;
+
+import javax.xml.bind.ParseConversionEvent;
+
 import Model.*;
+import Service.Service;
 
 public class FirmaWindow extends Stage {
-    private Firma firma;
-
-    public FirmaWindow(String title, Firma firma) {
+    public FirmaWindow(String title) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
 
-        this.firma = firma;
+
 
         this.setTitle(title);
         GridPane pane = new GridPane();
@@ -30,93 +36,144 @@ public class FirmaWindow extends Stage {
         this.setScene(scene);
     }
 
-    public FirmaWindow(String title) {
-        this(title, null);
-    }
 
     // -------------------------------------------------------------------------
 
-    private TextField txfName, txfHours;
+	private TextField[] txfInput;
+	private Label[] lblInput;
+	private String[] lblNames;
     private Label lblError;
+    private Button btnOpret, btnAnuller;
+    private HBox hbox;
 
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
+        lblNames = new String[]
+        		{"Firmanavn:", "CVR. nr.:", "Vej:", "Nr:", "Etage:", "Postnr:", "By", "Land:"};
 
-        Label lblName = new Label("Name");
-        pane.add(lblName, 0, 0);
+        		txfInput = new TextField[lblNames.length];
+        		lblInput = new Label[lblNames.length];
 
-        txfName = new TextField();
-        pane.add(txfName, 0, 1);
-        txfName.setPrefWidth(200);
 
-        Label lblHours = new Label("Weekly Hours");
-        pane.add(lblHours, 0, 2);
+        		for (int i = 0; i < lblNames.length; i++)
+        		{
+        		
+        			{
+        				lblInput[i] = new Label(lblNames[i]);
+        				pane.add(lblInput[i], 0, i);
 
-        txfHours = new TextField();
-        pane.add(txfHours, 0, 3);
-
-        Button btnCancel = new Button("Cancel");
-        pane.add(btnCancel, 0, 4);
-        GridPane.setHalignment(btnCancel, HPos.LEFT);
-        btnCancel.setOnAction(event -> this.cancelAction());
-
-        Button btnOK = new Button("OK");
-        pane.add(btnOK, 0, 4);
-        GridPane.setHalignment(btnOK, HPos.RIGHT);
-        btnOK.setOnAction(event -> this.okAction());
+        				txfInput[i] = new TextField();
+        				pane.add(txfInput[i], 1, i);
+        			}
 
         lblError = new Label();
-        pane.add(lblError, 0, 5);
+        pane.add(lblError, 0, lblNames.length + 1);
         lblError.setStyle("-fx-text-fill: red");
 
-        this.initControls();
+        
+        hbox = new HBox();
+        btnOpret = new Button("Opret");
+        btnAnuller = new Button("Anuller");
+        btnAnuller.setOnAction(e -> this.btnAnullerAction());
+        hbox.getChildren().add(btnOpret);
+        btnOpret.setOnAction(e -> btnOpretAction());
+        hbox.getChildren().add(btnAnuller);
+        hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER_RIGHT);
+        pane.add(hbox, 1, lblNames.length + 1);
+        		}
     }
 
     private void initControls() {
-//        if (company != null) {
-//            txfName.setText(company.getName());
-//            txfHours.setText("" + company.getHours());
-//        } else {
-//            txfName.clear();
-//            txfHours.clear();
-//        }
+
     }
 
     // -------------------------------------------------------------------------
 
-    private void cancelAction() {
+    private void btnAnullerAction() {
         this.hide();
     }
 
-    private void okAction() {
-        String name = txfName.getText().trim();
-        if (name.length() == 0) {
-            lblError.setText("Name is empty");
-            return;
-        }
+ 
+    private void btnOpretAction() {
+    	
+    	String navn = txfInput[0].getText().trim();
+		
+    	int cvrNr = -1;
+		try
+		{
+			cvrNr = Integer.parseInt(txfInput[1].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
 
-        int hours = -1;
-        try {
-            hours = Integer.parseInt(txfHours.getText().trim());
-        } catch (NumberFormatException ex) {
-            // do nothing
-        }
-        if (hours < 0) {
-            lblError.setText("Hours is not a positive number");
-            return;
-        }
+    	String vej = txfInput[2].getText().trim();
 
-        // Call service methods
-//        if (company != null) {
-//            Service.updateCompany(company, name, hours);
-//        } else {
-//            Service.createCompany(name, hours);
-//        }
+		int nr = -1;
+		try
+		{
+			nr = Integer.parseInt(txfInput[3].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
 
-        this.hide();
+		String etage = txfInput[4].getText().trim();
+
+		int postNr = -1;
+		try
+		{
+			postNr = Integer.parseInt(txfInput[5].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+
+		String by = txfInput[6].getText().trim();
+		String land = txfInput[7].getText().trim();
+
+		if (navn.length() == 0)
+		{
+			lblError.setText("Navn er tom");
+			return;
+		} else if (cvrNr <= 0)
+		{
+			lblError.setText("Cvr.nr. er ugyldigt");
+			return;
+		}
+
+		else if (vej.length() == 0)
+		{
+			lblError.setText("Vej er ugyldig!");
+			return;
+		} else if (nr <= 0)
+		{
+			lblError.setText("Husnummer er ugyldigt!");
+			return;
+		} else if (postNr <= 0)
+		{
+			lblError.setText("Post. nr. er ugyldigt!");
+			return;
+		} else if (by.length() == 0)
+		{
+			lblError.setText("By er ugyldig!");
+			return;
+		} else if (land.length() == 0)
+		{
+			lblError.setText("Land er ugyldigt!");
+			return;
+		}
+		else {
+    	Service.createFirma(txfInput[0].getText(), cvrNr, txfInput[2].getText()
+    		, nr, txfInput[3].getText(), postNr, txfInput[5].getText(), txfInput[7].getText());
+    	close();
+		}
     }
+    
+    
 
 }

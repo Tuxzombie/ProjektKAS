@@ -1,19 +1,26 @@
 package Gui;
 
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.IllegalFormatException;
+import java.util.Optional;
 
 import Model.*;
 import Service.*;
@@ -44,10 +51,11 @@ public class KonferenceWindow extends Stage {
     private TextField[] txfInput;
     private Label[] lblInput;
     private String[] lblNames;
+    private Label lblError;
+    private ListView<Prisgruppe> lvwPrisgrupper;
 
     //--------------------------------------------------------------------------
-    private TextField txfName, txfHours;
-    private Label lblError;
+
 
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
@@ -91,7 +99,35 @@ public class KonferenceWindow extends Stage {
 		Button btnCancel = new Button("Cancel");
 		pane.add(btnCancel, 1, MAX_ROWS+1);
 		btnCancel.setOnAction(event -> this.cancelAction());
+		
+		PrisgruppeWindow prisgrpw = new PrisgruppeWindow("Opret Prisgruppe", konference);
+		
+		lvwPrisgrupper = new ListView<>();
+		lvwPrisgrupper.setMinSize(200, 160);
+		lvwPrisgrupper.setMaxSize(200, 160);
+		try
+		{
+				lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
 
+			
+		} catch (NullPointerException ex)
+		{
+			// do nothing
+		}
+
+
+		pane.add(lvwPrisgrupper, 4, 1, 2, 5);
+		
+		Label lblPrisgrupper = new Label("Prisgrupper");
+		pane.add(lblPrisgrupper, 4, 0);
+		
+		Button btnTilføj = new Button("Tilføj");
+		pane.add(btnTilføj, 4, 7);
+		btnTilføj.setOnAction(event -> this.createPrisgruppeAction());
+		
+		Button btnFjern = new Button ("Fjern");
+		pane.add(btnFjern, 5, 7);
+		btnFjern.setOnAction(event -> this.deletePrisgruppeAction());
 
         lblError = new Label();
         pane.add(lblError, 0, MAX_ROWS+2, 2, 1);
@@ -241,4 +277,12 @@ public class KonferenceWindow extends Stage {
         this.hide();
     }
 
+    private void deletePrisgruppeAction()
+    {
+    	
+    }
+    private void createPrisgruppeAction()
+    {
+ 
+    }
 }
