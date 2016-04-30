@@ -129,6 +129,7 @@ public class TilmeldingWindow extends Stage {
         paneFirma.add(btnOpretFirma, 1, 0);
         GridPane.setHalignment(btnOpretFirma, HPos.RIGHT);
         btnOpretFirma.setOnAction(e -> opretFirmaAction());
+        btnOpretFirma.setDisable(true);
                 
         lvwFirmaer = new ListView();
         paneFirma.add(lvwFirmaer, 0, 1, 2, 1);
@@ -398,7 +399,8 @@ public class TilmeldingWindow extends Stage {
   			cbxLedsager.setDisable(false);
   			updatePris();
   			lvwFirmaer.setDisable(false);
-
+  			btnOpretFirma.setDisable(false);
+  			lvwFirmaer.getItems().setAll(Service.getFirmaer());
   			
   		}
   		else {
@@ -414,6 +416,8 @@ public class TilmeldingWindow extends Stage {
   			dpSlutDatoHotel.setDisable(true);
   			cbxLedsager.setDisable(false);
   			lvwFirmaer.setDisable(false);
+  			btnOpretFirma.setDisable(false);
+  			lvwFirmaer.getItems().setAll(Service.getFirmaer());
 
   			updatePris();
 
@@ -522,6 +526,11 @@ public class TilmeldingWindow extends Stage {
 		for (Udflugt valgtUdflugt : lvwUdflugter.getSelectionModel().getSelectedItems()) {
 			Service.addLedsagerTilUdflugt(valgtUdflugt, ledsager);
 		}
+		
+		if(lvwFirmaer.getSelectionModel().getSelectedItem() != null) {
+			Service.addDeltagerTilFirma(lvwFirmaer.getSelectionModel().getSelectedItem(), this.deltager);
+		}
+		
 		close();
 	}
 	

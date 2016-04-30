@@ -15,18 +15,18 @@ import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.ParseConversionEvent;
+
 import Model.*;
 import Service.Service;
 
 public class FirmaWindow extends Stage {
-    private Firma firma;
-
-    public FirmaWindow(String title, Firma firma) {
+    public FirmaWindow(String title) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
 
-        this.firma = firma;
+
 
         this.setTitle(title);
         GridPane pane = new GridPane();
@@ -36,13 +36,9 @@ public class FirmaWindow extends Stage {
         this.setScene(scene);
     }
 
-    public FirmaWindow(String title) {
-        this(title, null);
-    }
 
     // -------------------------------------------------------------------------
 
-    //Service.createFirma(navn, cvrNr, vej, nr, etage, postNr, land, by)
 	private TextField[] txfInput;
 	private Label[] lblInput;
 	private String[] lblNames;
@@ -61,29 +57,20 @@ public class FirmaWindow extends Stage {
         		txfInput = new TextField[lblNames.length];
         		lblInput = new Label[lblNames.length];
 
-        		final int MAX_ROWS = 6;
 
         		for (int i = 0; i < lblNames.length; i++)
         		{
-        			if (i < MAX_ROWS)
+        		
         			{
         				lblInput[i] = new Label(lblNames[i]);
         				pane.add(lblInput[i], 0, i);
 
         				txfInput[i] = new TextField();
         				pane.add(txfInput[i], 1, i);
-        			} else
-        			{
-        				lblInput[i] = new Label(lblNames[i]);
-        				pane.add(lblInput[i], 2, i - MAX_ROWS);
-
-        				txfInput[i] = new TextField();
-        				pane.add(txfInput[i], 3, i - MAX_ROWS);
-
         			}
 
         lblError = new Label();
-        pane.add(lblError, 0, 5);
+        pane.add(lblError, 0, lblNames.length + 1);
         lblError.setStyle("-fx-text-fill: red");
 
         
@@ -92,10 +79,11 @@ public class FirmaWindow extends Stage {
         btnAnuller = new Button("Anuller");
         btnAnuller.setOnAction(e -> this.btnAnullerAction());
         hbox.getChildren().add(btnOpret);
+        btnOpret.setOnAction(e -> btnOpretAction());
         hbox.getChildren().add(btnAnuller);
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER_RIGHT);
-        pane.add(hbox, 1, MAX_ROWS + 1);
+        pane.add(hbox, 1, lblNames.length + 1);
         		}
     }
 
@@ -109,8 +97,83 @@ public class FirmaWindow extends Stage {
         this.hide();
     }
 
+ 
     private void btnOpretAction() {
+    	
+    	String navn = txfInput[0].getText().trim();
+		
+    	int cvrNr = -1;
+		try
+		{
+			cvrNr = Integer.parseInt(txfInput[1].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+
+    	String vej = txfInput[2].getText().trim();
+
+		int nr = -1;
+		try
+		{
+			nr = Integer.parseInt(txfInput[3].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+
+		String etage = txfInput[4].getText().trim();
+
+		int postNr = -1;
+		try
+		{
+			postNr = Integer.parseInt(txfInput[5].getText().trim());
+		} catch (NumberFormatException ex)
+		{
+			// do nothing
+		}
+
+		String by = txfInput[6].getText().trim();
+		String land = txfInput[7].getText().trim();
+
+		if (navn.length() == 0)
+		{
+			lblError.setText("Navn er tom");
+			return;
+		} else if (cvrNr <= 0)
+		{
+			lblError.setText("Cvr.nr. er ugyldigt");
+			return;
+		}
+
+		else if (vej.length() == 0)
+		{
+			lblError.setText("Vej er ugyldig!");
+			return;
+		} else if (nr <= 0)
+		{
+			lblError.setText("Husnummer er ugyldigt!");
+			return;
+		} else if (postNr <= 0)
+		{
+			lblError.setText("Post. nr. er ugyldigt!");
+			return;
+		} else if (by.length() == 0)
+		{
+			lblError.setText("By er ugyldig!");
+			return;
+		} else if (land.length() == 0)
+		{
+			lblError.setText("Land er ugyldigt!");
+			return;
+		}
+		else {
+    	Service.createFirma(txfInput[0].getText(), cvrNr, txfInput[2].getText()
+    		, nr, txfInput[3].getText(), postNr, txfInput[5].getText(), txfInput[7].getText());
+    	close();
+		}
     }
+    
     
 
 }
