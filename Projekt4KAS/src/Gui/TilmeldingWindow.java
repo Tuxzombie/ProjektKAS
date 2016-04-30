@@ -1,9 +1,6 @@
 package Gui;
 
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -219,7 +216,7 @@ public class TilmeldingWindow extends Stage {
         paneLedsager.add(txfLedsagerNavn, 0, 2);
         txfLedsagerNavn.setMaxWidth(200);
         txfLedsagerNavn.setMinWidth(200);
-        paneLedsager.setValignment(txfLedsagerNavn, VPos.TOP);
+        GridPane.setValignment(txfLedsagerNavn, VPos.TOP);
         txfLedsagerNavn.setDisable(true);
 
         

@@ -4,18 +4,12 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import Service.*;
-
-import java.time.LocalDate;
-
-import javax.swing.text.TabableView;
 
 import Model.*;
 
@@ -100,6 +94,15 @@ public class MainApp extends Application
 	    HotelPane hotelpane = new HotelPane();
 	    tabHotel.setContent(hotelpane);
 	    tabPane.getTabs().add(tabHotel);
+	    
+	    Tab tabUdflugter = new Tab();
+	    tabUdflugter.setText("Udflugter");
+	    tabUdflugter.setClosable(false);
+	    
+	    UdflugtPane udflugtpane = new UdflugtPane();
+	    tabUdflugter.setContent(udflugtpane);
+	    tabPane.getTabs().add(tabUdflugter);
+	 
 	    
 	    pane.add(tabPane, 0, 0, 1, 3);
 		
