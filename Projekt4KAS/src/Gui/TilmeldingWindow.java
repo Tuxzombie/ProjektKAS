@@ -1,15 +1,21 @@
 package Gui;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
@@ -19,6 +25,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import Model.*;
 import Service.Service;
@@ -32,7 +42,9 @@ public class TilmeldingWindow extends Stage {
         this.setResizable(false);
 
         this.deltager = deltager;
-
+        Hotelbooking hotelbooking = new Hotelbooking(null, false);
+        Tilmelding tilmeldig = new Tilmelding(deltager, null, null, null);
+        
         this.setTitle(title);
         GridPane pane = new GridPane();
         this.initContent(pane);
@@ -55,15 +67,23 @@ public class TilmeldingWindow extends Stage {
     private ListView<Facilitet> lvwFaciliteter;
     private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype,
     			lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, 
-    			lblTotalPris, lblPrisUdregning;
+    			lblTotalPris, lblPrisUdregning, lblStartDato, lblSlutDato, lblStartDatoHotel, lblSlutDatoHotel;
+    private RadioButton rbHotel;
+    private RadioButton rbAndet;
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
-    private String[] indkvarteringsTyper = {"Hotel", "Andet"};
     private CheckBox cbxLedsager;
     private Miljøkonference konference;
-    private Prisgruppe priser;
+    private Prisgruppe prisgruppe;
     private Hotelbooking hotelbooking;
     private Tilmelding tilmelding;
+    private Hotel hotel;
+    private DatePicker dpStartDato;
+    private DatePicker dpSlutDato;
+    private DatePicker dpStartDatoHotel;
+    private DatePicker dpSlutDatoHotel;
+    private ObservableList<String> oblFaciliteter = FXCollections.observableArrayList();
+    
     
     
     private void initContent(GridPane pane) {
@@ -89,7 +109,7 @@ public class TilmeldingWindow extends Stage {
         paneLedsager.setStyle("-fx-border-color: black");
         
         GridPane paneHotel = new GridPane();
-        pane.add(paneHotel, 0, 2);
+        pane.add(paneHotel, 1, 0);
         paneHotel.setGridLinesVisible(false);
         paneHotel.setPadding(new Insets(10));
         paneHotel.setHgap(10);
@@ -97,7 +117,7 @@ public class TilmeldingWindow extends Stage {
         paneHotel.setStyle("-fx-border-color: black");
         
         GridPane panePris = new GridPane();
-        pane.add(panePris, 0, 3);
+        pane.add(panePris, 1, 1);
         panePris.setGridLinesVisible(false);
         panePris.setPadding(new Insets(10));
         panePris.setHgap(10);
@@ -114,7 +134,7 @@ public class TilmeldingWindow extends Stage {
         paneKonference.add(lvwMiljøkonferencer, 0, 1, 1, 1);
         lvwMiljøkonferencer.setMaxSize(200, 130);
         lvwMiljøkonferencer.setMinSize(200, 130);
-        
+                
         
         lblPrisgrupper = new Label("Prisgrupper:");
         paneKonference.add(lblPrisgrupper, 1, 0);
@@ -127,18 +147,49 @@ public class TilmeldingWindow extends Stage {
         lvwPrisgrupper.setMinSize(200, 130);
         lvwPrisgrupper.setDisable(true);
         
-        for(int i = 0; i < indkvarteringsTyper.length; i++) {
-        	RadioButton rb = new RadioButton();
-        	rb.setText(indkvarteringsTyper[i]);
-        	rb.setToggleGroup(groupIndkvarteringsTyper);
-        	boxIndkvarteringsTyper.getChildren().add(rb);
-        }
+
+        
+        lblStartDato = new Label("Start Dato:");
+        paneKonference.add(lblStartDato, 0, 2);
+        
+        dpStartDato = new DatePicker();
+        paneKonference.add(dpStartDato, 0, 3);
+        dpStartDato.setMaxWidth(200);
+        dpStartDato.setMinWidth(200);
+        dpStartDato.setDisable(true);
+        
+        lblSlutDato = new Label("Slut Dato:");
+        paneKonference.add(lblSlutDato, 1, 2);
+        
+        dpSlutDato = new DatePicker();
+        paneKonference.add(dpSlutDato, 1, 3);
+        dpSlutDato.setMaxWidth(200);
+        dpSlutDato.setMinWidth(200);
+        dpSlutDato.setDisable(true);
+
+        
+        lblIndkvarteringstype = new Label("Vælg indkvarteringstype:");
+        paneKonference.add(lblIndkvarteringstype, 0, 4);
+        
+        
+        rbHotel = new RadioButton("Hotel");
+        rbHotel.setToggleGroup(groupIndkvarteringsTyper);
+        boxIndkvarteringsTyper.getChildren().add(rbHotel);
+        
+        rbAndet = new RadioButton("Andet");
+        rbAndet.setToggleGroup(groupIndkvarteringsTyper);
+        boxIndkvarteringsTyper.getChildren().add(rbAndet);
+        
+        groupIndkvarteringsTyper.selectedToggleProperty().addListener(e -> this.toggleRadioButton());
+        
         boxIndkvarteringsTyper.setDisable(true);
-        paneKonference.add(boxIndkvarteringsTyper, 0, 2);
+        paneKonference.add(boxIndkvarteringsTyper, 0, 5);
         
         
         cbxLedsager = new CheckBox("Ledsager");
         paneLedsager.add(cbxLedsager, 0, 0);
+        cbxLedsager.setDisable(true);
+        cbxLedsager.setOnAction(e -> this.checkboxLedsagerAction());
         
         lblLedsagerNavn = new Label("Navn:");
         paneLedsager.add(lblLedsagerNavn, 0, 1);
@@ -148,31 +199,62 @@ public class TilmeldingWindow extends Stage {
         txfLedsagerNavn.setMaxWidth(200);
         txfLedsagerNavn.setMinWidth(200);
         paneLedsager.setValignment(txfLedsagerNavn, VPos.TOP);
+        txfLedsagerNavn.setDisable(true);
 
         
         lblUdflugter = new Label("Udflugter:");
-        paneLedsager.add(lblUdflugter, 1, 0);
+        paneLedsager.add(lblUdflugter, 1, 1);
         
         lvwUdflugter = new ListView();
-        paneLedsager.add(lvwUdflugter, 1, 1, 1, 2);
+        paneLedsager.add(lvwUdflugter, 1, 2, 1, 2);
         lvwUdflugter.setMaxSize(200, 130);
         lvwUdflugter.setMinSize(200, 130);
+        lvwUdflugter.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lvwUdflugter.setDisable(true);
+        
+
+        
+        lblStartDatoHotel = new Label("Indtjekning:");
+        paneHotel.add(lblStartDatoHotel, 0, 0);
+        
+        dpStartDatoHotel = new DatePicker();
+        paneHotel.add(dpStartDatoHotel, 0, 1);
+        dpStartDatoHotel.setMaxWidth(200);
+        dpStartDatoHotel.setMinWidth(200);
+        dpStartDatoHotel.setDisable(true);
+        
+        lblSlutDatoHotel = new Label("Udtjekning:");
+        paneHotel.add(lblSlutDatoHotel, 1, 0);
+        
+        dpSlutDatoHotel  = new DatePicker();
+        paneHotel.add(dpSlutDatoHotel, 1, 1);
+        dpSlutDatoHotel.setMaxWidth(200);
+        dpSlutDatoHotel.setMinWidth(200);
+        dpSlutDatoHotel.setDisable(true);
         
         lblHotel = new Label("Hoteller:");
-        paneHotel.add(lblHotel, 0, 0);
+        paneHotel.add(lblHotel, 0, 2);
         
         lvwHoteller = new ListView();
-        paneHotel.add(lvwHoteller, 0, 1);
+        paneHotel.add(lvwHoteller, 0, 3);
         lvwHoteller.setMaxSize(200, 130);
         lvwHoteller.setMinSize(200, 130);
+        lvwHoteller.setDisable(true);
+        ChangeListener<Hotel> listenerHoteller = (ov, oldHotel, newHotel) -> this.selectedHotelChanged();
+        lvwHoteller.getSelectionModel().selectedItemProperty().addListener(listenerHoteller);
+
+
         
         lblFaciliteter = new Label("Faciliteter:");
-        paneHotel.add(lblFaciliteter, 1, 0);
+        paneHotel.add(lblFaciliteter, 1, 2);
         
         lvwFaciliteter = new ListView();
-        paneHotel.add(lvwFaciliteter, 1, 1);
+        paneHotel.add(lvwFaciliteter, 1, 3);
         lvwFaciliteter.setMaxSize(200, 130);
         lvwFaciliteter.setMinSize(200, 130);
+        lvwFaciliteter.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lvwFaciliteter.setDisable(true);
+        
         
         lblTotalPris = new Label("Total Pris:");
         panePris.add(lblTotalPris, 0, 0);
@@ -180,30 +262,24 @@ public class TilmeldingWindow extends Stage {
         lblPrisUdregning = new Label("0 kr.");
         panePris.add(lblPrisUdregning, 1, 0);
         
-        Button btnOK = new Button("Tilmeld");
-        pane.add(btnOK, 0, 4);
-        GridPane.setHalignment(btnOK, HPos.RIGHT);
-        //btnOK.setOnAction(event -> this.okAction());
+        Button btnTilmeld = new Button("Tilmeld");
+        pane.add(btnTilmeld, 0, 4);
+        GridPane.setHalignment(btnTilmeld, HPos.RIGHT);
+        btnTilmeld.setOnAction(event -> this.btnTilmeldAction());
+        
+        Button btnAnuller = new Button("Anuller");
+        pane.add(btnAnuller, 0, 4);
+        GridPane.setHalignment(btnAnuller, HPos.LEFT);
         
         lblError = new Label();
         pane.add(lblError, 0, 5);
         lblError.setStyle("-fx-text-fill: red");
 
-        this.initControls();
     }
 
-    private void initControls() {
-//        if (company != null) {
-//            txfName.setText(company.getName());
-//            txfHours.setText("" + company.getHours());
-//        } else {
-//            txfName.clear();
-//            txfHours.clear();
-//        }
-    }
 
     // -------------------------------------------------------------------------
-
+    
   	private void selectedKonferenceChanged()
 	{
 		konference = lvwMiljøkonferencer.getSelectionModel().getSelectedItem();
@@ -222,53 +298,120 @@ public class TilmeldingWindow extends Stage {
   	
   	private void selectedPrisgruppeChanged()
   	{
-  		priser = lvwPrisgrupper.getSelectionModel().getSelectedItem();
+  		prisgruppe = lvwPrisgrupper.getSelectionModel().getSelectedItem();
   		
-  		if (priser != null)
+  		if (prisgruppe != null)
 		{
 			boxIndkvarteringsTyper.setDisable(false);
-		}
+			Service.updateDeltager(deltager, deltager.getFirma(), deltager.getLedsager(), deltager.getNavn(),
+					deltager.getTelefonNr(), lvwPrisgrupper.getSelectionModel().getSelectedItem(), 
+					deltager.getAdresse().getVej(), deltager.getAdresse().getNr(), 
+					deltager.getAdresse().getEtage(), deltager.getAdresse().getPostNr(), 
+					deltager.getAdresse().getBy(), deltager.getAdresse().getLand());
+			dpStartDato.setDisable(false);
+			dpSlutDato.setDisable(false);
+			dpStartDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()); //Sætter dpStartDato og dpSlutDato til konferencens start og slut dato
+			dpSlutDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+ 		}
   		else
   		{
   			boxIndkvarteringsTyper.setDisable(true);
+  			dpStartDato.setValue(null);
+  			dpSlutDato.setValue(null);
+  			dpStartDato.setDisable(true);
+			dpSlutDato.setDisable(true);
   		}
   	}
 
-	public void updateControls()
-	{
+  	public void selectedHotelChanged() {
+  		
+  		hotel = lvwHoteller.getSelectionModel().getSelectedItem();
+  		
+  		if(hotel != null) {
+  			dpStartDatoHotel.setDisable(false);
+  			dpSlutDatoHotel.setDisable(false);
+  			
+  			dpStartDatoHotel.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato());
+  			dpSlutDatoHotel.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			
+  			lvwFaciliteter.setDisable(false);
+  			lvwFaciliteter.getItems().setAll(hotel.getFaciliteter());
 
+  		}
+  		else {
+  			dpStartDatoHotel.setDisable(true);
+  			dpSlutDatoHotel.setDisable(true);
+  			dpStartDatoHotel.setValue(null);
+  			dpSlutDatoHotel.setValue(null);
+  		}
+  	}
+  	
+  	public void toggleRadioButton() {
+  		if(rbHotel.isSelected()) {
+  			lvwHoteller.setDisable(false);
+  			lvwHoteller.getItems().setAll(Service.getHoteller());
+  			cbxLedsager.setDisable(false);
+  		}
+  		else {
+  			lvwHoteller.setDisable(true);
+  			lvwHoteller.getSelectionModel().clearSelection();
+  			lvwHoteller.getItems().setAll();
+  			lvwFaciliteter.setDisable(true);
+  			lvwFaciliteter.getSelectionModel().clearSelection();
+  			lvwFaciliteter.getItems().setAll();
+  			dpStartDatoHotel.setValue(null);
+  			dpSlutDatoHotel.setValue(null);
+  			dpStartDatoHotel.setDisable(true);
+  			dpSlutDatoHotel.setDisable(true);
+  			cbxLedsager.setDisable(false);
+   		}
+  	}
+  	
+  	public void checkboxLedsagerAction() {
+  		if(cbxLedsager.isSelected()) {
+  			txfLedsagerNavn.setDisable(false);
+  			lvwUdflugter.setDisable(false);
+  			lvwUdflugter.getItems().setAll(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getUdflugter());
+  		}
+  		else {
+  			txfLedsagerNavn.setDisable(true);
+  			lvwUdflugter.setDisable(true);
+  			txfLedsagerNavn.clear();
+  			lvwUdflugter.getItems().setAll();
+  		}
+  	}
+
+//  	public void startDatoAction () {
+////  		if(dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) || 
+////  				dpStartDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
+////  				dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
+////  				dpStartDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato())){
+//  	  		Service.updateTilmelding(this.tilmelding, deltager, dpStartDato.getValue(), tilmelding.getSlutDato(), tilmelding.getIndkvartering());
+////  		}
+////  		else {
+////  			//fejl
+////  		}
+//  	} 
+//  	
+//  	public void slutDatoAction() {
+//// 		if(dpSlutDato.getValue().isAfter(tilmelding.getStartDato())){
+//  		Service.updateTilmelding(this.tilmelding, deltager, tilmelding.getStartDato(), dpSlutDato.getValue(), tilmelding.getIndkvartering());
+////  		}
+////  		else
+//  	}
+  	
+	public void btnTilmeldAction()
+	{
+		Hotelbooking hotelbooking = Service.createHotelbooking(lvwHoteller.getSelectionModel().getSelectedItem(), cbxLedsager.isSelected());
+		Indkvartering indkvartering = Service.createIndkvarteringMedHotelbooking(dpStartDatoHotel.getValue(), dpSlutDatoHotel.getValue());
+		Ledsager ledsager = Service.createLedsager(txfLedsagerNavn.getText(), deltager);
+		Service.createTilmelding(lvwMiljøkonferencer.getSelectionModel().getSelectedItem(), this.deltager, 
+				dpStartDato.getValue(), dpSlutDato.getValue(), indkvartering);
+		//Service.addLedsagerTilUdflugt(lvwUdflugter.getSelectionModel().getSelectedItem(), ledsager);
+		Service.connectIndkvarteringOgHotelbooking(indkvartering, hotelbooking);
+		close();
 	}
 	
-//    private void cancelAction() {
-//        this.hide();
-//    }
-//
-//    private void okAction() {
-//        String name = txfNavn.getText().trim();
-//        if (name.length() == 0) {
-//            lblError.setText("Name is empty");
-//            return;
-//        }
-//
-//        int hours = -1;
-//        try {
-//            hours = Integer.parseInt(txfPris.getText().trim());
-//        } catch (NumberFormatException ex) {
-//            // do nothing
-//        }
-//        if (hours < 0) {
-//            lblError.setText("Hours is not a positive number");
-//            return;
-//        }
-//
-//        // Call service methods
-////        if (company != null) {
-////            Service.updateCompany(company, name, hours);
-////        } else {
-////            Service.createCompany(name, hours);
-////        }
-//
-//        this.hide();
-//    }
+
 
 }

@@ -136,6 +136,14 @@ public class Udflugt {
 		this.hasFrokost = hasFrokost;
 	}
 	
-	
+	@Override
+	public String toString() {
+		String s = "";
+		if(hasFrokost) {
+			s = this.beskrivelse + ", " + this.lokalitet + ", inkl. frokost, " + this.pris + " kr."; 
+		}
+		else s = this.beskrivelse + ", " + this.lokalitet + ", excl. frokost, " + this.pris + " kr."; 
+		return s;
+	}
 
 }
