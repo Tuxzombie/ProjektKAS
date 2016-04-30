@@ -103,16 +103,31 @@ public class KonferenceWindow extends Stage {
 		PrisgruppeWindow prisgrpw = new PrisgruppeWindow("Opret Prisgruppe", konference);
 		
 		lvwPrisgrupper = new ListView<>();
-		if (konference.getPrisgrupper() != null)
+		lvwPrisgrupper.setMinSize(200, 160);
+		lvwPrisgrupper.setMaxSize(200, 160);
+		try
 		{
-			lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
+				lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
+
+			
+		} catch (NullPointerException ex)
+		{
+			// do nothing
 		}
 
-		pane.add(lvwPrisgrupper, 4, 0, 1, 7);
+
+		pane.add(lvwPrisgrupper, 4, 1, 2, 5);
+		
+		Label lblPrisgrupper = new Label("Prisgrupper");
+		pane.add(lblPrisgrupper, 4, 0);
 		
 		Button btnTilføj = new Button("Tilføj");
-		pane.add(btnTilføj, 4, 1);
-		btnTilføj.setOnAction(event -> this.dialogPrisgruppe());
+		pane.add(btnTilføj, 4, 7);
+		btnTilføj.setOnAction(event -> this.createPrisgruppeAction());
+		
+		Button btnFjern = new Button ("Fjern");
+		pane.add(btnFjern, 5, 7);
+		btnFjern.setOnAction(event -> this.deletePrisgruppeAction());
 
         lblError = new Label();
         pane.add(lblError, 0, MAX_ROWS+2, 2, 1);
@@ -262,47 +277,12 @@ public class KonferenceWindow extends Stage {
         this.hide();
     }
 
-    private void dialogPrisgruppe()
+    private void deletePrisgruppeAction()
     {
-    	// Create the custom dialog.
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("TestName");
-
-        // Set the button types.
-        ButtonType loginButtonType = new ButtonType("OK", ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-
-                GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20, 150, 10, 10));
-
-        TextField from = new TextField();
-        from.setPromptText("From");
-        TextField to = new TextField();
-        to.setPromptText("To");
-
-        gridPane.add(from, 0, 0);
-        gridPane.add(new Label("To:"), 1, 0);
-        gridPane.add(to, 2, 0);
-
-        dialog.getDialogPane().setContent(gridPane);
-
-        // Request focus on the username field by default.
-        Platform.runLater(() -> from.requestFocus());
-
-        // Convert the result to a username-password-pair when the login button is clicked.
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
-                return new Pair<>(from.getText(), to.getText());
-            }
-            return null;
-        });
-
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-
-        result.ifPresent(pair -> {
-            System.out.println("From=" + pair.getKey() + ", To=" + pair.getValue());
-        });
+    	
+    }
+    private void createPrisgruppeAction()
+    {
+ 
     }
 }
