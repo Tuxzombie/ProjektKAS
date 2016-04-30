@@ -15,7 +15,7 @@ public class Firma
 	 * @param cvrNr
 	 * @param adresse
 	 */
-	public Firma(String navn, int cvrNr, Adresse adresse, String vej, int nr, String etage, int postNr, String land, String by)
+	public Firma(String navn, int cvrNr, String vej, int nr, String etage, int postNr, String land, String by)
 	{
 		this.navn = navn;
 		this.cvrNr = cvrNr;
@@ -91,4 +91,9 @@ public class Firma
 		return this.adresse;
 	}
 
+	@Override
+	public String toString() {
+		String s = this.navn + ", " + this.adresse.getBy();
+		return s;
+	}
 }

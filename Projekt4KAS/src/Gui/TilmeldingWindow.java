@@ -61,13 +61,13 @@ public class TilmeldingWindow extends Stage {
     private ListView<Firma> lvwFirmaer;
     private Label lblError, lblMiljøkonferencer, lblPrisgrupper, lblIndkvarteringstype,
     			lblLedsager, lblLedsagerNavn, lblUdflugter, lblHotel, lblFaciliteter, 
-    			lblTotalPris, lblPrisUdregning, lblStartDato, lblSlutDato, lblStartDatoHotel, lblSlutDatoHotel;
+    			lblTotalPris, lblPrisUdregning, lblStartDato, lblSlutDato, lblStartDatoHotel, 
+    			lblSlutDatoHotel, lblFirmaer;
     private RadioButton rbHotel;
     private RadioButton rbAndet;
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
     private CheckBox cbxLedsager;
-    private CheckBox cbxFirma;
     private Button btnOpretFirma;
     private Miljøkonference konference;
     private Prisgruppe prisgruppe;
@@ -110,13 +110,7 @@ public class TilmeldingWindow extends Stage {
         paneHotel.setHgap(10);
         paneHotel.setVgap(10);
         paneHotel.setStyle("-fx-border-color: black");
-        
-//        GridPane panePrisOgFirma = new GridPane();
-//        pane.add(panePrisOgFirma, 1, 1);
-//        panePrisOgFirma.setGridLinesVisible(true);
-//        panePrisOgFirma.setPadding(new Insets(10));
-//        panePrisOgFirma.setHgap(0);
-//        panePrisOgFirma.setVgap(0);        
+ 
   
         
         GridPane paneFirma = new GridPane();
@@ -127,16 +121,20 @@ public class TilmeldingWindow extends Stage {
         paneFirma.setVgap(10);
         paneFirma.setStyle("-fx-border-color: black");
     
-        cbxFirma = new CheckBox("Firma");
-        paneFirma.add(cbxFirma, 0, 0);
+        lblFirmaer = new Label("Firmaer:");
+        paneFirma.add(lblFirmaer, 0, 0);
+        
         
         btnOpretFirma = new Button("Opret");
         paneFirma.add(btnOpretFirma, 1, 0);
-        
+        GridPane.setHalignment(btnOpretFirma, HPos.RIGHT);
+        btnOpretFirma.setOnAction(e -> opretFirmaAction());
+                
         lvwFirmaer = new ListView();
         paneFirma.add(lvwFirmaer, 0, 1, 2, 1);
-        lvwFirmaer.setMaxSize(200, 130);
-        lvwFirmaer.setMinSize(200, 130);
+        lvwFirmaer.setMaxSize(410, 130);
+        lvwFirmaer.setMinSize(410, 130);
+        lvwFirmaer.setDisable(true);
         
         GridPane panePris = new GridPane();
         pane.add(panePris, 1, 2);
@@ -354,6 +352,7 @@ public class TilmeldingWindow extends Stage {
 			dpStartDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()); //Sætter dpStartDato og dpSlutDato til konferencens start og slut dato
 			dpSlutDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
 			updatePris();
+
  		}
   		else
   		{
@@ -363,6 +362,7 @@ public class TilmeldingWindow extends Stage {
   			dpStartDato.setDisable(true);
 			dpSlutDato.setDisable(true);
 			updatePris();
+
   		}
   	}
 
@@ -380,6 +380,7 @@ public class TilmeldingWindow extends Stage {
   			lvwFaciliteter.setDisable(false);
   			lvwFaciliteter.getItems().setAll(hotel.getFaciliteter());
   			updatePris();
+  			lvwFirmaer.setDisable(false);
   		}
   		else {
   			dpStartDatoHotel.setDisable(true);
@@ -396,7 +397,9 @@ public class TilmeldingWindow extends Stage {
   			lvwHoteller.getItems().setAll(Service.getHoteller());
   			cbxLedsager.setDisable(false);
   			updatePris();
+  			lvwFirmaer.setDisable(false);
 
+  			
   		}
   		else {
   			lvwHoteller.setDisable(true);
@@ -410,6 +413,8 @@ public class TilmeldingWindow extends Stage {
   			dpStartDatoHotel.setDisable(true);
   			dpSlutDatoHotel.setDisable(true);
   			cbxLedsager.setDisable(false);
+  			lvwFirmaer.setDisable(false);
+
   			updatePris();
 
    		}
@@ -568,6 +573,12 @@ public class TilmeldingWindow extends Stage {
 		double totalPris = hotelPris + tilmeldingsPris;
 		lblPrisUdregning.setText(totalPris + " kr.");
 		
+	}
+	
+	public void opretFirmaAction() {
+		FirmaWindow dia = new FirmaWindow("Opret firma");
+		dia.showAndWait();
+		lvwFirmaer.getItems().setAll(Service.getFirmaer());
 	}
 
 }

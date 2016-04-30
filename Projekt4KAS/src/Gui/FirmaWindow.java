@@ -2,15 +2,21 @@ package Gui;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.util.ArrayList;
+
 import Model.*;
+import Service.Service;
 
 public class FirmaWindow extends Stage {
     private Firma firma;
@@ -36,87 +42,75 @@ public class FirmaWindow extends Stage {
 
     // -------------------------------------------------------------------------
 
-    private TextField txfName, txfHours;
+    //Service.createFirma(navn, cvrNr, vej, nr, etage, postNr, land, by)
+	private TextField[] txfInput;
+	private Label[] lblInput;
+	private String[] lblNames;
     private Label lblError;
+    private Button btnOpret, btnAnuller;
+    private HBox hbox;
 
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
+        lblNames = new String[]
+        		{"Firmanavn:", "CVR. nr.:", "Vej:", "Nr:", "Etage:", "Postnr:", "By", "Land:"};
 
-        Label lblName = new Label("Name");
-        pane.add(lblName, 0, 0);
+        		txfInput = new TextField[lblNames.length];
+        		lblInput = new Label[lblNames.length];
 
-        txfName = new TextField();
-        pane.add(txfName, 0, 1);
-        txfName.setPrefWidth(200);
+        		final int MAX_ROWS = 6;
 
-        Label lblHours = new Label("Weekly Hours");
-        pane.add(lblHours, 0, 2);
+        		for (int i = 0; i < lblNames.length; i++)
+        		{
+        			if (i < MAX_ROWS)
+        			{
+        				lblInput[i] = new Label(lblNames[i]);
+        				pane.add(lblInput[i], 0, i);
 
-        txfHours = new TextField();
-        pane.add(txfHours, 0, 3);
+        				txfInput[i] = new TextField();
+        				pane.add(txfInput[i], 1, i);
+        			} else
+        			{
+        				lblInput[i] = new Label(lblNames[i]);
+        				pane.add(lblInput[i], 2, i - MAX_ROWS);
 
-        Button btnCancel = new Button("Cancel");
-        pane.add(btnCancel, 0, 4);
-        GridPane.setHalignment(btnCancel, HPos.LEFT);
-        btnCancel.setOnAction(event -> this.cancelAction());
+        				txfInput[i] = new TextField();
+        				pane.add(txfInput[i], 3, i - MAX_ROWS);
 
-        Button btnOK = new Button("OK");
-        pane.add(btnOK, 0, 4);
-        GridPane.setHalignment(btnOK, HPos.RIGHT);
-        btnOK.setOnAction(event -> this.okAction());
+        			}
 
         lblError = new Label();
         pane.add(lblError, 0, 5);
         lblError.setStyle("-fx-text-fill: red");
 
-        this.initControls();
+        
+        hbox = new HBox();
+        btnOpret = new Button("Opret");
+        btnAnuller = new Button("Anuller");
+        btnAnuller.setOnAction(e -> this.btnAnullerAction());
+        hbox.getChildren().add(btnOpret);
+        hbox.getChildren().add(btnAnuller);
+        hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER_RIGHT);
+        pane.add(hbox, 1, MAX_ROWS + 1);
+        		}
     }
 
     private void initControls() {
-//        if (company != null) {
-//            txfName.setText(company.getName());
-//            txfHours.setText("" + company.getHours());
-//        } else {
-//            txfName.clear();
-//            txfHours.clear();
-//        }
+
     }
 
     // -------------------------------------------------------------------------
 
-    private void cancelAction() {
+    private void btnAnullerAction() {
         this.hide();
     }
 
-    private void okAction() {
-        String name = txfName.getText().trim();
-        if (name.length() == 0) {
-            lblError.setText("Name is empty");
-            return;
-        }
-
-        int hours = -1;
-        try {
-            hours = Integer.parseInt(txfHours.getText().trim());
-        } catch (NumberFormatException ex) {
-            // do nothing
-        }
-        if (hours < 0) {
-            lblError.setText("Hours is not a positive number");
-            return;
-        }
-
-        // Call service methods
-//        if (company != null) {
-//            Service.updateCompany(company, name, hours);
-//        } else {
-//            Service.createCompany(name, hours);
-//        }
-
-        this.hide();
+    private void btnOpretAction() {
     }
+    
 
 }

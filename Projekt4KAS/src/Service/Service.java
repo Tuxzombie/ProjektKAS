@@ -25,9 +25,9 @@ public class Service
 		return newMiljøkonference;
 	}
 
-	public static Firma createFirma(String navn, int cvrNr, Adresse adresse, String vej, int nr, String etage, int postNr, String land, String by)
+	public static Firma createFirma(String navn, int cvrNr, String vej, int nr, String etage, int postNr, String land, String by)
 	{
-		Firma newFirma = new Firma(navn, cvrNr, adresse, vej, nr, etage, postNr, land, by);
+		Firma newFirma = new Firma(navn, cvrNr, vej, nr, etage, postNr, land, by);
 		Storage.addFirma(newFirma);
 		return newFirma;
 	}
@@ -281,6 +281,10 @@ public class Service
 		return Storage.getHoteller();
 	}
 	
+	public static ArrayList<Firma> getFirmaer() {
+		return Storage.getFirmaer();
+	}
+	
 	public static int randInt(int min, int max) {
 
 	    Random rand = new Random();
@@ -411,7 +415,7 @@ public class Service
 		Service.connectIndkvarteringOgHotelbooking(indkvarteringNiels, hotelbookingNiels);
 		Tilmelding tilmeldingNiels = Service.createTilmelding(miljøkonference, deltagerNiels, LocalDate.of(2016, 4, 18), LocalDate.of(2016, 4, 20), indkvarteringNiels);
 		
-
+		Service.createFirma("Grundfos", 12345, "Pumpevej", 4, null, 8850, "Danmark", "Bjerringbro");
 		
 //		Hotel hotelDenHvideSvane = Service.createHotel("Den Hvide Svane", 100, 150, "Vestergade", 2, "", 9000, "Danmark", "Aalborg");
 //		Miljøkonference miljøkonference = Service.createMiljøkonference("Hav og himmel", "Havet", LocalDate.of(2016, 11, 1), LocalDate.of(2016, 11, 3), "Hovedgaden", 12, "1. th.", 8200, "Aarhus N", "Danmark");
