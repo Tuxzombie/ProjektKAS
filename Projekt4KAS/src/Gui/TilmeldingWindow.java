@@ -536,7 +536,7 @@ public class TilmeldingWindow extends Stage {
 		double tilmeldingsPris = dageTilmeldtKonference * prisgruppeKvote + udflugtPris;
 			
 		double totalPris = hotelPris + tilmeldingsPris;
-		lblPrisUdregning.setText(hotelPris + " kr.");
+		lblPrisUdregning.setText(totalPris + " kr.");
 		
 	}
 
