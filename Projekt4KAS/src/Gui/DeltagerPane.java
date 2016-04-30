@@ -79,23 +79,6 @@ public class DeltagerPane extends GridPane
 		this.add(txfTlfNr, 2, 3);
 		txfTlfNr.setEditable(false);
 
-//		Label lblLedsager = new Label("Ledsager:");
-//		this.add(lblLedsager, 1, 4);
-//
-//		txfLedsager = new TextField();
-//		txfLedsager.setMinWidth(FIELD_WIDTH);
-//		txfLedsager.setMaxWidth(FIELD_WIDTH);
-//		this.add(txfLedsager, 2, 4);
-//		txfLedsager.setEditable(false);
-//
-//		Label lblIndkvartering = new Label("Indkvartering:");
-//		this.add(lblIndkvartering, 1, 5);
-//
-//		txfIndskvartering = new TextField();
-//		txfIndskvartering.setMinWidth(FIELD_WIDTH);
-//		txfIndskvartering.setMaxWidth(FIELD_WIDTH);
-//		this.add(txfIndskvartering, 2, 5);
-//		txfIndskvartering.setEditable(false);
 
 		Label lblMiljøkonferencer = new Label("Miljøkonferencer:");
 		this.add(lblMiljøkonferencer, 1, 4);
@@ -107,7 +90,6 @@ public class DeltagerPane extends GridPane
 
 		HBox hbxButtons = new HBox(40);
 		this.add(hbxButtons, 0, 7, 3, 1);
-		// hbxButtons.setPadding(new Insets(10, 0, 0, 0));
 		hbxButtons.setAlignment(Pos.BASELINE_LEFT);
 
 		Button btnCreateDeltager = new Button("Opret \nDeltager");
@@ -128,38 +110,6 @@ public class DeltagerPane extends GridPane
 		hbxButtons.getChildren().add(btnDeleteDeltager);
 		btnDeleteDeltager.setOnAction(event -> this.deleteActionDeltager());
 
-//		Button btnCreateLedsager = new Button("Opret \nLedsager");
-//		btnCreateLedsager.setMinWidth(80);
-//		btnCreateLedsager.setTextAlignment(TextAlignment.CENTER);
-//		hbxButtons.getChildren().add(btnCreateLedsager);
-//		btnCreateLedsager.setDisable(false);
-//		btnCreateLedsager.setOnAction(event -> this.createLedsagerAction());
-//
-//		Button btnDeleteLedsager = new Button("Slet \nLedsager");
-//		btnDeleteLedsager.setMinWidth(80);
-//		btnDeleteLedsager.setTextAlignment(TextAlignment.CENTER);
-//		hbxButtons.getChildren().add(btnDeleteLedsager);
-//		btnDeleteLedsager.setDisable(true);
-//		btnDeleteLedsager.setOnAction(event -> this.deleteLedsagerAction());
-//
-//		HBox hbxButtons2 = new HBox(40);
-//		this.add(hbxButtons2, 0, 8, 1, 1);
-//		hbxButtons2.setAlignment(Pos.BASELINE_CENTER);
-//
-//		Button btnCreateFirma = new Button("Opret \nFirma");
-//		btnCreateFirma.setMinWidth(80);
-//		btnCreateFirma.setTextAlignment(TextAlignment.CENTER);
-//		hbxButtons2.getChildren().add(btnCreateFirma);
-//		btnCreateFirma.setDisable(false);
-//		btnCreateFirma.setOnAction(event -> this.createFirmaAction());
-//
-//		Button btnDeleteFirma = new Button("Slet \nFirma");
-//		btnDeleteFirma.setMinWidth(80);
-//		btnDeleteFirma.setTextAlignment(TextAlignment.CENTER);
-//		hbxButtons2.getChildren().add(btnDeleteFirma);
-//		btnDeleteFirma.setDisable(true);
-//		btnDeleteFirma.setOnAction(event -> this.deleteFirmaAction());
-		
 		btnTilmeldDeltager = new Button("Tilmeld \nDeltager");
 		btnTilmeldDeltager.setMinWidth(80);
 		btnTilmeldDeltager.setTextAlignment(TextAlignment.CENTER);
@@ -271,14 +221,6 @@ public class DeltagerPane extends GridPane
 			btnTilmeldDeltager.setDisable(false);
 			txfNavn.setText(deltager.getNavn());
 			txfTlfNr.setText("" + deltager.getTelefonNr());
-//			try
-//			{
-//				txfLedsager.setText(deltager.getLedsager().getNavn());
-//			} catch (NullPointerException ex)
-//			{
-//				//Do nothing
-//			}			
-//			txfIndskvartering.setText("");
 
 			txaAdresse.setText(deltager.getAdresse().toString());
 
@@ -299,8 +241,6 @@ public class DeltagerPane extends GridPane
 		{
 			txfNavn.clear();
 			txfTlfNr.clear();
-//			txfLedsager.clear();
-//			txfIndskvartering.clear();
 			txaAdresse.clear();
 			txaMiljøkonferencer.clear();
 			btnTilmeldDeltager.setDisable(true);
