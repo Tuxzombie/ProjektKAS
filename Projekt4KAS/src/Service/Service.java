@@ -137,6 +137,10 @@ public class Service
 		indkvartering.setHotelbooking(null);
 	}
 	
+	public static void deleteFacilitet(Hotel hotel, Facilitet facilitet) {
+		hotel.removeFacilitet(facilitet);
+	}
+	
 	public static void deletePrisgruppe(Prisgruppe prisgruppe, Miljøkonference miljøkonference)
 	{
 		miljøkonference.removePrisgruppe(prisgruppe);

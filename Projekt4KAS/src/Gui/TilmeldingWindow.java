@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -448,13 +449,15 @@ public class TilmeldingWindow extends Stage {
   				dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
   				dpStartDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) &&
   				dpStartDato.getValue().isEqual(dpSlutDato.getValue()) ||
-  				dpStartDato.getValue().isAfter(dpSlutDato.getValue())){
+  				dpStartDato.getValue().isBefore(dpSlutDato.getValue())){
   			updatePris();
   		}
   		else {
-  			lblError.setText("Dato er ugyldig! Startdato skal være indenfor konferencens aktive periode og før slutdatoen! (" 
+  			Alert alert = new Alert(Alert.AlertType.ERROR);
+  			alert.setContentText("Dato er ugyldig! Startdato skal være indenfor konferencens aktive periode og før eller samme dag som slutdatoen! (" 
   					+ lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato() + " til " + 
   					lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			alert.showAndWait();
   			dpStartDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato());
   			updatePris();
 
@@ -465,13 +468,17 @@ public class TilmeldingWindow extends Stage {
   		if(dpSlutDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) || 
   				dpSlutDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
   				dpSlutDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
-  				dpSlutDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato())){
+  				dpSlutDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) &&
+  				dpSlutDato.getValue().isEqual(dpStartDato.getValue()) ||
+  				dpStartDato.getValue().isAfter(dpStartDato.getValue())){
   			updatePris();
   		}
   		else {
-  			lblError.setText("Dato er ugyldig! Slutdato skal være indenfor konferencens aktive periode og efter startdatoen! (" 
+  			Alert alert = new Alert(Alert.AlertType.ERROR);
+  			alert.setContentText("Dato er ugyldig! Slutdato skal være indenfor konferencens aktive periode og efter eller samme dag som startdatoen! (" 
   					+ lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato() + " til " + 
   					lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			alert.showAndWait();
   			dpSlutDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
   			updatePris();
 
@@ -571,7 +578,7 @@ public class TilmeldingWindow extends Stage {
 		
 		double hotelPris = 0.0;
 		if(cbxLedsager.isSelected()) {
-			hotelPris = nætterPåHotel * prisDobbeltværelse + facilitetPris;	
+			hotelPris = nætterPåHotel * prisDobbeltværelse + facilitetPris * 2;	
 		}
 		else hotelPris = nætterPåHotel * prisEnkeltværelse + facilitetPris;	
 		
