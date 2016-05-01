@@ -81,8 +81,8 @@ public class HotelWindow extends Stage {
 		
 		lvwFaciliteter = new ListView();
 		pane.add(lvwFaciliteter, 2, 0, 1, lblNames.length);
-		lvwFaciliteter.setMaxSize(200, 200);
-		lvwFaciliteter.setMinSize(200, 200);
+		lvwFaciliteter.setMaxSize(200, 235);
+		lvwFaciliteter.setMinSize(200, 235);
 		
         btnAnuller = new Button("Anuller");
         btnAnuller.setOnAction(e -> this.anullerAction());
