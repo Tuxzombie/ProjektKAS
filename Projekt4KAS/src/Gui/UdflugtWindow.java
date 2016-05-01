@@ -11,6 +11,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.time.LocalDate;
+
 import Model.*;
 
 public class UdflugtWindow extends Stage
@@ -38,7 +40,14 @@ public class UdflugtWindow extends Stage
 	private TextArea txaDeltagere;
 
 	// --------------------------------------------------------------------------
-
+//	private String lokalitet;
+//	private String beskrivelse;
+//	private double pris;
+//	private LocalDate startDato;
+//	private LocalDate slutDato;
+//	private boolean hasFrokost;
+//	
+	
 	private void initContent(GridPane pane)
 	{
 		pane.setPadding(new Insets(10));
