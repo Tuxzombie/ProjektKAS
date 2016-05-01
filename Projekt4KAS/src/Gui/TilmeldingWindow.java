@@ -137,35 +137,9 @@ public class TilmeldingWindow extends Stage {
         lvwFirmaer.setMinSize(410, 130);
         lvwFirmaer.setDisable(true);
         
-        GridPane paneFirma = new GridPane();
-        pane.add(paneFirma, 1, 1);
-        paneFirma.setGridLinesVisible(true);
-        paneFirma.setPadding(new Insets(10));
-        paneFirma.setHgap(10);
-        paneFirma.setVgap(10);
-        paneFirma.setStyle("-fx-border-color: black");
-    
-        lblFirmaer = new Label("Firmaer:");
-        paneFirma.add(lblFirmaer, 0, 0);
-        
-        
-        btnOpretFirma = new Button("Opret");
-        paneFirma.add(btnOpretFirma, 1, 0);
-        GridPane.setHalignment(btnOpretFirma, HPos.RIGHT);
-        btnOpretFirma.setOnAction(e -> opretFirmaAction());
-        btnOpretFirma.setDisable(true);
-                
-        lvwFirmaer = new ListView();
-        paneFirma.add(lvwFirmaer, 0, 1, 2, 1);
-        lvwFirmaer.setMaxSize(410, 130);
-        lvwFirmaer.setMinSize(410, 130);
-        lvwFirmaer.setDisable(true);
-        
         GridPane panePris = new GridPane();
         pane.add(panePris, 1, 2);
         panePris.setGridLinesVisible(false);
-        pane.add(panePris, 1, 2);
-        panePris.setGridLinesVisible(true);
         panePris.setPadding(new Insets(10));
         panePris.setHgap(10);
         panePris.setVgap(10);
