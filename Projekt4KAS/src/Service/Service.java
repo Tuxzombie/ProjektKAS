@@ -62,11 +62,6 @@ public class Service
 		return newFacilitet;
 	}
 	
-	public static void connectIndkvarteringOgHotelbooking (Indkvartering indkvartering, Hotelbooking hotelbooking) {
-		indkvartering.setHotelbooking(hotelbooking);
-		hotelbooking.setIndkvartering(indkvartering);
-	}
-	
 	public static Ledsager createLedsager(String navn, Deltager deltager)
 	{
 		Ledsager newLedsager = new Ledsager(navn, deltager);
@@ -91,6 +86,11 @@ public class Service
 		Tilmelding newTilmelding = miljøkonference.createTilmelding(indkvartering, deltager, startDato, slutDato);
 		deltager.addTilmelding(newTilmelding);
 		return newTilmelding;
+	}
+
+	public static void connectIndkvarteringOgHotelbooking (Indkvartering indkvartering, Hotelbooking hotelbooking) {
+		indkvartering.setHotelbooking(hotelbooking);
+		hotelbooking.setIndkvartering(indkvartering);
 	}
 
 	public static void deleteHotel(Hotel hotel)
@@ -150,6 +150,10 @@ public class Service
 				liste.getDeltager().setPrisgruppe(null);
 			}
 		}
+	}
+	
+	public static void deleteUdflugt(Miljøkonference miljøkonference, Udflugt udflugt) {
+		miljøkonference.removeUdflugt(udflugt);
 	}
 
 	public static void updateHotelbooking(Hotelbooking hotelbooking, Hotel hotel, Indkvartering indkvartering, boolean isDobbeltVærelse)
