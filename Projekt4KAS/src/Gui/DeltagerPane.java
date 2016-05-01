@@ -93,26 +93,26 @@ public class DeltagerPane extends GridPane
 		btnCreateDeltager.setMinWidth(80);
 		btnCreateDeltager.setTextAlignment(TextAlignment.CENTER);
 		hbxButtons.getChildren().add(btnCreateDeltager);
-		btnCreateDeltager.setOnAction(event -> this.createActionDeltager());
+		btnCreateDeltager.setOnAction(event -> this.createDeltagerAction());
 
 		Button btnUpdateDeltager = new Button("Opdater \nDeltager");
 		btnUpdateDeltager.setMinWidth(80);
 		btnUpdateDeltager.setTextAlignment(TextAlignment.CENTER);
 		hbxButtons.getChildren().add(btnUpdateDeltager);
-		btnUpdateDeltager.setOnAction(event -> this.updateActionDeltager());
+		btnUpdateDeltager.setOnAction(event -> this.updateDeltagerAction());
 
 		Button btnDeleteDeltager = new Button("Slet \nDeltager");
 		btnDeleteDeltager.setMinWidth(80);
 		btnDeleteDeltager.setTextAlignment(TextAlignment.CENTER);
 		hbxButtons.getChildren().add(btnDeleteDeltager);
-		btnDeleteDeltager.setOnAction(event -> this.deleteActionDeltager());
+		btnDeleteDeltager.setOnAction(event -> this.deleteDeltagerAction());
 
 		btnTilmeldDeltager = new Button("Tilmeld \nDeltager");
 		btnTilmeldDeltager.setMinWidth(80);
 		btnTilmeldDeltager.setTextAlignment(TextAlignment.CENTER);
 		hbxButtons.getChildren().add(btnTilmeldDeltager);
 		btnTilmeldDeltager.setDisable(true);
-		btnTilmeldDeltager.setOnAction(event -> this.tilmeldActionDeltager());
+		btnTilmeldDeltager.setOnAction(event -> this.tilmeldDeltagerAction());
 
 		if (lvwDeltagere.getItems().size() > 0)
 		{
@@ -131,18 +131,28 @@ public class DeltagerPane extends GridPane
 	}
 
 	// -------------------------------------------------------------------------
-	private void createActionDeltager()
+	
+	/**
+	 * Metode til at åbne DeltagerWindow, hvor der kan oprettes en deltager. 
+	 * @post: deltager listview opdateres og hvis succesfuld, vil der være et nyt deltager objekt
+	 */
+	private void createDeltagerAction()
 	{
 		DeltagerWindow dia = new DeltagerWindow("Opret Deltager");
 		dia.showAndWait();
 
-		// Wait for the modal dialog to close
+		// Venter på at dia bliver lukket
 
 		lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
 		this.updateControls();
 	}
 
-	private void updateActionDeltager()
+	/**
+	 * Metode til at åbne et DeltagerWindow, hvor et eksisterende deltager objekt kan opdateres.
+	 * @pre et deltager objekt er markeret i deltager listview.
+	 * @post et deltager objekts instansvariabler er opdateret.
+	 */
+	private void updateDeltagerAction()
 	{
 		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
 		if (deltager == null)
@@ -151,14 +161,19 @@ public class DeltagerPane extends GridPane
 		DeltagerWindow dia = new DeltagerWindow("Opret Deltager", deltager);
 		dia.showAndWait();
 
-		// Wait for the modal dialog to close
+		// Venter på at dia bliver lukket
 
 		int selectIndex = lvwDeltagere.getSelectionModel().getSelectedIndex();
 		lvwDeltagere.getItems().setAll(this.initAllDeltagerList());
 		lvwDeltagere.getSelectionModel().select(selectIndex);
 	}
 
-	private void deleteActionDeltager()
+	/**
+	 * Metode til at slette et markeret deltager objekt.
+	 * @pre et deltager objekt er markeret i deltager listview.
+	 * @post det markerede deltager objekt bliver slettet.
+	 */
+	private void deleteDeltagerAction()
 	{
 		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
 		if (deltager == null)
@@ -170,7 +185,8 @@ public class DeltagerPane extends GridPane
 		alert.initOwner(owner);
 		alert.setHeaderText("Er du sikker?");
 
-		// Wait for the modal dialog to close
+		// Venter på at dia bliver lukket
+		
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.isPresent() && result.get() == ButtonType.OK)
 		{
@@ -179,14 +195,35 @@ public class DeltagerPane extends GridPane
 			this.updateControls();
 		}
 	}
+	
+	/**
+	 * Metode til at åbne TilmeldingWindow, hvor en deltager kan tilmeldes en miljøkonference.
+	 * @pre et deltager objekt er markeret i deltager listview.
+	 * @post deltager er tilmeldt miljøkonference, og har fået oprettet indkvartering (med/eller
+	 * uden hotelbooking)
+	 */
+	private void tilmeldDeltagerAction () {
+		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
+		TilmeldingWindow dia = new TilmeldingWindow("Tilmeld", deltager);
+		
+		// Venter på at dia bliver lukket
+		
+		dia.showAndWait();
+	}
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Metode til at opdatere oplysninger når der vælges nye objekter i deltager listview.
+	 */
 	private void selectedDeltagerChanged()
 	{
 		this.updateControls();
 	}
 
+	/**
+	 * Metode til at opdatere oplysninger i DeltagerPane.
+	 */
 	public void updateControls()
 	{
 		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
@@ -221,11 +258,4 @@ public class DeltagerPane extends GridPane
 			btnTilmeldDeltager.setDisable(true);
 		}
 	}
-	
-	private void tilmeldActionDeltager () {
-		Deltager deltager = lvwDeltagere.getSelectionModel().getSelectedItem();
-		TilmeldingWindow dia = new TilmeldingWindow("Tilmeld", deltager);
-		dia.showAndWait();
-	}
-
 }

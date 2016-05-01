@@ -5,12 +5,14 @@ import Model.Firma;
 import Model.Ledsager;
 import Service.Service;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -43,14 +45,17 @@ public class DeltagerWindow extends Stage
 	}
 
 	// -------------------------------------------------------------------------
+	
 	private TextField[] txfInput;
 	private Label[] lblInput;
 	private Label lblError;
 	private String[] lblNames;
 	private ListView<Firma> lvwFirmaer;
 	private ListView<Ledsager> lvwLedsagere;
+	private HBox boxOkAnuller = new HBox();
 
 	// -------------------------------------------------------------------------
+	
 	private void initContent(GridPane pane)
 	{
 		pane.setGridLinesVisible(false);
@@ -62,10 +67,10 @@ public class DeltagerWindow extends Stage
 		{"Deltagernavn:", "Tlf.nr.:", "Vej:", "Nr:", "Etage:", "Postnr:", "By", "Land:"};
 
 		txfInput = new TextField[lblNames.length];
+		
 		lblInput = new Label[lblNames.length];
 
 		final int MAX_ROWS = 6;
-
 		for (int i = 0; i < lblNames.length; i++)
 		{
 			if (i < MAX_ROWS)
@@ -82,21 +87,23 @@ public class DeltagerWindow extends Stage
 
 				txfInput[i] = new TextField();
 				pane.add(txfInput[i], 3, i - MAX_ROWS);
-
 			}
-
 		}
 
 		Button btnOK = new Button("OK");
-		pane.add(btnOK, 0, MAX_ROWS + 1);
 		btnOK.setOnAction(event -> this.okAction());
-
-		Button btnCancel = new Button("Cancel");
-		pane.add(btnCancel, 1, MAX_ROWS + 1);
-		btnCancel.setOnAction(event -> this.cancelAction());
+		
+		Button btnAnuller = new Button("Anuller");
+		btnAnuller.setOnAction(event -> this.anullerAction());
+		
+		boxOkAnuller.getChildren().add(btnOK);
+		boxOkAnuller.getChildren().add(btnAnuller);
+		boxOkAnuller.setSpacing(10);
+		boxOkAnuller.setAlignment(Pos.CENTER_RIGHT);
+		pane.add(boxOkAnuller, 3, MAX_ROWS + 1);
 
 		lblError = new Label();
-		pane.add(lblError, 0, MAX_ROWS + 2, 2, 1);
+		pane.add(lblError, 0, MAX_ROWS + 2, 3, 1);
 		lblError.setStyle("-fx-text-fill: red");
 
 		this.initControls();
@@ -106,7 +113,6 @@ public class DeltagerWindow extends Stage
 	{
 		if (deltager != null)
 		{
-
 			txfInput[0].setText(deltager.getNavn());
 			txfInput[1].setText("" + deltager.getTelefonNr());
 			txfInput[2].setText(deltager.getAdresse().getVej());
@@ -115,10 +121,9 @@ public class DeltagerWindow extends Stage
 			txfInput[5].setText("" + deltager.getAdresse().getPostNr());
 			txfInput[6].setText(deltager.getAdresse().getBy());
 			txfInput[7].setText(deltager.getAdresse().getLand());
-
-		} else
+		} 
+		else
 		{
-
 			txfInput[0].clear();
 			txfInput[1].clear();
 			txfInput[2].clear();
@@ -132,16 +137,19 @@ public class DeltagerWindow extends Stage
 
 	// -------------------------------------------------------------------------
 
-	private void cancelAction()
+	private void anullerAction()
 	{
-
 		this.hide();
 	}
 
+	/**
+	 * Metode til at godkende de indtastede instans svariabler, og oprette/opdatere deltager objekt.
+	 * @pre textfields med tlf.nr., post nr. og nr. kan konverteres til heltal. Og alle andre
+	 * textfields (undtagen etage) er udfyldt med mere en 1 karakter.
+	 * @post deltager er oprettet opdateret med indtastede oplysninger.
+	 */
 	private void okAction()
 	{
-		// firma
-		// ledsager,
 		String navn = txfInput[0].getText().trim();
 
 		int telefonNr = -1;
@@ -152,7 +160,6 @@ public class DeltagerWindow extends Stage
 		{
 			// do nothing
 		}
-		// prisgruppe
 
 		String vej = txfInput[2].getText().trim();
 
@@ -240,7 +247,5 @@ public class DeltagerWindow extends Stage
 		}
 
 		this.hide();
-
 	}
-
 }
