@@ -375,7 +375,7 @@ public class KonferenceWindow extends Stage
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.isPresent() && result.get() == ButtonType.OK)
 		{
-			//Service.deleteUdflugt(udflugt, konference);
+			Service.deleteUdflugt(konference, udflugt);
 			initControls();
 		}
 		
