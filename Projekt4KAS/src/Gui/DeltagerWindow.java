@@ -137,6 +137,10 @@ public class DeltagerWindow extends Stage
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Metode til at lukke vinduet.
+	 * @post vinduet blier lukket ned.
+	 */
 	private void anullerAction()
 	{
 		this.hide();

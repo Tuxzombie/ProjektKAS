@@ -1,7 +1,5 @@
 package Gui;
 
-import javafx.beans.property.StringProperty;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,12 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
-
 import Model.*;
 import Service.*;
 
@@ -26,7 +19,6 @@ public class FacilitetWindow extends Stage
 {
 	private Hotel hotel;
 	private ArrayList<Facilitet> faciliteter;
-	private String title;
 
 	public FacilitetWindow(String title, Hotel hotel)
 	{
@@ -35,8 +27,6 @@ public class FacilitetWindow extends Stage
 		this.setResizable(false);
 
 		this.hotel = hotel;
-		this.faciliteter = faciliteter;
-
 		this.setTitle(title);
 		GridPane pane = new GridPane();
 		this.initContent(pane);
@@ -64,9 +54,10 @@ public class FacilitetWindow extends Stage
 
 
 	// -------------------------------------------------------------------------
+	
 	private TextField txfNavn, txfPris;
 	private Label lblError;
-	private HBox box = new HBox();
+	private HBox boxTilføjAnuller = new HBox();
 
 	// --------------------------------------------------------------------------
 
@@ -77,44 +68,51 @@ public class FacilitetWindow extends Stage
 		pane.setVgap(10);
 		pane.setGridLinesVisible(false);
 
-        Label lblNavn = new Label("Navn");
+        Label lblNavn = new Label("Navn:");
         pane.add(lblNavn, 0, 0);
 
         txfNavn = new TextField();
-        pane.add(txfNavn, 0, 1);
+        pane.add(txfNavn, 1, 0);
         txfNavn.setPrefWidth(200);
 
-        Label lblPris = new Label("Pris");
-        pane.add(lblPris, 0, 2);
+        Label lblPris = new Label("Pris:");
+        pane.add(lblPris, 0, 1);
 
         txfPris = new TextField();
-        pane.add(txfPris, 0, 3);
+        pane.add(txfPris, 1, 1);
         
 		Button btnTilføj = new Button("Tilføj");
 		btnTilføj.setOnAction(event -> this.tilføjAction());
-		box.getChildren().add(btnTilføj);
+		boxTilføjAnuller.getChildren().add(btnTilføj);
 				
 		Button btnAnuller = new Button("Anuller");
 		btnAnuller.setOnAction(event -> this.anullerAction());
-		box.getChildren().add(btnAnuller);
+		boxTilføjAnuller.getChildren().add(btnAnuller);
 
-		pane.add(box, 0, 4);
-		box.setSpacing(10);
-		box.setAlignment(Pos.CENTER_RIGHT);
+		pane.add(boxTilføjAnuller, 1, 2);
+		boxTilføjAnuller.setSpacing(10);
+		boxTilføjAnuller.setAlignment(Pos.CENTER_RIGHT);
 		
 		lblError = new Label();
 		pane.add(lblError, 0, 5, 2, 1);
 		lblError.setStyle("-fx-text-fill: red");
-
 	}
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Metode til at lukke vinduet ned
+	 */
 	private void anullerAction()
 	{
 		this.hide();
 	}
 
+	/**
+	 * Metode til godkende indtastede oplysninger og oprette en ny facilitet tilknyttet det 
+	 * relevante hotel.
+	 * @pre pris kan oversættes til double, og navns længde > 0. 
+	 */
 	private void tilføjAction()
 	{
 		String navn = null;
@@ -138,11 +136,11 @@ public class FacilitetWindow extends Stage
 
 		if (navn.length() == 0)
 		{
-			lblError.setText("Navn er tom");
+			lblError.setText("Navn er tom!");
 			return;
 		} else if (pris <= 0)
 		{
-			lblError.setText("Pris er ugyldig");
+			lblError.setText("Pris er ugyldig!");
 			return;
 		}
 
@@ -154,5 +152,4 @@ public class FacilitetWindow extends Stage
 		 
 		this.hide();
 	}
-
 }
