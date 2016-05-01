@@ -3,8 +3,10 @@ package Gui;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -62,6 +64,7 @@ public class TilmeldingWindow extends Stage {
     			lblSlutDatoHotel, lblFirmaer;
     private RadioButton rbHotel;
     private RadioButton rbAndet;
+    private HBox boxButtons = new HBox();
     private HBox boxIndkvarteringsTyper = new HBox();
     private ToggleGroup groupIndkvarteringsTyper = new ToggleGroup();
     private CheckBox cbxLedsager;
@@ -112,7 +115,7 @@ public class TilmeldingWindow extends Stage {
         
         GridPane paneFirma = new GridPane();
         pane.add(paneFirma, 1, 1);
-        paneFirma.setGridLinesVisible(true);
+        paneFirma.setGridLinesVisible(false);
         paneFirma.setPadding(new Insets(10));
         paneFirma.setHgap(10);
         paneFirma.setVgap(10);
@@ -136,7 +139,7 @@ public class TilmeldingWindow extends Stage {
         
         GridPane panePris = new GridPane();
         pane.add(panePris, 1, 2);
-        panePris.setGridLinesVisible(true);
+        panePris.setGridLinesVisible(false);
         panePris.setPadding(new Insets(10));
         panePris.setHgap(10);
         panePris.setVgap(10);
@@ -285,16 +288,18 @@ public class TilmeldingWindow extends Stage {
 
         
         Button btnTilmeld = new Button("Tilmeld");
-        pane.add(btnTilmeld, 0, 4);
-        GridPane.setHalignment(btnTilmeld, HPos.RIGHT);
         btnTilmeld.setOnAction(event -> this.btnTilmeldAction());
         
         Button btnAnuller = new Button("Anuller");
-        pane.add(btnAnuller, 0, 4);
-        GridPane.setHalignment(btnAnuller, HPos.LEFT);
+        btnAnuller.setOnAction(event -> this.btnAnullerAction());
+        boxButtons.getChildren().add(btnTilmeld);
+        boxButtons.getChildren().add(btnAnuller);
+        pane.add(boxButtons, 1, 4);
+        boxButtons.setSpacing(10);
+        boxButtons.setAlignment(Pos.CENTER_RIGHT);
         
         lblError = new Label();
-        pane.add(lblError, 0, 5);
+        pane.add(lblError, 0, 4);
         lblError.setStyle("-fx-text-fill: red");
       
         ChangeListener<Facilitet> listenerFaciliteter = (ov, old, newFacilitet) -> this.updatePris();
@@ -304,8 +309,6 @@ public class TilmeldingWindow extends Stage {
         lvwUdflugter.getSelectionModel().selectedItemProperty().addListener(listenerUdflugter);
         
         dpStartDato.setOnHidden(e -> startDatoAction());
-
-        
         dpSlutDato.setOnHidden(e -> slutDatoAction());
         
         dpStartDatoHotel.setOnHidden(e -> startDatoHotelAction());
@@ -441,13 +444,17 @@ public class TilmeldingWindow extends Stage {
   		if(dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) || 
   				dpStartDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
   				dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
-  				dpStartDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato())){
+  				dpStartDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) &&
+  				dpStartDato.getValue().isEqual(dpSlutDato.getValue()) ||
+  				dpStartDato.getValue().isBefore(dpSlutDato.getValue())){
   			updatePris();
   		}
   		else {
-  			lblError.setText("Dato er ugyldig! Startdato skal være indenfor konferencens aktive periode og før slutdatoen! (" 
+  			Alert alert = new Alert(Alert.AlertType.ERROR);
+  			alert.setContentText("Dato er ugyldig! Startdato skal være indenfor konferencens aktive periode og før eller samme dag som slutdatoen! (" 
   					+ lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato() + " til " + 
   					lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			alert.showAndWait();
   			dpStartDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato());
   			updatePris();
 
@@ -458,13 +465,17 @@ public class TilmeldingWindow extends Stage {
   		if(dpSlutDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) || 
   				dpSlutDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
   				dpSlutDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) ||
-  				dpSlutDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato())){
+  				dpSlutDato.getValue().isBefore(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) &&
+  				dpSlutDato.getValue().isEqual(dpStartDato.getValue()) ||
+  				dpStartDato.getValue().isAfter(dpStartDato.getValue())){
   			updatePris();
   		}
   		else {
-  			lblError.setText("Dato er ugyldig! Slutdato skal være indenfor konferencens aktive periode og efter startdatoen! (" 
+  			Alert alert = new Alert(Alert.AlertType.ERROR);
+  			alert.setContentText("Dato er ugyldig! Slutdato skal være indenfor konferencens aktive periode og efter eller samme dag som startdatoen! (" 
   					+ lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato() + " til " + 
   					lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
+  			alert.showAndWait();
   			dpSlutDato.setValue(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato());
   			updatePris();
 
@@ -564,7 +575,7 @@ public class TilmeldingWindow extends Stage {
 		
 		double hotelPris = 0.0;
 		if(cbxLedsager.isSelected()) {
-			hotelPris = nætterPåHotel * prisDobbeltværelse + facilitetPris;	
+			hotelPris = nætterPåHotel * prisDobbeltværelse + facilitetPris * 2;	
 		}
 		else hotelPris = nætterPåHotel * prisEnkeltværelse + facilitetPris;	
 		
@@ -587,4 +598,7 @@ public class TilmeldingWindow extends Stage {
 		lvwFirmaer.getItems().setAll(Service.getFirmaer());
 	}
 
+	public void btnAnullerAction() {
+		close();
+	}
 }
