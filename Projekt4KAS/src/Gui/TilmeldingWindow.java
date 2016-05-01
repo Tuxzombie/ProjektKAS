@@ -508,13 +508,15 @@ public class TilmeldingWindow extends Stage {
   	
 	public void btnTilmeldAction()
 	{
-		Hotelbooking hotelbooking = Service.createHotelbooking(lvwHoteller.getSelectionModel().getSelectedItem(), cbxLedsager.isSelected());
+		
 		Indkvartering indkvartering;
 		if(rbHotel.isSelected()) {
+			Hotelbooking hotelbooking = Service.createHotelbooking(lvwHoteller.getSelectionModel().getSelectedItem(), cbxLedsager.isSelected());
 			indkvartering = Service.createIndkvarteringMedHotelbooking(dpStartDatoHotel.getValue(), dpSlutDatoHotel.getValue());
+			Service.connectIndkvarteringOgHotelbooking(indkvartering, hotelbooking);
 		}
 		else {
-			indkvartering = Service.createIndkvarteringMedHotelbooking(dpStartDato.getValue(), dpSlutDato.getValue());
+			indkvartering = Service.createIndkvarteringUdenHotelbooking(dpStartDato.getValue(), dpSlutDato.getValue());
 		}
 		
 		Ledsager ledsager;
@@ -527,7 +529,6 @@ public class TilmeldingWindow extends Stage {
 		
 		Service.createTilmelding(lvwMiljøkonferencer.getSelectionModel().getSelectedItem(), this.deltager, 
 				dpStartDato.getValue(), dpSlutDato.getValue(), indkvartering);
-		Service.connectIndkvarteringOgHotelbooking(indkvartering, hotelbooking);
 		for (Facilitet valgtFacilitet : lvwFaciliteter.getSelectionModel().getSelectedItems()) {
 			Service.addFacilitetTilHotelbooking(hotelbooking, valgtFacilitet);
 		}

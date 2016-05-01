@@ -48,7 +48,7 @@ public class Tester {
 		Service.addFacilitetTilHotelbooking(hotelbookingPeter, wifi);
 
 		
-		Indkvartering indkvarteringFinn = Service.createIndkvarteringUdenHotelbooking(LocalDate.of(2016, 4, 18), LocalDate.of(2016, 4, 20), "Øllegade", 68, "", 9280, "Aalborg Øst", "Danmark");
+		Indkvartering indkvarteringFinn = Service.createIndkvarteringUdenHotelbooking(LocalDate.of(2016, 4, 18), LocalDate.of(2016, 4, 20));
 		Tilmelding tilmeldingFinn = Service.createTilmelding(miljøkonference, deltagerFinn, LocalDate.of(2016, 4, 18), LocalDate.of(2016, 4, 20), indkvarteringFinn);
 		
 		Indkvartering indkvarteringNiels = Service.createIndkvarteringMedHotelbooking(LocalDate.of(2016, 4, 18), LocalDate.of(2016, 4, 20));
