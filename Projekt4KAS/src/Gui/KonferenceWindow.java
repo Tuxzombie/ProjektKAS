@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -51,6 +52,7 @@ public class KonferenceWindow extends Stage
 	private String[] lblNames;
 	private Label lblError;
 	private ListView<Prisgruppe> lvwPrisgrupper;
+	private ListView<Udflugt> lvwUdflugter;
 
 	// --------------------------------------------------------------------------
 
@@ -97,7 +99,11 @@ public class KonferenceWindow extends Stage
 		pane.add(btnCancel, 1, MAX_ROWS + 1);
 		btnCancel.setOnAction(event -> this.cancelAction());
 
-
+		
+		
+		GridPane prisgruppePane = new GridPane();
+		pane.add(prisgruppePane, 4, 0, 2, 6);
+				
 		lvwPrisgrupper = new ListView<>();
 		lvwPrisgrupper.setMinSize(200, 160);
 		lvwPrisgrupper.setMaxSize(200, 160);
@@ -110,18 +116,48 @@ public class KonferenceWindow extends Stage
 			// do nothing
 		}
 
-		pane.add(lvwPrisgrupper, 4, 1, 2, 5);
+		prisgruppePane.add(lvwPrisgrupper, 0, 1, 2, 5);
 
 		Label lblPrisgrupper = new Label("Prisgrupper");
-		pane.add(lblPrisgrupper, 4, 0);
+		prisgruppePane.add(lblPrisgrupper, 0, 0);
 
 		Button btnTilføj = new Button("Tilføj");
-		pane.add(btnTilføj, 4, 7);
+		prisgruppePane.add(btnTilføj, 0, 7);
 		btnTilføj.setOnAction(event -> this.createPrisgruppeAction());
 
 		Button btnFjern = new Button("Fjern");
-		pane.add(btnFjern, 5, 7);
+		prisgruppePane.add(btnFjern, 1, 7);
 		btnFjern.setOnAction(event -> this.deletePrisgruppeAction());
+		
+		
+		
+		GridPane udflugtPane = new GridPane();
+		pane.add(udflugtPane, 6, 0, 2, 6);
+		
+		lvwUdflugter = new ListView<>();
+		lvwUdflugter.setMinSize(200, 160);
+		lvwUdflugter.setMaxSize(200, 160);
+		try
+		{
+			lvwUdflugter.getItems().setAll(konference.getUdflugter());
+
+		} catch (NullPointerException ex)
+		{
+			// do nothing
+		}
+
+		udflugtPane.add(lvwUdflugter, 0, 1, 2, 5);
+
+		Label lblUdflugter = new Label("Udflugter");
+		udflugtPane.add(lblUdflugter, 0, 0);
+
+		Button btnTilføjUdflugt = new Button("Tilføj");
+		udflugtPane.add(btnTilføjUdflugt, 0, 7);
+		btnTilføjUdflugt.setOnAction(event -> this.createUdflugtAction());
+
+		Button btnFjernUdflugt = new Button("Fjern");
+		udflugtPane.add(btnFjernUdflugt, 1, 7);
+		btnFjernUdflugt.setOnAction(event -> this.deleteUdflugtAction());
 
 		lblError = new Label();
 		pane.add(lblError, 0, MAX_ROWS + 2, 2, 1);
@@ -154,6 +190,14 @@ public class KonferenceWindow extends Stage
 			{
 				// do nothing
 			}
+			try
+			{
+				lvwUdflugter.getItems().setAll(konference.getUdflugter());
+
+			} catch (NullPointerException ex)
+			{
+				// do nothing
+			}
 
 		} else
 		{
@@ -168,6 +212,8 @@ public class KonferenceWindow extends Stage
 			txfInput[7].clear();
 			txfInput[8].clear();
 			txfInput[9].clear();
+			
+			lvwUdflugter.getItems().clear();
 		}
 	}
 
@@ -302,8 +348,37 @@ public class KonferenceWindow extends Stage
 			Service.deletePrisgruppe(prisgruppe, konference);
 			initControls();
 		}
+	
+	}
+	
+	private void createUdflugtAction()
+	{
+		UdflugtWindow dia = new UdflugtWindow("Opret Udflugt", konference);
+		dia.showAndWait();
 		
+		initControls();
+	}
+	
+	private void deleteUdflugtAction()
+	{
+		Udflugt udflugt = lvwUdflugter.getSelectionModel().getSelectedItem();
+		if (udflugt == null)
+			return;
+		
+		Stage owner = (Stage) this.getScene().getWindow();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Fjern Udflugt");
+		alert.initOwner(owner);
+		alert.setHeaderText("Er du sikker?");
 
+		// Wait for the modal dialog to close
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.isPresent() && result.get() == ButtonType.OK)
+		{
+			//Service.deleteUdflugt(udflugt, konference);
+			initControls();
+		}
+		
 	}
 
 }
