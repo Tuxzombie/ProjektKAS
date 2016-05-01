@@ -1,6 +1,5 @@
 package Gui;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,11 +12,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.ArrayList;
-
-import javax.xml.bind.ParseConversionEvent;
-
-import Model.*;
 import Service.Service;
 
 public class FirmaWindow extends Stage {
@@ -85,10 +79,6 @@ public class FirmaWindow extends Stage {
         hbox.setAlignment(Pos.CENTER_RIGHT);
         pane.add(hbox, 1, lblNames.length + 1);
         		}
-    }
-
-    private void initControls() {
-
     }
 
     // -------------------------------------------------------------------------
@@ -168,8 +158,12 @@ public class FirmaWindow extends Stage {
 			return;
 		}
 		else {
-    	Service.createFirma(txfInput[0].getText(), cvrNr, txfInput[2].getText()
-    		, nr, txfInput[3].getText(), postNr, txfInput[5].getText(), txfInput[7].getText());
+//    	Service.createFirma(txfInput[0].getText(), cvrNr, txfInput[2].getText()
+//    		, nr, txfInput[3].getText(), postNr, txfInput[5].getText(), txfInput[7].getText());
+			
+			//her er en af de store pointer ved at oprette en million små variabler ;
+	    	Service.createFirma(navn, cvrNr, vej, nr, etage, postNr, by, land);			
+			
     	close();
 		}
     }
