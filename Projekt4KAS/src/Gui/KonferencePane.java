@@ -150,7 +150,7 @@ public class KonferencePane extends GridPane
 	
 		if (konference.getUdflugter().size() > 0)
 		{
-			UdflugtWindow dia = new UdflugtWindow("Vis Udflugter", konference);
+			VisUdflugtWindow dia = new VisUdflugtWindow("Vis Udflugter", konference);
 			dia.showAndWait();
 		}
 		else

@@ -3,8 +3,10 @@ package Gui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -179,6 +181,9 @@ public class BlanketWindow extends Stage
         GridPane overnatningsønskerPane = new GridPane();
         overnatningsønskerPane.setStyle("-fx-border-color: black");
         pane.add(overnatningsønskerPane, 0, 6);
+        
+        
+        
     }
 
 }
