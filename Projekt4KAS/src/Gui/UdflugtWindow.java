@@ -17,6 +17,7 @@ import javafx.stage.StageStyle;
 
 import java.awt.Checkbox;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import Model.*;
 import Service.Service;
@@ -30,8 +31,26 @@ public class UdflugtWindow extends Stage
 		this.initStyle(StageStyle.UTILITY);
 		this.initModality(Modality.APPLICATION_MODAL);
 		this.setResizable(false);
-
+		
+		this.udflugter = null;
 		this.konference = konference;
+
+		this.setTitle(title);
+		GridPane pane = new GridPane();
+		this.initContent(pane);
+
+		Scene scene = new Scene(pane);
+		this.setScene(scene);
+	}
+	
+	public UdflugtWindow(String title, ArrayList<Udflugt> udflugter)
+	{
+		this.initStyle(StageStyle.UTILITY);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setResizable(false);
+
+		this.udflugter = udflugter;
+		this.konference = null;
 
 		this.setTitle(title);
 		GridPane pane = new GridPane();
@@ -48,6 +67,7 @@ public class UdflugtWindow extends Stage
 	private DatePicker dpSlutDato;
 	private CheckBox chbFrokost;
 	private Label lblError;
+	private ArrayList<Udflugt> udflugter;
 
 	// --------------------------------------------------------------------------
 
@@ -172,7 +192,16 @@ public class UdflugtWindow extends Stage
 			return;
 		}
 
-		Service.createUdflugt(konference, lokalitet, beskrivelse, pris, startDato, slutDato, hasFrokost);
+		if (konference != null)
+		{
+			Service.createUdflugt(konference, lokalitet, beskrivelse, pris, startDato, slutDato, hasFrokost);	
+		}
+		else
+		{
+			Udflugt udflugt = new Udflugt(lokalitet, beskrivelse, pris, startDato, slutDato, hasFrokost);
+			udflugter.add(udflugt);
+			
+		}
 
 		this.hide();
 

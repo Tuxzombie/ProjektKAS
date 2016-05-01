@@ -135,7 +135,23 @@ public class Udflugt {
 	{
 		this.hasFrokost = hasFrokost;
 	}
-	
+		
+	/**
+	 * @return the beskrivelse
+	 */
+	public String getBeskrivelse()
+	{
+		return beskrivelse;
+	}
+
+	/**
+	 * @param beskrivelse the beskrivelse to set
+	 */
+	public void setBeskrivelse(String beskrivelse)
+	{
+		this.beskrivelse = beskrivelse;
+	}
+
 	@Override
 	public String toString() {
 		String s = "";

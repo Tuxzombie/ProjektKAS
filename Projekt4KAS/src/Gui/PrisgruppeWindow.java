@@ -10,6 +10,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.ArrayList;
+
 import Model.*;
 import Service.*;
 
@@ -22,7 +24,8 @@ public class PrisgruppeWindow extends Stage
 		this.initStyle(StageStyle.UTILITY);
 		this.initModality(Modality.APPLICATION_MODAL);
 		this.setResizable(false);
-
+		
+		this.prisgrupper = null;
 		this.konference = konference;
 
 		this.setTitle(title);
@@ -33,14 +36,27 @@ public class PrisgruppeWindow extends Stage
 		this.setScene(scene);
 	}
 
-	public PrisgruppeWindow(String title)
+	public PrisgruppeWindow(String title, ArrayList<Prisgruppe> prisgrupper)
 	{
-		this(title, null);
+		this.initStyle(StageStyle.UTILITY);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setResizable(false);
+
+		this.prisgrupper = prisgrupper;
+		this.konference = null;
+
+		this.setTitle(title);
+		GridPane pane = new GridPane();
+		this.initContent(pane);
+
+		Scene scene = new Scene(pane);
+		this.setScene(scene);
 	}
 
 	// -------------------------------------------------------------------------
 	private TextField txfNavn, txfPris;
 	private Label lblError;
+	private ArrayList<Prisgruppe> prisgrupper;
 
 	// --------------------------------------------------------------------------
 
@@ -115,9 +131,17 @@ public class PrisgruppeWindow extends Stage
 			lblError.setText("Pris er ugyldig");
 			return;
 		}
-
-	
+		
+		if (konference != null)
+		{
 			Service.createPrisgruppe(konference, navn, pris);
+		}
+		else {
+			Prisgruppe prisgruppe = new Prisgruppe(navn, pris);
+			prisgrupper.add(prisgruppe);
+		}
+	
+
 
 		this.hide();
 	}
