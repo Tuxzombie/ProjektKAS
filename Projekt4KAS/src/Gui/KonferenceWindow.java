@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import Model.*;
@@ -53,6 +55,8 @@ public class KonferenceWindow extends Stage
 	private Label lblError;
 	private ListView<Prisgruppe> lvwPrisgrupper;
 	private ListView<Udflugt> lvwUdflugter;
+	private ArrayList<Prisgruppe> prisgrupper = new ArrayList<>();
+	private ArrayList<Udflugt> udflugter = new ArrayList<>();
 
 	// --------------------------------------------------------------------------
 
@@ -99,11 +103,9 @@ public class KonferenceWindow extends Stage
 		pane.add(btnCancel, 1, MAX_ROWS + 1);
 		btnCancel.setOnAction(event -> this.cancelAction());
 
-		
-		
 		GridPane prisgruppePane = new GridPane();
 		pane.add(prisgruppePane, 4, 0, 2, 6);
-				
+
 		lvwPrisgrupper = new ListView<>();
 		lvwPrisgrupper.setMinSize(200, 160);
 		lvwPrisgrupper.setMaxSize(200, 160);
@@ -128,12 +130,10 @@ public class KonferenceWindow extends Stage
 		Button btnFjern = new Button("Fjern");
 		prisgruppePane.add(btnFjern, 1, 7);
 		btnFjern.setOnAction(event -> this.deletePrisgruppeAction());
-		
-		
-		
+
 		GridPane udflugtPane = new GridPane();
 		pane.add(udflugtPane, 6, 0, 2, 6);
-		
+
 		lvwUdflugter = new ListView<>();
 		lvwUdflugter.setMinSize(200, 160);
 		lvwUdflugter.setMaxSize(200, 160);
@@ -181,7 +181,7 @@ public class KonferenceWindow extends Stage
 			txfInput[7].setText("" + konference.getAdresse().getPostNr());
 			txfInput[8].setText(konference.getAdresse().getBy());
 			txfInput[9].setText(konference.getAdresse().getLand());
-			
+
 			try
 			{
 				lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
@@ -212,8 +212,9 @@ public class KonferenceWindow extends Stage
 			txfInput[7].clear();
 			txfInput[8].clear();
 			txfInput[9].clear();
-			
+
 			lvwUdflugter.getItems().clear();
+			lvwPrisgrupper.getItems().clear();
 		}
 	}
 
@@ -314,10 +315,38 @@ public class KonferenceWindow extends Stage
 		// Call service methods
 		if (konference != null)
 		{
+			for (Prisgruppe prisgruppe : prisgrupper)
+			{
+				konference.addPrisgrupper(prisgruppe);
+			}
+			for (Udflugt udflugt : udflugter)
+			{
+				String tmplokalitet = udflugt.getLokalitet();
+				String tmpBeskrivelse = udflugt.getBeskrivelse();
+				double tmpPris = udflugt.getPris();
+				LocalDate tmpStartDato = udflugt.getStartDato();
+				LocalDate tmpSlutDato = udflugt.getSlutDato();
+				boolean tmpHasFrokost = udflugt.isHasFrokost();
+				Service.createUdflugt(konference, tmplokalitet, tmpBeskrivelse, tmpPris, tmpStartDato, tmpSlutDato, tmpHasFrokost);
+			}
 			Service.updateMiljøkonference(konference, titel, tema, startDato, slutDato, vej, nr, etage, postNr, by, land);
 		} else
 		{
-			Service.createMiljøkonference(titel, tema, startDato, slutDato, vej, nr, etage, postNr, by, land);
+			Miljøkonference tmpKonference = Service.createMiljøkonference(titel, tema, startDato, slutDato, vej, nr, etage, postNr, by, land);
+			for (Prisgruppe prisgruppe : prisgrupper)
+			{
+				tmpKonference.addPrisgrupper(prisgruppe);
+			}
+			for (Udflugt udflugt : udflugter)
+			{
+				String tmplokalitet = udflugt.getLokalitet();
+				String tmpBeskrivelse = udflugt.getBeskrivelse();
+				double tmpPris = udflugt.getPris();
+				LocalDate tmpStartDato = udflugt.getStartDato();
+				LocalDate tmpSlutDato = udflugt.getSlutDato();
+				boolean tmpHasFrokost = udflugt.isHasFrokost();
+				Service.createUdflugt(tmpKonference, tmplokalitet, tmpBeskrivelse, tmpPris, tmpStartDato, tmpSlutDato, tmpHasFrokost);
+			}
 		}
 
 		this.hide();
@@ -325,16 +354,30 @@ public class KonferenceWindow extends Stage
 
 	private void createPrisgruppeAction()
 	{
-		PrisgruppeWindow dia = new PrisgruppeWindow("Opret Prisgruppe", konference);
-		dia.showAndWait();
-		
-		initControls();
+		if (konference != null)
+		{
+			PrisgruppeWindow dia = new PrisgruppeWindow("Opret Prisgruppe", konference);
+			dia.showAndWait();
+		} else
+		{
+			PrisgruppeWindow dia = new PrisgruppeWindow("Opret Prisgruppe", prisgrupper);
+			dia.showAndWait();
+		}
+
+		if (konference != null)
+		{
+			lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
+		} else
+		{
+			lvwPrisgrupper.getItems().setAll(prisgrupper);
+		}
+
 	}
 
 	private void deletePrisgruppeAction()
 	{
 		Prisgruppe prisgruppe = lvwPrisgrupper.getSelectionModel().getSelectedItem();
-		
+
 		Stage owner = (Stage) this.getScene().getWindow();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Fjern Prisgruppe");
@@ -345,26 +388,46 @@ public class KonferenceWindow extends Stage
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.isPresent() && result.get() == ButtonType.OK)
 		{
-			Service.deletePrisgruppe(prisgruppe, konference);
-			initControls();
+			if (konference != null)
+			{
+				Service.deletePrisgruppe(prisgruppe, konference);
+				lvwPrisgrupper.getItems().setAll(konference.getPrisgrupper());
+			} else
+			{
+				prisgrupper.remove(prisgruppe);
+				lvwPrisgrupper.getItems().setAll(prisgrupper);
+			}
 		}
-	
+
 	}
-	
+
 	private void createUdflugtAction()
 	{
-		UdflugtWindow dia = new UdflugtWindow("Opret Udflugt", konference);
-		dia.showAndWait();
-		
-		initControls();
+		if (konference != null)
+		{
+			UdflugtWindow dia = new UdflugtWindow("Opret Udflugt", konference);
+			dia.showAndWait();
+		} else
+		{
+			UdflugtWindow dia = new UdflugtWindow("Opret Udflugt", udflugter);
+			dia.showAndWait();
+		}
+
+		if (konference != null)
+		{
+			lvwUdflugter.getItems().setAll(konference.getUdflugter());
+		} else
+		{
+			lvwUdflugter.getItems().setAll(udflugter);
+		}
 	}
-	
+
 	private void deleteUdflugtAction()
 	{
 		Udflugt udflugt = lvwUdflugter.getSelectionModel().getSelectedItem();
 		if (udflugt == null)
 			return;
-		
+
 		Stage owner = (Stage) this.getScene().getWindow();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Fjern Udflugt");
@@ -374,11 +437,18 @@ public class KonferenceWindow extends Stage
 		// Wait for the modal dialog to close
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.isPresent() && result.get() == ButtonType.OK)
-		{
-			//Service.deleteUdflugt(udflugt, konference);
-			initControls();
+		{						
+			if (konference != null)
+			{
+				Service.deleteUdflugt(konference, udflugt);
+				lvwUdflugter.getItems().setAll(konference.getUdflugter());
+			} else
+			{
+				udflugter.remove(udflugt);
+				lvwUdflugter.getItems().setAll(udflugter);
+			}
 		}
-		
+
 	}
 
 }

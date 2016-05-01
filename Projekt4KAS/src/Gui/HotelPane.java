@@ -39,8 +39,8 @@ public class HotelPane extends GridPane
 		this.setVgap(10);
 		this.setGridLinesVisible(false);
 
-		Label lblComp = new Label("Hoteller");
-		this.add(lblComp, 0, 0);
+		Label lblHoteller = new Label("Hoteller");
+		this.add(lblHoteller, 0, 0);
 
 		lvwHoteller = new ListView<>();
 		this.add(lvwHoteller, 0, 1, 1, 5);
@@ -96,7 +96,6 @@ public class HotelPane extends GridPane
 
 		HBox hbxButtons = new HBox(40);
 		this.add(hbxButtons, 0, 6, 3, 1);
-		// hbxButtons.setPadding(new Insets(10, 0, 0, 0));
 		hbxButtons.setAlignment(Pos.BASELINE_LEFT);
 
 		Button btnCreateHotel = new Button("Opret \nHotel");
@@ -117,20 +116,6 @@ public class HotelPane extends GridPane
 		hbxButtons.getChildren().add(btnDeleteHotel);
 		btnDeleteHotel.setOnAction(event -> this.deleteHotelAction());
 
-		Button btnCreateFacilitet = new Button("Opret \nFacilitet");
-		btnCreateFacilitet.setMinWidth(80);
-		btnCreateFacilitet.setTextAlignment(TextAlignment.CENTER);
-		hbxButtons.getChildren().add(btnCreateFacilitet);
-		btnCreateFacilitet.setDisable(true);
-		btnCreateFacilitet.setOnAction(event -> this.createFacilitetAction());
-
-		Button btnDeleteFacilitet = new Button("Slet \nFacilitet");
-		btnDeleteFacilitet.setMinWidth(80);
-		btnDeleteFacilitet.setTextAlignment(TextAlignment.CENTER);
-		hbxButtons.getChildren().add(btnDeleteFacilitet);
-		btnDeleteFacilitet.setDisable(true);
-		btnDeleteFacilitet.setOnAction(event -> this.deleteFacilitetAction());
-
 		if (lvwHoteller.getItems().size() > 0)
 		{
 			lvwHoteller.getSelectionModel().select(0);
@@ -149,16 +134,6 @@ public class HotelPane extends GridPane
 
 	// -------------------------------------------------------------------------
 
-	private void createFacilitetAction()
-	{
-
-	}
-
-	private void deleteFacilitetAction()
-	{
-
-	}
-
 	private void createHotelAction()
 	{
 		HotelWindow dia = new HotelWindow("Opret Hotel");
@@ -176,7 +151,7 @@ public class HotelPane extends GridPane
 		if (hotel == null)
 			return;
 
-		HotelWindow dia = new HotelWindow("Update Employee", hotel);
+		HotelWindow dia = new HotelWindow("Opdater Hotel", hotel);
 		dia.showAndWait();
 
 		// Wait for the modal dialog to close
@@ -194,15 +169,15 @@ public class HotelPane extends GridPane
 
 		Stage owner = (Stage) this.getScene().getWindow();
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete Employee");
+		alert.setTitle("Slet Hotel");
 		alert.initOwner(owner);
-		alert.setHeaderText("Are you sure?");
+		alert.setHeaderText("Er du sikker på at du vil slette " + lvwHoteller.getSelectionModel().getSelectedItem().getNavn() + "?");
 
 		// Wait for the modal dialog to close
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.isPresent() && result.get() == ButtonType.OK)
 		{
-			// Service.deleteHotel(hotel);
+			Service.deleteHotel(hotel);
 			lvwHoteller.getItems().setAll(this.initAllHotelList());
 			this.updateControls();
 		}
@@ -246,10 +221,13 @@ public class HotelPane extends GridPane
 
 									if (delt.getLedsager() != null)
 									{
-										sbGæster.append(" + " + delt.getLedsager().getNavn() + "(Ledsager)\n");
+										sbGæster.append(" + " + delt.getLedsager().getNavn() + "(Ledsager)" + " (" 
+												+ tilm.getIndkvartering().getHotelbooking().getIndkvartering().getStartDato() + " til " +
+												tilm.getIndkvartering().getHotelbooking().getIndkvartering().getStartDato() + ")\n");
 									} else
 									{
-										sbGæster.append("\n");
+										sbGæster.append(" (" + tilm.getIndkvartering().getHotelbooking().getIndkvartering().getStartDato() + " til " +
+												tilm.getIndkvartering().getHotelbooking().getIndkvartering().getStartDato() + ")\n");
 									}
 								}
 
@@ -263,7 +241,7 @@ public class HotelPane extends GridPane
 			StringBuilder sbFacilitet = new StringBuilder();
 			for (Facilitet faci : hotel.getFaciliteter())
 			{
-				sbFacilitet.append(faci);
+				sbFacilitet.append(faci + "\n");
 			}
 			
 			txaFaciliteter.setText(sbFacilitet.toString());
@@ -278,28 +256,7 @@ public class HotelPane extends GridPane
 			txaFaciliteter.clear();
 			
 		}
-		// Employee employee =
-		// lvwKonference.getSelectionModel().getSelectedItem();
-		// if (employee != null) {
-		// txfName.setText(employee.getName());
-		// txfWage.setText("kr " + employee.getWage());
-		// //txfEmploymentYear.setText(""+employee.getEmploymentYear());
-		// if (employee.getCompany() != null) {
-		// txfCompany.setText("" + employee.getCompany());
-		// txfSalary.setText("kr " + employee.weeklySalary());
-		// txfEmploymentYear.setText(""+employee.getEmploymentYear());
-		// } else {
-		// txfCompany.clear();
-		// txfSalary.clear();
-		// txfEmploymentYear.clear();
-		// }
-		// } else {
-		// txfName.clear();
-		// txfWage.clear();
-		// txfCompany.clear();
-		// txfSalary.clear();
-		// txfEmploymentYear.clear();
-		// }
+
 	}
 
 }

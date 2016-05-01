@@ -1,33 +1,59 @@
 package Gui;
 
+import javafx.beans.property.StringProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 
 import Model.*;
 import Service.*;
 
-public class PrisgruppeWindow extends Stage
+public class FacilitetWindow extends Stage
 {
-	private Miljøkonference konference;
+	private Hotel hotel;
+	private ArrayList<Facilitet> faciliteter;
+	private String title;
 
-	public PrisgruppeWindow(String title, Miljøkonference konference)
+	public FacilitetWindow(String title, Hotel hotel)
 	{
+		this.initStyle(StageStyle.UTILITY);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setResizable(false);
+
+		this.hotel = hotel;
+		this.faciliteter = faciliteter;
+
+		this.setTitle(title);
+		GridPane pane = new GridPane();
+		this.initContent(pane);
+
+		Scene scene = new Scene(pane);
+		this.setScene(scene);
+	}
+
+	public FacilitetWindow(String title, ArrayList<Facilitet> faciliteter)
+	{
+		this.hotel = null;
+		this.faciliteter = faciliteter;
+		
 		this.initStyle(StageStyle.UTILITY);
 		this.initModality(Modality.APPLICATION_MODAL);
 		this.setResizable(false);
 		
-		this.prisgrupper = null;
-		this.konference = konference;
-
 		this.setTitle(title);
 		GridPane pane = new GridPane();
 		this.initContent(pane);
@@ -36,27 +62,11 @@ public class PrisgruppeWindow extends Stage
 		this.setScene(scene);
 	}
 
-	public PrisgruppeWindow(String title, ArrayList<Prisgruppe> prisgrupper)
-	{
-		this.initStyle(StageStyle.UTILITY);
-		this.initModality(Modality.APPLICATION_MODAL);
-		this.setResizable(false);
-
-		this.prisgrupper = prisgrupper;
-		this.konference = null;
-
-		this.setTitle(title);
-		GridPane pane = new GridPane();
-		this.initContent(pane);
-
-		Scene scene = new Scene(pane);
-		this.setScene(scene);
-	}
 
 	// -------------------------------------------------------------------------
 	private TextField txfNavn, txfPris;
 	private Label lblError;
-	private ArrayList<Prisgruppe> prisgrupper;
+	private HBox box = new HBox();
 
 	// --------------------------------------------------------------------------
 
@@ -80,14 +90,18 @@ public class PrisgruppeWindow extends Stage
         txfPris = new TextField();
         pane.add(txfPris, 0, 3);
         
-		Button btnOK = new Button("OK");
-		pane.add(btnOK, 0, 4);
-		btnOK.setOnAction(event -> this.okAction());
+		Button btnTilføj = new Button("Tilføj");
+		btnTilføj.setOnAction(event -> this.tilføjAction());
+		box.getChildren().add(btnTilføj);
+				
+		Button btnAnuller = new Button("Anuller");
+		btnAnuller.setOnAction(event -> this.anullerAction());
+		box.getChildren().add(btnAnuller);
 
-		Button btnCancel = new Button("Cancel");
-		pane.add(btnCancel, 1, 4);
-		btnCancel.setOnAction(event -> this.cancelAction());
-
+		pane.add(box, 0, 4);
+		box.setSpacing(10);
+		box.setAlignment(Pos.CENTER_RIGHT);
+		
 		lblError = new Label();
 		pane.add(lblError, 0, 5, 2, 1);
 		lblError.setStyle("-fx-text-fill: red");
@@ -96,12 +110,12 @@ public class PrisgruppeWindow extends Stage
 
 	// -------------------------------------------------------------------------
 
-	private void cancelAction()
+	private void anullerAction()
 	{
 		this.hide();
 	}
 
-	private void okAction()
+	private void tilføjAction()
 	{
 		String navn = null;
 		double pris = -1;
@@ -131,18 +145,13 @@ public class PrisgruppeWindow extends Stage
 			lblError.setText("Pris er ugyldig");
 			return;
 		}
-		
-		if (konference != null)
-		{
-			Service.createPrisgruppe(konference, navn, pris);
-		}
-		else {
-			Prisgruppe prisgruppe = new Prisgruppe(navn, pris);
-			prisgrupper.add(prisgruppe);
-		}
-	
 
-
+		if(hotel == null) {
+		 Facilitet facilitet = new Facilitet(navn, pris);
+		 faciliteter.add(facilitet);
+		}
+		else Service.createFacilitet(hotel, navn, pris);
+		 
 		this.hide();
 	}
 
