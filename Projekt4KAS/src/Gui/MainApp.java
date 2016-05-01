@@ -95,13 +95,13 @@ public class MainApp extends Application
 	    tabHotel.setContent(hotelpane);
 	    tabPane.getTabs().add(tabHotel);
 	    
-	    Tab tabUdflugter = new Tab();
-	    tabUdflugter.setText("Udflugter");
-	    tabUdflugter.setClosable(false);
-	    
-	    UdflugtPane udflugtpane = new UdflugtPane();
-	    tabUdflugter.setContent(udflugtpane);
-	    tabPane.getTabs().add(tabUdflugter);
+//	    Tab tabUdflugter = new Tab();
+//	    tabUdflugter.setText("Udflugter");
+//	    tabUdflugter.setClosable(false);
+//	    
+//	    UdflugtPane udflugtpane = new UdflugtPane();
+//	    tabUdflugter.setContent(udflugtpane);
+//	    tabPane.getTabs().add(tabUdflugter);
 	 
 	    
 	    pane.add(tabPane, 0, 0, 1, 3);
