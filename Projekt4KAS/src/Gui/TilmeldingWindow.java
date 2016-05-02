@@ -529,9 +529,16 @@ public class TilmeldingWindow extends Stage {
 		
 		Service.createTilmelding(lvwMiljøkonferencer.getSelectionModel().getSelectedItem(), this.deltager, 
 				dpStartDato.getValue(), dpSlutDato.getValue(), indkvartering);
-		for (Facilitet valgtFacilitet : lvwFaciliteter.getSelectionModel().getSelectedItems()) {
-			Service.addFacilitetTilHotelbooking(hotelbooking, valgtFacilitet);
+		try
+		{
+			for (Facilitet valgtFacilitet : lvwFaciliteter.getSelectionModel().getSelectedItems()) {
+				Service.addFacilitetTilHotelbooking(hotelbooking, valgtFacilitet);
+			}
+		} catch (NullPointerException e)
+		{
+			// do nothing
 		}
+
 		for (Udflugt valgtUdflugt : lvwUdflugter.getSelectionModel().getSelectedItems()) {
 			Service.addLedsagerTilUdflugt(valgtUdflugt, ledsager);
 		}
