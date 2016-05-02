@@ -85,12 +85,19 @@ public class Firma
 	{
 		this.cvrNr = cvrNr;
 	}
-
+	
+	/**
+	 * 
+	 * @return Adresse
+	 */
 	public Adresse getAdresse()
 	{
 		return this.adresse;
 	}
 
+	/**
+	 * Skriver indeholder af variablerne
+	 */
 	@Override
 	public String toString() {
 		String s = this.navn + ", " + this.adresse.getBy();

@@ -9,7 +9,19 @@ import Storage.Storage;
 
 public class Service
 {
-
+	/**
+	 * Opretter hotel
+	 * @param navn
+	 * @param prisEnkeltVærelse
+	 * @param prisDobbeltVærelse
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param by
+	 * @param land
+	 * @return
+	 */
 	public static Hotel createHotel(String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		Hotel newHotel = new Hotel(navn, prisEnkeltVærelse, prisDobbeltVærelse, vej, nr, etage, postNr, by, land);
@@ -17,6 +29,20 @@ public class Service
 		return newHotel;
 	}
 
+	/**
+	 * Opretter Miljøkonference
+	 * @param titel
+	 * @param tema
+	 * @param startDato
+	 * @param slutDato
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param by
+	 * @param land
+	 * @return
+	 */
 	public static Miljøkonference createMiljøkonference(String titel, String tema, LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		Miljøkonference newMiljøkonference = new Miljøkonference(titel, tema, startDato, slutDato, vej, nr, etage, postNr, by, land);
@@ -24,6 +50,18 @@ public class Service
 		return newMiljøkonference;
 	}
 
+	/**
+	 * Opretter Firma
+	 * @param navn
+	 * @param cvrNr
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param by
+	 * @param land
+	 * @return
+	 */
 	public static Firma createFirma(String navn, int cvrNr, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		Firma newFirma = new Firma(navn, cvrNr, vej, nr, etage, postNr, by, land);
@@ -31,6 +69,19 @@ public class Service
 		return newFirma;
 	}
 
+	/**
+	 * Opretter deltager
+	 * @param navn
+	 * @param telefonNr
+	 * @param prisgruppe
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param by
+	 * @param land
+	 * @return
+	 */
 	public static Deltager createDeltager(String navn, int telefonNr, Prisgruppe prisgruppe, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		Deltager newDeltager = new Deltager(navn, telefonNr, prisgruppe, vej, nr, etage, postNr, by, land);
@@ -38,6 +89,12 @@ public class Service
 		return newDeltager;
 	}
 
+	/**
+	 * Opretter hotelbooking
+	 * @param hotel
+	 * @param isDobbeltVærelse
+	 * @return
+	 */
 	public static Hotelbooking createHotelbooking(Hotel hotel, boolean isDobbeltVærelse)
 	{
 		Hotelbooking newHotelbooking = new Hotelbooking(hotel, isDobbeltVærelse);
@@ -45,23 +102,48 @@ public class Service
 		return newHotelbooking;
 	}
 
+	/**
+	 * opretter indkvartering med hotelbooking
+	 * @param startDato
+	 * @param slutDato
+	 * @return
+	 */
 	public static Indkvartering createIndkvarteringMedHotelbooking(LocalDate startDato, LocalDate slutDato)
 	{
 		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato);
 		return newIndkvartering;
 	}
 	
+	/**
+	 * opretter indkvartering uden hotelbooking
+	 * @param startDato
+	 * @param slutDato
+	 * @return
+	 */
 	public static Indkvartering createIndkvarteringUdenHotelbooking(LocalDate startDato, LocalDate slutDato) {
 		Indkvartering newIndkvartering = new Indkvartering(startDato, slutDato);
 		return newIndkvartering;
 	}
 
+	/**
+	 * opretter facilitet
+	 * @param hotel
+	 * @param facilitetnavn
+	 * @param pris
+	 * @return
+	 */
 	public static Facilitet createFacilitet(Hotel hotel, String facilitetnavn, double pris) {
 		Facilitet newFacilitet = new Facilitet(facilitetnavn, pris);
 		hotel.addFacilitet(newFacilitet);
 		return newFacilitet;
 	}
 	
+	/**
+	 * Opretter ledsager
+	 * @param navn
+	 * @param deltager
+	 * @return
+	 */
 	public static Ledsager createLedsager(String navn, Deltager deltager)
 	{
 		Ledsager newLedsager = new Ledsager(navn, deltager);
@@ -69,18 +151,45 @@ public class Service
 		return newLedsager;
 	}
 
+	/**
+	 * Opretter udflugt
+	 * @param miljøkonference
+	 * @param lokalitet
+	 * @param beskrivelse
+	 * @param pris
+	 * @param startDato
+	 * @param slutDato
+	 * @param hasFrokost
+	 * @return
+	 */
 	public static Udflugt createUdflugt(Miljøkonference miljøkonference, String lokalitet, String beskrivelse, double pris, LocalDate startDato, LocalDate slutDato, boolean hasFrokost)
 	{
 		Udflugt newUdflugt = miljøkonference.createUdflugt(lokalitet, beskrivelse, pris, startDato, slutDato, hasFrokost);
 		return newUdflugt;
 	}
 
+	/**
+	 * Opretter prisgruppe
+	 * @param miljøkonference
+	 * @param navn
+	 * @param pris
+	 * @return
+	 */
 	public static Prisgruppe createPrisgruppe(Miljøkonference miljøkonference, String navn, double pris)
 	{
 		Prisgruppe newPrisgruppe = miljøkonference.createPrisgruppe(navn, pris);
 		return newPrisgruppe;
 	}
 
+	/**
+	 * Opretter tilmelding
+	 * @param miljøkonference
+	 * @param deltager
+	 * @param startDato
+	 * @param slutDato
+	 * @param indkvartering
+	 * @return
+	 */
 	public static Tilmelding createTilmelding(Miljøkonference miljøkonference, Deltager deltager, LocalDate startDato, LocalDate slutDato, Indkvartering indkvartering)
 	{
 		Tilmelding newTilmelding = miljøkonference.createTilmelding(indkvartering, deltager, startDato, slutDato);
@@ -88,11 +197,20 @@ public class Service
 		return newTilmelding;
 	}
 
+	/**
+	 * Forbinder indkvartering til en hotelbooking
+	 * @param indkvartering
+	 * @param hotelbooking
+	 */
 	public static void connectIndkvarteringOgHotelbooking (Indkvartering indkvartering, Hotelbooking hotelbooking) {
 		indkvartering.setHotelbooking(hotelbooking);
 		hotelbooking.setIndkvartering(indkvartering);
 	}
 
+	/**
+	 * Sletter hotel
+	 * @param hotel
+	 */
 	public static void deleteHotel(Hotel hotel)
 	{
 		for (Hotelbooking hotelbooking : hotel.getHotelbookinger())
@@ -102,11 +220,18 @@ public class Service
 		Storage.removeHotel(hotel);
 	}
 
+	/**
+	 * Sletter miljøkonfernece
+	 */
 	public static void deleteMiljøkonference(Miljøkonference miljøkonference)
 	{
 		Storage.removeMiljøkonference(miljøkonference);
 	}
 
+	/**
+	 * Sletter firma
+	 * @param firma
+	 */
 	public static void deleteFirma(Firma firma)
 	{
 		for (Deltager deltager : firma.getMedarbejdere())
@@ -116,6 +241,10 @@ public class Service
 		Storage.removeFirma(firma);
 	}
 
+	/**
+	 * Sletter deltager
+	 * @param deltager
+	 */
 	public static void deleteDeltager(Deltager deltager)
 	{
 		for (Tilmelding tilmelding : deltager.getTilmeldinger())
@@ -125,21 +254,39 @@ public class Service
 		Storage.removeDeltager(deltager);
 	}
 
+	/**
+	 * Sletter hotelbooking
+	 * @param hotelbooking
+	 */
 	public static void deleteHotelbooking(Hotelbooking hotelbooking)
 	{
 		hotelbooking.getHotel().removeHotelbooking(hotelbooking);
 		hotelbooking.getIndkvartering().setHotelbooking(null);
 	}
 
+	/**
+	 * sletter indkvartering
+	 * @param indkvartering
+	 */
 	public static void deleteIndkvartering(Indkvartering indkvartering)
 	{
 		indkvartering.setHotelbooking(null);
 	}
 	
+	/**
+	 * sletter facilitet
+	 * @param hotel
+	 * @param facilitet
+	 */
 	public static void deleteFacilitet(Hotel hotel, Facilitet facilitet) {
 		hotel.removeFacilitet(facilitet);
 	}
 	
+	/**
+	 * sletter prisgruppe
+	 * @param prisgruppe
+	 * @param miljøkonference
+	 */
 	public static void deletePrisgruppe(Prisgruppe prisgruppe, Miljøkonference miljøkonference)
 	{
 		miljøkonference.removePrisgruppe(prisgruppe);
@@ -152,10 +299,22 @@ public class Service
 		}
 	}
 	
+	/**
+	 * sletter udflugt
+	 * @param miljøkonference
+	 * @param udflugt
+	 */
 	public static void deleteUdflugt(Miljøkonference miljøkonference, Udflugt udflugt) {
 		miljøkonference.removeUdflugt(udflugt);
 	}
 
+	/**
+	 * opdatere hotelbooking 
+	 * @param hotelbooking
+	 * @param hotel
+	 * @param indkvartering
+	 * @param isDobbeltVærelse
+	 */
 	public static void updateHotelbooking(Hotelbooking hotelbooking, Hotel hotel, Indkvartering indkvartering, boolean isDobbeltVærelse)
 	{
 		hotelbooking.setDobbeltVærelse(isDobbeltVærelse);
@@ -163,6 +322,19 @@ public class Service
 		hotelbooking.setIndkvartering(indkvartering);
 	}
 
+	/**
+	 * opdatere hotel
+	 * @param hotel
+	 * @param navn
+	 * @param prisEnkeltVærelse
+	 * @param prisDobbeltVærelse
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param land
+	 * @param by
+	 */
 	public static void updateHotel(Hotel hotel, String navn, double prisEnkeltVærelse, double prisDobbeltVærelse, String vej, int nr, String etage, int postNr, String land, String by)
 	{
 		hotel.setNavn(navn);
@@ -176,6 +348,20 @@ public class Service
 		hotel.getAdresse().setVej(vej);
 	}
 
+	/**
+	 * opdatere miljøkonference
+	 * @param miljøkonference
+	 * @param titel
+	 * @param tema
+	 * @param startDato
+	 * @param slutDato
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param by
+	 * @param land
+	 */
 	public static void updateMiljøkonference(Miljøkonference miljøkonference, String titel, String tema, LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		miljøkonference.setSlutDato(slutDato);
@@ -190,6 +376,19 @@ public class Service
 		miljøkonference.getAdresse().setVej(vej);
 	}
 
+	/**
+	 * opdatere firma
+	 * @param firma
+	 * @param navn
+	 * @param cvrNr
+	 * @param adresse
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param land
+	 * @param by
+	 */
 	public static void updateFirma(Firma firma, String navn, int cvrNr, Adresse adresse, String vej, int nr, String etage, int postNr, String land, String by)
 	{
 		firma.setCvrNr(cvrNr);
@@ -202,6 +401,21 @@ public class Service
 		firma.getAdresse().setVej(vej);
 	}
 
+	/**
+	 * opdatere deltager
+	 * @param deltager
+	 * @param firma
+	 * @param ledsager
+	 * @param navn
+	 * @param telefonNr
+	 * @param prisgruppe
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param by
+	 * @param land
+	 */
 	public static void updateDeltager(Deltager deltager, Firma firma, Ledsager ledsager, String navn, int telefonNr, Prisgruppe prisgruppe, String vej, int nr, String etage, int postNr, String by, String land)
 	{
 		deltager.setNavn(navn);
@@ -223,6 +437,19 @@ public class Service
 		}
 	}
 
+	/**
+	 * opdatere indkvertering
+	 * @param indkvartering
+	 * @param startDato
+	 * @param slutDato
+	 * @param vej
+	 * @param nr
+	 * @param etage
+	 * @param postNr
+	 * @param by
+	 * @param land
+	 * @param hotelbooking
+	 */
 	public static void updateIndkvartering(Indkvartering indkvartering, LocalDate startDato, LocalDate slutDato, String vej, int nr, String etage, int postNr, String by, String land, Hotelbooking hotelbooking)
 	{
 		indkvartering.setSlutDato(slutDato);
@@ -236,12 +463,28 @@ public class Service
 		indkvartering.getAdresse().setVej(vej);
 	}
 
+	/**
+	 * opdatere ledsager
+	 * @param ledsager
+	 * @param navn
+	 * @param deltager
+	 */
 	public static void updateLedsager(Ledsager ledsager, String navn, Deltager deltager)
 	{
 		ledsager.setDeltager(deltager);
 		ledsager.setNavn(navn);
 	}
 
+	/**
+	 * opdatere udflugt
+	 * @param udflugt
+	 * @param lokalitet
+	 * @param beskrivelse
+	 * @param pris
+	 * @param startDato
+	 * @param slutDato
+	 * @param hasFrokost
+	 */
 	public static void updateUdflugt(Udflugt udflugt, String lokalitet, String beskrivelse, double pris, LocalDate startDato, LocalDate slutDato, boolean hasFrokost)
 	{
 		udflugt.setHasFrokost(hasFrokost);
@@ -251,51 +494,101 @@ public class Service
 		udflugt.setStartDato(startDato);
 	}
 
+	/**
+	 * opdatere prisgruppe
+	 * @param prisgruppe
+	 * @param navn
+	 * @param pris
+	 */
 	public static void updatePrisgruppe(Prisgruppe prisgruppe, String navn, double pris)
 	{
 		prisgruppe.setNavn(navn);
 		prisgruppe.setPris(pris);
 	}
 
+	/**
+	 * opdatere tilmelding
+	 * @param tilmelding
+	 * @param deltager
+	 * @param startDato
+	 * @param slutDato
+	 */
 	public static void updateTilmelding(Tilmelding tilmelding, Deltager deltager, LocalDate startDato, LocalDate slutDato)
 	{
 			tilmelding.setStartDato(startDato);
 			tilmelding.setSlutDato(slutDato);
 	}
 
+	/**
+	 * tilføjer facilitet til hotelbooking
+	 * @param hotelbooking
+	 * @param facilitet
+	 */
 	public static void addFacilitetTilHotelbooking(Hotelbooking hotelbooking, Facilitet facilitet)
 	{
 			hotelbooking.addFacilitet(facilitet);
 	}
 	
+	/**
+	 * tilføjer ledsager til udflugt
+	 * @param udflugt
+	 * @param ledsager
+	 */
 	public static void addLedsagerTilUdflugt(Udflugt udflugt, Ledsager ledsager) {
 		udflugt.addLedsager(ledsager);
 		ledsager.addUdflugt(udflugt);
 	}
 	
+	/**
+	 * tilføj deltager til firma
+	 * @param firma
+	 * @param deltager
+	 */
 	public static void addDeltagerTilFirma(Firma firma, Deltager deltager) {
 		firma.addMedarbejder(deltager);
 	}
 
+	/**
+	 * henter liste over miljøkonfernecer
+	 * @return
+	 */
 	public static ArrayList<Miljøkonference> getMiljøkonferencer()
 	{
 		return Storage.getMiljøkonferencer();
 	}
 	
+	/**
+	 * henter liste over deltagere
+	 * @return
+	 */
 	public static ArrayList<Deltager> getDeltagere()
 	{
 		return Storage.getDeltagere();
 	}
 	
+	/**
+	 * henter liste over hoteller
+	 * @return
+	 */
 	public static ArrayList<Hotel> getHoteller()
 	{
 		return Storage.getHoteller();
 	}
 	
+	/**
+	 * henter liste over firmaer
+	 * @return
+	 */
 	public static ArrayList<Firma> getFirmaer() {
 		return Storage.getFirmaer();
 	}
 	
+	/**
+	 * Laver en tilfældig integer
+	 * @param min
+	 * @param max
+	 * @return
+	 */
 	public static int randInt(int min, int max) {
 
 	    Random rand = new Random();
@@ -305,6 +598,12 @@ public class Service
 	    return randomNum;
 	}
 	
+	/**
+	 * Laver en tilfældig long
+	 * @param min
+	 * @param max
+	 * @return
+	 */
 	public static long randLong(long min, long max) {
 
 	    long randomNum = ThreadLocalRandom.current().nextLong(min,max);
@@ -312,12 +611,22 @@ public class Service
 	    return randomNum;
 	}
 	
+	/**
+	 * Laver en tilfældig dato
+	 * @return
+	 */
 	public static LocalDate randDate()
 	{
 		return LocalDate.ofEpochDay(Service.randLong(LocalDate.now().minusYears(15).toEpochDay(),
 									LocalDate.now().plusYears(15).toEpochDay()));
 	}
 
+	/**
+	 * laver tilfædlige deltager tilmeldinger og konforencer, 
+	 * det er muligt for en deltager at blive tilmeld samme konfernece flere gange, 
+	 * og datoerne kan blive generet hvor start dato og slutdato er før hinnanden.
+	 * Altsammen blot for at få nogle start data.
+	 */
 	public static void initStorage()
 	{
 		String[] randomNames = {"Birger Alexandersen", "Adam Petersen", "Gregers Lange",

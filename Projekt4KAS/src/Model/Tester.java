@@ -7,6 +7,10 @@ import Service.Service;
 
 public class Tester {
 
+	/**
+	 * konsol testeklasse
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Hotel hotelDenHvideSvane = Service.createHotel("Den Hvide Svane", 1050, 1250, "Vestergade", 2, "", 9000, "Danmark", "Aalborg");
 		Facilitet wifi = Service.createFacilitet(hotelDenHvideSvane, "WIFI", 50);

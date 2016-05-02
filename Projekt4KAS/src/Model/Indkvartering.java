@@ -85,7 +85,11 @@ public class Indkvartering
 	{
 		this.slutDato = slutDato;
 	}
-
+	
+	/**
+	 * Beregner perioden imellem start og slutdato
+	 * @return
+	 */
 	public long getPeriode() {
 		Period periode = Period.between(this.getStartDato(), this.getSlutDato());		
 		long nætter = periode.getDays();

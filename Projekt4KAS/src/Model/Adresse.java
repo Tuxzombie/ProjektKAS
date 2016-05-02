@@ -9,9 +9,8 @@ public class Adresse {
 	private String land;
 	private String by;
 
-
-
 	/**
+	 * Constructor
 	 * @param vej
 	 * @param nr
 	 * @param etage
@@ -28,16 +27,15 @@ public class Adresse {
 		this.land = land;
 		this.by = by;
 	}
-
 	
-	
+	/**
+	 * Skriver indeholdet af variabler
+	 */
 	@Override
 	public String toString()
 	{
 		return  vej +" "+ nr + ", " + etage + "\n" + postNr + " " + by +"\n" + land;
 	}
-
-
 
 	/**
 	 * @return vej

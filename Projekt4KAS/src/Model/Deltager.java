@@ -29,18 +29,27 @@ public class Deltager
 		this.prisgruppe = prisgruppe;
 	}
 	
-	
+	/**
+	 * Skriver indeholdet af variabler
+	 */
 	@Override
 	public String toString()
 	{
 		return navn;
 	}
-
-
+	
+	/**
+	 * 
+	 * @return firma
+	 */
 	public Firma getFirma() {
 		return firma;
 	}
 
+	/**
+	 * 
+	 * @param firma
+	 */
 	public void setFirma(Firma firma) {
 		this.firma = firma;
 	}

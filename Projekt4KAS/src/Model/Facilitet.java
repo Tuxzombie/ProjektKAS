@@ -47,6 +47,9 @@ public class Facilitet {
 		this.pris = pris;
 	}
 	
+	/**
+	 * Skriver variablerne ud
+	 */
 	@Override
 	public String toString() {
 		String s = this.facilitetNavn + ", " + this.pris + " kr."; 

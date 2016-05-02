@@ -21,16 +21,12 @@ public class Prisgruppe
 		this.pris = pris;
 		deltagere = new ArrayList<>();
 	}
-	
-	
 
 	@Override
 	public String toString()
 	{
 		return navn + " " + "(" + pris + ")";
 	}
-
-
 
 	/**
 	 * Metode der returnerer liste over prisgruppens deltagere
