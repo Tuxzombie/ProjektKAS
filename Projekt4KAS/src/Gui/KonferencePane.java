@@ -130,6 +130,10 @@ public class KonferencePane extends GridPane
 		}
 	}
 
+	/**
+	 * initialisere dataen til konference list
+	 * @return
+	 */
 	private ArrayList<Miljøkonference> initAllKonfList()
 	{
 		ArrayList<Miljøkonference> list = new ArrayList<>();
@@ -142,6 +146,9 @@ public class KonferencePane extends GridPane
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Åbnet vindue der viser udflugter tilknyttet til den valgte konfernece
+	 */
 	private void visUdflugterAction()
 	{
 		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
@@ -165,6 +172,9 @@ public class KonferencePane extends GridPane
 
 	}
 
+	/**
+	 * Åbnet vinduet der oprette konference
+	 */
 	private void createKonferenceAction()
 	{
 		KonferenceWindow dia = new KonferenceWindow("Opret Miljøkonference");
@@ -176,6 +186,9 @@ public class KonferencePane extends GridPane
 		this.updateControls();
 	}
 
+	/**
+	 * Åbner vinduet opdater konference
+	 */
 	private void updateKonferenceAction()
 	{
 		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
@@ -192,6 +205,9 @@ public class KonferencePane extends GridPane
 		lvwKonference.getSelectionModel().select(selectIndex);
 	}
 
+	/**
+	 * Metode til at slette, konference 
+	 */
 	private void deleteKonferenceAction()
 	{
 		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();
@@ -216,11 +232,17 @@ public class KonferencePane extends GridPane
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Metode der holder kaldes når valgt konference er skiftet.
+	 */
 	private void selectedKonferenceChanged()
 	{
 		this.updateControls();
 	}
 
+	/**
+	 * Metode der skriver data i felter
+	 */
 	public void updateControls()
 	{
 		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();

@@ -40,6 +40,10 @@ public class FirmaWindow extends Stage {
     private Button btnOpret, btnAnuller;
     private HBox hbox;
 
+    /**
+     * initialisere Vinduet
+     * @param pane
+     */
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
@@ -83,11 +87,16 @@ public class FirmaWindow extends Stage {
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Metode til knappen annuller, denne lukker vinduet
+     */
     private void btnAnullerAction() {
         this.hide();
     }
 
- 
+    /**
+     * Metode til knappen opret, denne kalder service og gemmer firma
+     */ 
     private void btnOpretAction() {
     	
     	String navn = txfInput[0].getText().trim();
@@ -158,10 +167,7 @@ public class FirmaWindow extends Stage {
 			return;
 		}
 		else {
-//    	Service.createFirma(txfInput[0].getText(), cvrNr, txfInput[2].getText()
-//    		, nr, txfInput[3].getText(), postNr, txfInput[5].getText(), txfInput[7].getText());
 			
-			//her er en af de store pointer ved at oprette en million små variabler ;
 	    	Service.createFirma(navn, cvrNr, vej, nr, etage, postNr, by, land);			
 			
     	close();

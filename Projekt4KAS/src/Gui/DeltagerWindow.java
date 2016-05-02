@@ -55,7 +55,10 @@ public class DeltagerWindow extends Stage
 	private HBox boxOkAnuller = new HBox();
 
 	// -------------------------------------------------------------------------
-	
+	/**
+	 * initialisere vinduet
+	 * @param pane 
+	 */
 	private void initContent(GridPane pane)
 	{
 		pane.setGridLinesVisible(false);
@@ -108,7 +111,10 @@ public class DeltagerWindow extends Stage
 
 		this.initControls();
 	}
-
+	
+	/**
+	 * initialisere data og skriver det i felterne
+	 */	
 	private void initControls()
 	{
 		if (deltager != null)

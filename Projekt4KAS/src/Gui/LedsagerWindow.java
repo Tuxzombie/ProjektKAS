@@ -39,6 +39,9 @@ public class LedsagerWindow extends Stage {
     private TextField txfNavn, txfPris;
     private Label lblError;
 
+    /**
+     * initialisere vinduet
+     */
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
@@ -75,6 +78,9 @@ public class LedsagerWindow extends Stage {
         this.initControls();
     }
 
+    /**
+     * initialisere data i felterne
+     */
     private void initControls() {
 //        if (company != null) {
 //            txfName.setText(company.getName());
@@ -87,10 +93,16 @@ public class LedsagerWindow extends Stage {
 
     // -------------------------------------------------------------------------
 
+    /**
+     * metode der lukker vinduet
+     */
     private void cancelAction() {
         this.hide();
     }
 
+    /**
+     * metode der opretter og gemmer ledsager
+     */
     private void okAction() {
         String name = txfNavn.getText().trim();
         if (name.length() == 0) {

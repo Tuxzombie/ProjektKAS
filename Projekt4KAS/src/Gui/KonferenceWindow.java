@@ -60,6 +60,10 @@ public class KonferenceWindow extends Stage
 
 	// --------------------------------------------------------------------------
 
+	/**
+	 * initialisere vinduet
+	 * @param pane
+	 */
 	private void initContent(GridPane pane)
 	{
 		pane.setPadding(new Insets(10));
@@ -166,6 +170,9 @@ public class KonferenceWindow extends Stage
 		this.initControls();
 	}
 
+	/**
+	 * initialisere data og skriver det i felterne
+	 */
 	private void initControls()
 	{
 		if (konference != null)
@@ -220,11 +227,17 @@ public class KonferenceWindow extends Stage
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * metode der lukker viduet
+	 */
 	private void cancelAction()
 	{
 		this.hide();
 	}
 
+	/**
+	 * Metode der oprtter og gemmer konference
+	 */
 	private void okAction()
 	{
 
@@ -351,7 +364,10 @@ public class KonferenceWindow extends Stage
 
 		this.hide();
 	}
-
+	
+	/**
+	 * Metode der åbner vinduet til at oprette prisgruppe
+	 */
 	private void createPrisgruppeAction()
 	{
 		if (konference != null)
@@ -374,6 +390,9 @@ public class KonferenceWindow extends Stage
 
 	}
 
+	/**
+	 * Metode der sletter prisgruppe
+	 */
 	private void deletePrisgruppeAction()
 	{
 		Prisgruppe prisgruppe = lvwPrisgrupper.getSelectionModel().getSelectedItem();
@@ -401,6 +420,9 @@ public class KonferenceWindow extends Stage
 
 	}
 
+	/**
+	 * Metode der åbner vinduet til at oprette en udflugt
+	 */
 	private void createUdflugtAction()
 	{
 		if (konference != null)
@@ -422,6 +444,9 @@ public class KonferenceWindow extends Stage
 		}
 	}
 
+	/**
+	 * Metode der sletter en udflugt
+	 */
 	private void deleteUdflugtAction()
 	{
 		Udflugt udflugt = lvwUdflugter.getSelectionModel().getSelectedItem();

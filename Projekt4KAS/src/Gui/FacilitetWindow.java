@@ -60,7 +60,10 @@ public class FacilitetWindow extends Stage
 	private HBox boxTilføjAnuller = new HBox();
 
 	// --------------------------------------------------------------------------
-
+	/**
+	 * initialisere vinduet
+	 * @param pane
+	 */
 	private void initContent(GridPane pane)
 	{
 		pane.setPadding(new Insets(10));

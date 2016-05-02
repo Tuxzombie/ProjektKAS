@@ -23,9 +23,7 @@ import Service.Service;
 
 public class HotelPane extends GridPane
 {
-	private TextField txfNavn,
-			txfLedsager,
-			txfIndskvartering;
+	private TextField txfNavn;
 	private ListView<Hotel> lvwHoteller;
 	private TextArea txaAdresse, txaPriser,
 			txaGæster, txaFaciliteter;
@@ -121,7 +119,11 @@ public class HotelPane extends GridPane
 			lvwHoteller.getSelectionModel().select(0);
 		}
 	}
-
+	
+	/**
+	 * initialisere Hotel list
+	 * @return
+	 */
 	private ArrayList<Hotel> initAllHotelList()
 	{
 		ArrayList<Hotel> list = new ArrayList<>();
@@ -131,9 +133,9 @@ public class HotelPane extends GridPane
 		}
 		return list;
 	}
-
-	// -------------------------------------------------------------------------
-
+	/**
+	 * Metode til at oprette et hotel, åbner nyt vindue
+	 */
 	private void createHotelAction()
 	{
 		HotelWindow dia = new HotelWindow("Opret Hotel");
@@ -144,7 +146,10 @@ public class HotelPane extends GridPane
 		lvwHoteller.getItems().setAll(this.initAllHotelList());
 		this.updateControls();
 	}
-
+	
+	/**
+	 * Metode til at opdatere et hotel
+	 */
 	private void updateHotelAction()
 	{
 		Hotel hotel = lvwHoteller.getSelectionModel().getSelectedItem();
@@ -161,6 +166,9 @@ public class HotelPane extends GridPane
 		lvwHoteller.getSelectionModel().select(selectIndex);
 	}
 
+	/**
+	 * Metode til at fjerne et hotel
+	 */
 	private void deleteHotelAction()
 	{
 		Hotel hotel = lvwHoteller.getSelectionModel().getSelectedItem();
@@ -183,13 +191,17 @@ public class HotelPane extends GridPane
 		}
 	}
 
-	// -------------------------------------------------------------------------
-
+	/**
+	 * Metode der kaldes når det valgte hotel skifter i listview
+	 */
 	private void selectedHotelChanged()
 	{
 		this.updateControls();
 	}
 
+	/**
+	 * Metode der skriver data i felterne
+	 */
 	public void updateControls()
 	{
 

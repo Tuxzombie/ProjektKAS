@@ -1,6 +1,5 @@
 package Gui;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -57,6 +56,10 @@ public class HotelWindow extends Stage {
 	private Label lblFaciliteter;
 	private ArrayList<Facilitet> faciliteter = new ArrayList<>();
     
+	/**
+	 * initialisere vinduet
+	 * @param pane
+	 */
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
@@ -113,6 +116,9 @@ public class HotelWindow extends Stage {
         this.initControls();
     }
 
+    /**
+     * initialisere data i felterne
+     */
     private void initControls() {
     	if(hotel != null) {
     		txfInput[0].setText(hotel.getNavn());
@@ -131,6 +137,9 @@ public class HotelWindow extends Stage {
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Metode til at tilføje facilitet
+     */
     private void btnTilføjAction() {
     	
     	FacilitetWindow dia;
@@ -149,15 +158,24 @@ public class HotelWindow extends Stage {
     
     }
     
+    /**
+     * Metode til at fjerne facilitet
+     */
     private void btnFjernAction() {
     	Service.deleteFacilitet(this.hotel, lvwFaciliteter.getSelectionModel().getSelectedItem());
 		lvwFaciliteter.getItems().setAll(hotel.getFaciliteter());
     }
     
+    /**
+     * metode der lukker vinduet
+     */
     private void anullerAction() {
     	close();
     }
 
+    /**
+     * Metode der opretter hotellet
+     */
     private void okAction() {
     	for (int i = 0; i < lblNames.length; i++) {
 			if(txfInput[i].getLength() == 0) {

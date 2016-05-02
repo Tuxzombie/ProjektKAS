@@ -120,6 +120,10 @@ public class DeltagerPane extends GridPane
 		}
 	}
 
+	/**
+	 * Initialisere deltagerlist
+	 * @return
+	 */
 	private ArrayList<Deltager> initAllDeltagerList()
 	{
 		ArrayList<Deltager> list = new ArrayList<>();
