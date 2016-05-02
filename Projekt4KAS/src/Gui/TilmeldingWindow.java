@@ -80,7 +80,10 @@ public class TilmeldingWindow extends Stage {
     private DatePicker dpSlutDatoHotel;
     
     
-    
+    /**
+     * initialisere vinduet
+     * @param pane
+     */
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
@@ -319,7 +322,9 @@ public class TilmeldingWindow extends Stage {
 
 
     // -------------------------------------------------------------------------
-    
+    /**
+     * Opdatere data når koncerence skifter
+     */
   	private void selectedKonferenceChanged()
 	{
 		konference = lvwMiljøkonferencer.getSelectionModel().getSelectedItem();
@@ -336,6 +341,9 @@ public class TilmeldingWindow extends Stage {
 		}
 	}
   	
+  	/**
+  	 * opdatere data når prisgrupe skifter
+  	 */
   	private void selectedPrisgruppeChanged()
   	{
   		prisgruppe = lvwPrisgrupper.getSelectionModel().getSelectedItem();
@@ -367,6 +375,9 @@ public class TilmeldingWindow extends Stage {
   		}
   	}
 
+  	/**
+  	 * opdatere data når hotel skifter
+  	 */
   	public void selectedHotelChanged() {
   		
   		hotel = lvwHoteller.getSelectionModel().getSelectedItem();
@@ -392,6 +403,9 @@ public class TilmeldingWindow extends Stage {
   		}
   	}
   	
+  	/**
+  	 * opdatere date når radiobutton skifter
+  	 */
   	public void toggleRadioButton() {
   		if(rbHotel.isSelected()) {
   			lvwHoteller.setDisable(false);
@@ -424,6 +438,9 @@ public class TilmeldingWindow extends Stage {
    		}
   	}
   	
+  	/**
+  	 * muligør opret ledsager når der er sat flueben i boxen
+  	 */
   	public void checkboxLedsagerAction() {
   		if(cbxLedsager.isSelected()) {
   			txfLedsagerNavn.setDisable(false);
@@ -440,6 +457,9 @@ public class TilmeldingWindow extends Stage {
   		}
   	}
 
+  	/**
+  	 * beregner pris når dato bliver sat
+  	 */
   	public void startDatoAction () {
   		if(dpStartDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) || 
   				dpStartDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
@@ -461,6 +481,9 @@ public class TilmeldingWindow extends Stage {
   		}
   	} 
   	
+  	/**
+  	 * beregner pris når dato bliver sat
+  	 */
   	public void slutDatoAction () {
   		if(dpSlutDato.getValue().isEqual(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getSlutDato()) || 
   				dpSlutDato.getValue().isAfter(lvwMiljøkonferencer.getSelectionModel().getSelectedItem().getStartDato()) &&
@@ -482,6 +505,9 @@ public class TilmeldingWindow extends Stage {
   		}
   	}
   	
+  	/**
+  	 * beregner pris når dato bliver sat
+  	 */
   	public void startDatoHotelAction () {
   		if(dpStartDatoHotel.getValue().isBefore(dpSlutDatoHotel.getValue())) {
   			updatePris();
@@ -494,6 +520,9 @@ public class TilmeldingWindow extends Stage {
   		}
   	}
   	
+  	/**
+  	 * beregner pris når dato bliver sat
+  	 */
   	public void slutDatoHotelAction () {
   		if(dpSlutDatoHotel.getValue().isAfter(dpStartDatoHotel.getValue())) {
   			updatePris();
@@ -506,6 +535,9 @@ public class TilmeldingWindow extends Stage {
   		}
   	} 
   	
+  	/**
+  	 * Opretter tilmeldingen med de krævede fousætninger
+  	 */
 	public void btnTilmeldAction()
 	{
 		
@@ -550,6 +582,9 @@ public class TilmeldingWindow extends Stage {
 		close();
 	}
 	
+	/**
+	 * Opdatere data i prisfeltet
+	 */
 	public void updatePris() {
 		int nætterPåHotel = 0;
 		if(dpStartDatoHotel.getValue() != null && dpSlutDatoHotel.getValue() != null) {
@@ -600,12 +635,18 @@ public class TilmeldingWindow extends Stage {
 		
 	}
 	
+	/**
+	 * Opretter firma
+	 */
 	public void opretFirmaAction() {
 		FirmaWindow dia = new FirmaWindow("Opret firma");
 		dia.showAndWait();
 		lvwFirmaer.getItems().setAll(Service.getFirmaer());
 	}
 
+	/**
+	 * Lukker vinduet
+	 */
 	public void btnAnullerAction() {
 		close();
 	}

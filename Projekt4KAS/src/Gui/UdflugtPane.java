@@ -2,15 +2,12 @@ package Gui;
 
 import Model.Ledsager;
 import Model.Miljøkonference;
-import Model.Tilmelding;
 import Model.Udflugt;
 import Service.Service;
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class UdflugtPane extends GridPane
@@ -24,9 +21,6 @@ public class UdflugtPane extends GridPane
 	
 	public UdflugtPane()
 	{
-//		this.setPadding(new Insets(20));
-//		this.setHgap(20);
-//		this.setVgap(10);
 		this.setGridLinesVisible(false);
 		
 		Label lblKonf = new Label("Miljøkonferencer");
@@ -58,6 +52,9 @@ public class UdflugtPane extends GridPane
 		this.add(txaLedsagere, 0, 3, 2, 1);
 	}
 	
+	/**
+	 * opdatere data når valgt udflugt ændres 
+	 */
 	private void selectedUdflugtChanged()
 	{
 		Udflugt udflugt = lvwUdflugt.getSelectionModel().getSelectedItem();
@@ -80,6 +77,9 @@ public class UdflugtPane extends GridPane
 
 	}
 	
+	/**
+	 * opdatere data når valgt konference skifter
+	 */
 	private void selectedKonferenceChanged()
 	{
 		Miljøkonference konference = lvwKonference.getSelectionModel().getSelectedItem();

@@ -39,6 +39,10 @@ public class VisUdflugtWindow extends Stage
 
 	// --------------------------------------------------------------------------
 
+	/**
+	 * initialisere vinduet
+	 * @param pane
+	 */
 	private void initContent(GridPane pane)
 	{
 		pane.setPadding(new Insets(10));
@@ -69,6 +73,9 @@ public class VisUdflugtWindow extends Stage
 		this.updateControls();
 	}
 
+	/**
+	 * initialisere data i felterne
+	 */
 	private void updateControls()
 	{
 		Udflugt udflugt = lvwUdflugter.getSelectionModel().getSelectedItem();
@@ -91,6 +98,9 @@ public class VisUdflugtWindow extends Stage
 
 	}
 
+	/**
+	 * Opdatere data når udflugt skifter
+	 */
 	private void selectedUdflugtChanged()
 	{
 		this.updateControls();

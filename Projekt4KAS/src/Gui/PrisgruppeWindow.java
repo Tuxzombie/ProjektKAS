@@ -59,7 +59,11 @@ public class PrisgruppeWindow extends Stage
 	private ArrayList<Prisgruppe> prisgrupper;
 
 	// --------------------------------------------------------------------------
-
+	
+	/**
+	 * initialisere vinduet
+	 * @param pane
+	 */
 	private void initContent(GridPane pane)
 	{
 		pane.setPadding(new Insets(10));
@@ -96,11 +100,17 @@ public class PrisgruppeWindow extends Stage
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Lukker vinduet
+	 */
 	private void cancelAction()
 	{
 		this.hide();
 	}
 
+	/**
+	 * Opretter og gemmer prisgruppe
+	 */
 	private void okAction()
 	{
 		String navn = null;

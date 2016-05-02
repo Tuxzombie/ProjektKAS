@@ -82,13 +82,7 @@ public class LedsagerWindow extends Stage {
      * initialisere data i felterne
      */
     private void initControls() {
-//        if (company != null) {
-//            txfName.setText(company.getName());
-//            txfHours.setText("" + company.getHours());
-//        } else {
-//            txfName.clear();
-//            txfHours.clear();
-//        }
+
     }
 
     // -------------------------------------------------------------------------
@@ -120,13 +114,6 @@ public class LedsagerWindow extends Stage {
             lblError.setText("Hours is not a positive number");
             return;
         }
-
-        // Call service methods
-//        if (company != null) {
-//            Service.updateCompany(company, name, hours);
-//        } else {
-//            Service.createCompany(name, hours);
-//        }
 
         this.hide();
     }

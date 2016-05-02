@@ -1,21 +1,17 @@
 package Gui;
 
-import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.Checkbox;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -71,6 +67,10 @@ public class UdflugtWindow extends Stage
 
 	// --------------------------------------------------------------------------
 
+	/**
+	 * initialisere vinduet
+	 * @param pane
+	 */
 	private void initContent(GridPane pane)
 	{
 		pane.setPadding(new Insets(20));
@@ -119,6 +119,9 @@ public class UdflugtWindow extends Stage
 		lblError.setStyle("-fx-text-fill: red");
 	}
 
+	/**
+	 * opretter udflugt
+	 */
 	private void okAction()
 	{
 		String lokalitet = null;
@@ -207,6 +210,9 @@ public class UdflugtWindow extends Stage
 
 	}
 
+	/**
+	 * Lukker vinduet
+	 */
 	private void cancelAction()
 	{
 		this.hide();

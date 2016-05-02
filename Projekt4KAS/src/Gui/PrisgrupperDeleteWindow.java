@@ -34,6 +34,10 @@ public class PrisgrupperDeleteWindow extends Stage
 	
 	private ListView<Prisgruppe> lvwPrisgrupper;
 	
+	/**
+	 * initialisere vinduet
+	 * @param pane
+	 */
 	private void initContent(GridPane pane)
 	{
 		pane.setPadding(new Insets(10));
@@ -57,6 +61,9 @@ public class PrisgrupperDeleteWindow extends Stage
 		
 	}
 	
+	/**
+	 * Opretter / opdatere konference objekt
+	 */
 	private void okAction()
 	{
 		Service.deletePrisgruppe(lvwPrisgrupper.getSelectionModel().getSelectedItem(), konference);
@@ -64,6 +71,9 @@ public class PrisgrupperDeleteWindow extends Stage
 		this.hide();
 	}
 	
+	/**
+	 * Lukker vinduet
+	 */
 	private void cancelAction()
 	{
 		this.hide();
